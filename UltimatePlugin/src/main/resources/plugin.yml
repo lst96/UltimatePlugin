@@ -1,5 +1,5 @@
 name: UltimatePlugin
-version: 0.7
+version: 0.9
 author: BlackPoison357
 main: io.github.xBlackPoison357x.UltimatePlugin.UltimatePlugin
 api-version: 1.16
@@ -96,6 +96,7 @@ permissions:
             information.netherbuild.notify: true
             information.netherbuildbypass: true
             information.starterkit: true
+            information.bossmessage:  true
     information.member:
         description: Gives access to member commands
         children:
@@ -122,6 +123,7 @@ permissions:
             information.netherbuild.notify: true    
             information.netherbuildbypass: false
             information.starterkit: false
+            information.bossmessage:  true
     information.admin:
         description: Gives access to admin commands
         children:
@@ -160,6 +162,7 @@ permissions:
             information.warzoneflight: true
             information.wildernessflight: true
             information.nosafezonedamage: true
+            information.bossmessage:  true
     recipe.*:
         description: gives all permissions.
         children:
@@ -211,7 +214,8 @@ permissions:
             recipe.chirp: true
             recipe.strad: true
             recipe.mall: true 
-            recipe.shulker: true     
+            recipe.shulker: true
+		recipe.reinforceddeepslate: true  
     recipe.member:
         description: gives all permissions.
         children:
@@ -264,7 +268,8 @@ permissions:
             recipe.chirp: true
             recipe.strad: true
             recipe.mall: true
-            recipe.shulker: true    
+            recipe.shulker: true 
+		recipe.reinforceddeepslate: true   
     recipe.admin:
         description: gives all permissions.
         children:
@@ -317,6 +322,7 @@ permissions:
             recipe.strad: true
             recipe.mall: true
             recipe.shulker: true
+		recipe.reinforceddeepslate: true
     frame.*:
       description: Gives all permissions.
       children:

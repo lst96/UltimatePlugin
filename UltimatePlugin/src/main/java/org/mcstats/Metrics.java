@@ -48,6 +48,7 @@ import java.net.Proxy;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
@@ -138,7 +139,8 @@ public class Metrics {
 
         // Do we need to create the file?
         if (configuration.get("guid", null) == null) {
-            configuration.options().header("http://mcstats.org").copyDefaults(true);
+            configuration.options().setHeader(Arrays.asList("http://mcstats.org"));
+            configuration.options().copyDefaults(true);
             configuration.save(configurationFile);
         }
 

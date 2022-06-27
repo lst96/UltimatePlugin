@@ -87,6 +87,7 @@ public class UltimateConfig {
         this.plugin.getInformationConfig().set("Boss Message.Text", "Welcome to the Server!");
         this.plugin.getInformationConfig().set("Boss Message.Style", "SOLID");
         this.plugin.getInformationConfig().set("Boss Message.Flag", "DARKEN_SKY");
+        this.plugin.getInformationConfig().set("Boss Message.Enable", true);
         this.plugin.getInformationConfig().set("Blocktopofnetherbuilding", false);
         this.plugin.getInformationConfig().set("Starter Kit", false);
         try {
@@ -146,6 +147,7 @@ public class UltimateConfig {
         this.plugin.getRecipeChangerConfig().set("Misc.Leather", false);
         this.plugin.getRecipeChangerConfig().set("Misc.Cocoa Beans", false);
         this.plugin.getRecipeChangerConfig().set("Misc.Shulker Shell", false);
+        this.plugin.getRecipeChangerConfig().set("Misc.Reinforced Deepslate", false);
         this.plugin.getRecipeChangerConfig().set("Messages.Permission Granted", "You have permission to craft this item!");
         this.plugin.getRecipeChangerConfig().set("Messages.Permission Denied", "I'm sorry, but you do not have permission to craft this item. Please contact the server administrators if you believe that this is in error.");
         try {

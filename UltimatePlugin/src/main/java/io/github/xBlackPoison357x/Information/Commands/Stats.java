@@ -5,6 +5,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.SpawnCategory;
 
 import io.github.xBlackPoison357x.UltimatePlugin.UltimatePlugin;
 
@@ -28,11 +29,12 @@ implements CommandExecutor {
             sender.sendMessage(ChatColor.GOLD + "[View Distance]: " + ChatColor.WHITE + Bukkit.getViewDistance());
             sender.sendMessage(ChatColor.GOLD + "[Default GameMode]: " + ChatColor.WHITE + Bukkit.getDefaultGameMode());
             sender.sendMessage(ChatColor.GOLD + "[Spawn Radius]: " + ChatColor.WHITE + Bukkit.getSpawnRadius());
-            sender.sendMessage(ChatColor.GOLD + "[Animal Spawn Limit]: " + ChatColor.WHITE + Bukkit.getAnimalSpawnLimit());
-            sender.sendMessage(ChatColor.GOLD + "[Monster Spawn Limit]: " + ChatColor.WHITE + Bukkit.getMonsterSpawnLimit());
-            sender.sendMessage(ChatColor.GOLD + "[Ambient Spawn Limit]: " + ChatColor.WHITE + Bukkit.getAmbientSpawnLimit());
-            sender.sendMessage(ChatColor.GOLD + "[Ticks Per Animal Spawn]: " + ChatColor.WHITE + Bukkit.getTicksPerAnimalSpawns());
-            sender.sendMessage(ChatColor.GOLD + "[Ticks Per Monster Spawn]: " + ChatColor.WHITE + Bukkit.getTicksPerMonsterSpawns());
+            sender.sendMessage(ChatColor.GOLD + "[Animal Spawn Limit]: " + ChatColor.WHITE + Bukkit.getSpawnLimit(SpawnCategory.ANIMAL));
+            sender.sendMessage(ChatColor.GOLD + "[Monster Spawn Limit]: " + ChatColor.WHITE + Bukkit.getSpawnLimit(SpawnCategory.MONSTER));
+            sender.sendMessage(ChatColor.GOLD + "[Ambient Spawn Limit]: " + ChatColor.WHITE + Bukkit.getSpawnLimit(SpawnCategory.AMBIENT));
+            sender.sendMessage(ChatColor.GOLD + "[Ticks Per Animal Spawn]: " + ChatColor.WHITE + Bukkit.getTicksPerSpawns(SpawnCategory.ANIMAL));
+            sender.sendMessage(ChatColor.GOLD + "[Ticks Per Monster Spawn]: " + ChatColor.WHITE + Bukkit.getTicksPerSpawns(SpawnCategory.MONSTER));
+            sender.sendMessage(ChatColor.GOLD + "[Ticks Per Monster Spawn]: " + ChatColor.WHITE + Bukkit.getTicksPerSpawns(SpawnCategory.AMBIENT));
             sender.sendMessage(ChatColor.GOLD + "[Ops]: " + ChatColor.WHITE + Bukkit.getServer().getOperators());
             if (Bukkit.getVersion().startsWith("git-Bukkit")) {
                 sender.sendMessage(ChatColor.GOLD + "[CraftBukkit Version]: " + ChatColor.WHITE + Bukkit.getVersion() + " (Implementing API version " + Bukkit.getBukkitVersion() + ")");

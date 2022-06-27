@@ -14,14 +14,15 @@ import io.github.xBlackPoison357x.UltimatePlugin.UltimatePlugin;
 
 public class BossMessage
 implements Listener {
-    private static UltimatePlugin plugin;
+    private UltimatePlugin plugin;
 
     public BossMessage(UltimatePlugin instance) {
-        plugin = instance;
+        this.plugin = instance;
     }
 
     @EventHandler
     public void OnPlayerJoin(PlayerJoinEvent event) {
+    	if (this.plugin.getInformationConfig().getBoolean("Boss Message.Enable") & (event.getPlayer().hasPermission("information.bossmessage"))) {
         Player player = event.getPlayer();
         String text = plugin.getInformationConfig().getString("Boss Message.Text");
         String color2 = plugin.getInformationConfig().getString("Boss Message.Color");
@@ -36,6 +37,7 @@ implements Listener {
         boss.setColor(color);
         boss.addFlag(flag);
         boss.setStyle(style);
+    	}
     }
 }
 

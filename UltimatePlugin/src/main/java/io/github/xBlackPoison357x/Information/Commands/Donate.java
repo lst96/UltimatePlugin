@@ -29,7 +29,7 @@ implements CommandExecutor {
             }
             return true;
         }
-        sender.sendMessage(ChatColor.DARK_RED + this.plugin.pdfFile.getName() + ChatColor.RED + "I'm sorry, but you do not have permission to perform this command. Please contact the server administrators if you believe that this is in error.");
+        sender.sendMessage(ChatColor.DARK_RED + this.plugin.pdfFile.getName() + ChatColor.RED + " I'm sorry, but you do not have permission to perform this command. Please contact the server administrators if you believe that this is in error.");
         return true;
     }
 }

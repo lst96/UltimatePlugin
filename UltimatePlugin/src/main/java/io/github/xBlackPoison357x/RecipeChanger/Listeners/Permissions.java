@@ -73,6 +73,7 @@ implements Listener {
         ItemStack whitedisc = new ItemStack(Material.MUSIC_DISC_STRAD);
         ItemStack bluedisc = new ItemStack(Material.MUSIC_DISC_MALL);
         ItemStack shulker = new ItemStack(Material.SHULKER_SHELL);
+        ItemStack reinforceddeepslate = new ItemStack(Material.REINFORCED_DEEPSLATE);
         if (e.getCurrentItem().equals(saddle)) {
             if (player.hasPermission("recipe.saddle")) {
                 player.sendMessage(craft);
@@ -523,6 +524,15 @@ implements Listener {
                 player.sendMessage(nocraft);
             }
         }
+        if (e.getCurrentItem().equals(reinforceddeepslate)) {
+            if (player.hasPermission("recipe.reinforceddeepslate")) {
+                player.sendMessage(craft);
+            } else {
+                e.setCancelled(true);
+                player.closeInventory();
+                player.sendMessage(nocraft);
+    }
+}
     }
 }
 

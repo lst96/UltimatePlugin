@@ -384,5 +384,12 @@ public class Crafting implements Listener {
             shulker.setIngredient('A', Material.OBSIDIAN);
             Bukkit.addRecipe(shulker);
         }
+        if (this.plugin.getRecipeChangerConfig().getBoolean("Misc.Reinforced Deepslate")) {
+            ShapedRecipe rdeepslate = new ShapedRecipe(new NamespacedKey(this.plugin, "REINFORCED_DEEPSLATE"), (new ItemStack(Material.REINFORCED_DEEPSLATE)));
+            rdeepslate.shape(new String[]{"AAA", "ARA", "AAA"});
+            rdeepslate.setIngredient('A', Material.OBSIDIAN);
+            rdeepslate.setIngredient('R', Material.DEEPSLATE);
+            Bukkit.addRecipe(rdeepslate);        
+        }
     }
 }
