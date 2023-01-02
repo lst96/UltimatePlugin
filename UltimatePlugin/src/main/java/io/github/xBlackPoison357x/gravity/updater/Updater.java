@@ -1,4 +1,4 @@
-package net.gravitydevelopment.updater;
+package io.github.xBlackPoison357x.gravity.updater;
 
 import java.io.*;
 import java.net.HttpURLConnection;

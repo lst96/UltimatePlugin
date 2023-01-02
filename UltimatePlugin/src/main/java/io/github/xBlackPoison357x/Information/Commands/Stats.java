@@ -34,7 +34,7 @@ implements CommandExecutor {
             sender.sendMessage(ChatColor.GOLD + "[Ambient Spawn Limit]: " + ChatColor.WHITE + Bukkit.getSpawnLimit(SpawnCategory.AMBIENT));
             sender.sendMessage(ChatColor.GOLD + "[Ticks Per Animal Spawn]: " + ChatColor.WHITE + Bukkit.getTicksPerSpawns(SpawnCategory.ANIMAL));
             sender.sendMessage(ChatColor.GOLD + "[Ticks Per Monster Spawn]: " + ChatColor.WHITE + Bukkit.getTicksPerSpawns(SpawnCategory.MONSTER));
-            sender.sendMessage(ChatColor.GOLD + "[Ticks Per Monster Spawn]: " + ChatColor.WHITE + Bukkit.getTicksPerSpawns(SpawnCategory.AMBIENT));
+            sender.sendMessage(ChatColor.GOLD + "[Ticks Per Ambient Spawn]: " + ChatColor.WHITE + Bukkit.getTicksPerSpawns(SpawnCategory.AMBIENT));
             sender.sendMessage(ChatColor.GOLD + "[Ops]: " + ChatColor.WHITE + Bukkit.getServer().getOperators());
             if (Bukkit.getVersion().startsWith("git-Bukkit")) {
                 sender.sendMessage(ChatColor.GOLD + "[CraftBukkit Version]: " + ChatColor.WHITE + Bukkit.getVersion() + " (Implementing API version " + Bukkit.getBukkitVersion() + ")");

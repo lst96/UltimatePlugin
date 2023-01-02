@@ -55,8 +55,8 @@ import io.github.xBlackPoison357x.RecipeChanger.Listeners.Crafting;
 import io.github.xBlackPoison357x.RecipeChanger.Listeners.Permissions;
 import io.github.xBlackPoison357x.UltimatePlugin.Commands.UltimateUpdate;
 import io.github.xBlackPoison357x.UltimatePlugin.Configuration.UltimateConfig;
-import net.gravitydevelopment.updater.Updater;
-import org.mcstats.Metrics;
+import io.github.xBlackPoison357x.bstats.Metrics;
+import io.github.xBlackPoison357x.gravity.updater.Updater;
 
 public class UltimatePlugin
 extends JavaPlugin {
@@ -92,13 +92,8 @@ extends JavaPlugin {
         Crafting cr = new Crafting(this);
         cr.SetupCrafting();
         System.gc();
-        try {
-            Metrics metrics = new Metrics((Plugin)this);
-            metrics.start();
-        }
-        catch (IOException metrics) {
-            // empty catch block
-        }
+        int pluginID = 17259;
+        Metrics metrics = new Metrics(this, pluginID);
         if (this.getDefaultConfig().getBoolean("Enabled Plugin Components.Information")) {
             this.getCommand("website").setExecutor((CommandExecutor)new Website(this));
             this.getCommand("donate").setExecutor((CommandExecutor)new Donate(this));
@@ -303,6 +298,9 @@ extends JavaPlugin {
 
     public void onDisable() {
         Bukkit.getServer().clearRecipes();
+        if (this.autoUpdate) {
+            this.setupUpdater();
+        }
     }
 
     public void setupUpdater() {
