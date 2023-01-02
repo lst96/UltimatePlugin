@@ -4,6 +4,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.World;
+import org.bukkit.World.Environment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -23,15 +24,23 @@ implements Listener {
     @EventHandler(priority=EventPriority.HIGHEST)
     public void onPlayerMove(PlayerMoveEvent event) {
     	Player p = event.getPlayer();
+    	Environment e = p.getWorld().getEnvironment();
         Location playerLoc = p.getLocation();
-        World world = Bukkit.getWorld("world");
-        Location loc = world.getSpawnLocation();
         String pname = p.getName();
-        if (this.plugin.getInformationConfig().getBoolean("Blocktopofnetherbuilding") && (!event.getPlayer().isOp() || !event.getPlayer().hasPermission("information.netherbuildbypass")) && event.getPlayer().getWorld().getName().endsWith("nether") && playerLoc.getY() == 128.0) {
-            event.getPlayer().teleport(loc);
+        if (this.plugin.getInformationConfig().getBoolean("Blocktopofnetherbuilding") && (!p.isOp() || !p.hasPermission("information.netherbuildbypass")) && e.equals(World.Environment.NETHER) && playerLoc.getY() == 128.0) {
+        	event.getPlayer().teleport(getWorldSpawn());
             event.getPlayer().sendMessage(ChatColor.RED + "You are not allowed to walk/build on top of nether!");
             Bukkit.broadcast((ChatColor.RED + pname + " attempted to walk/build on top of nether."), "information.netherbuild.notify");
         }
     }
-}
+        private Location getWorldSpawn() {
+            for (final World world : Bukkit.getServer().getWorlds()) {
+                if (world.getEnvironment() != World.Environment.NORMAL) {
+                    continue;
+                }
+                return world.getSpawnLocation();
+            }
+            return Bukkit.getServer().getWorlds().get(0).getSpawnLocation();
+        }
 
+}
