@@ -18,7 +18,7 @@ implements Listener {
     public void onBreak(EntityBreedEvent e) {
         if (this.plugin.getDisableEXPConfig().getBoolean("EXP.Breeding")) {
             e.setExperience(0);
-            e.getBreeder().sendMessage("Breeding has been disabled on this server!");
+            e.getBreeder().sendMessage("Breeding experience gain has been disabled on this server!");
         }
     }
 }
