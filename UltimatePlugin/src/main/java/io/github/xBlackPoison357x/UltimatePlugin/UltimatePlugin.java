@@ -25,6 +25,7 @@ import io.github.xBlackPoison357x.DisableEXP.Listener.ExpBottleEvents;
 import io.github.xBlackPoison357x.DisableEXP.Listener.FurnaceExtractEvents;
 import io.github.xBlackPoison357x.DisableEXP.Listener.PlayerExpChangeEvents;
 import io.github.xBlackPoison357x.DisableEXP.Listener.PlayerFishEvents;
+import io.github.xBlackPoison357x.FrameProtector.Listener.ItemFramePlace;
 import io.github.xBlackPoison357x.FrameProtector.Listener.ItemRemove;
 import io.github.xBlackPoison357x.Information.Commands.Donate;
 import io.github.xBlackPoison357x.Information.Commands.Einfo;
@@ -70,7 +71,7 @@ extends JavaPlugin {
     public ConsoleCommandSender console = this.server.getConsoleSender();
     private File configf;
     private File disableexpf;
-    private File frameprotectorf;
+    public File frameprotectorf;
     private File recipechangerf;
     private File informationf;
     private File disablecommandsf;
@@ -128,6 +129,7 @@ extends JavaPlugin {
             }
             if (this.getDefaultConfig().getBoolean("Enabled Plugin Components.FrameProtector")) {
                 this.getServer().getPluginManager().registerEvents((Listener)new ItemRemove(this), (Plugin)this);
+                this.getServer().getPluginManager().registerEvents((Listener)new ItemFramePlace(this), (Plugin)this);
             }
             if (this.getDefaultConfig().getBoolean("Enabled Plugin Components.DisableEXP")) {
                 this.getServer().getPluginManager().registerEvents((Listener)new EntityDeathEvents(this), (Plugin)this);
@@ -285,8 +287,7 @@ extends JavaPlugin {
         if (this.informationf.length() == 0L) {
             this.ul.setInformationConfig(this.informationf);
         }
-    }
-
+        }
     public void saveDisableCommandsConfig() {
         try {
             this.DisableCommands.save(this.disablecommandsf);

@@ -27,16 +27,23 @@ public class ItemRemove implements Listener {
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onDestroyByEntity(HangingBreakByEntityEvent event) {
 		String msg1 = this.plugin.getFrameProtectorConfig().getString("Messages.Remove Frame Deny Message");
+		Entity ee = event.getEntity();
 		if (event.getRemover() instanceof Player) {
 			Player p = (Player) event.getRemover();
 			if (event.getEntity().getType() == EntityType.ITEM_FRAME && !p.isOp() || !p.hasPermission("frame.remove")) {
+				if(this.plugin.getFrameProtectorConfig().get("Item Frame.world") != p.getUniqueId().toString() + " " + p.getLocation().getWorld().getName()) {
+					return;
+				}
+				if(this.plugin.getFrameProtectorConfig().get("Item Frame.x") != p.getUniqueId().toString() + " " +  ee.getLocation().getBlockX() && this.plugin.getFrameProtectorConfig().get("Item Frame.y") != p.getUniqueId().toString() + " " + ee.getLocation().getBlockY() && this.plugin.getFrameProtectorConfig().get("Item Frame.z") != p.getUniqueId().toString() + " " + ee.getLocation().getBlockZ()){
+				return;
+				}
 				event.setCancelled(true);
 				if (this.plugin.getFrameProtectorConfig().getBoolean("Messages.Enable")) {
 					p.sendMessage(ChatColor.DARK_RED + msg1);
 					return;
 				}
 			}
-		}
+	    }
 	}
 
 	@EventHandler(priority = EventPriority.HIGHEST)
