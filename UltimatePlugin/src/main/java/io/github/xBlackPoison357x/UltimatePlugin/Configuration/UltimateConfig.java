@@ -158,7 +158,7 @@ public class UltimateConfig {
     }
 
     public void setDisableCommandMessagesConfig(File disablecommandmessagesf) {
-        this.plugin.getDisableCommandMessagesConfig().set("Messages.Command Deny Message", "That Command is not allowed");
+        this.plugin.getDisableCommandMessagesConfig().set("Messages.Command Deny Message", "That command is not allowed!");
         this.plugin.getDisableCommandMessagesConfig().set("Messages.Permission Deny Message", "I'm sorry, but you do not have permission to perform this command. Please contact the server administrators if you believe that this is in error.");
         this.plugin.getDisableCommandMessagesConfig().set("Messages.Already Forbidden Message", "That command is already forbidden!");
         this.plugin.getDisableCommandMessagesConfig().set("Messages.Not Forbiddien Message", "That command is not forbidden!");
