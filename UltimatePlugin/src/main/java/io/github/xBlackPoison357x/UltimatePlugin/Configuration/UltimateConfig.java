@@ -16,7 +16,6 @@ public class UltimateConfig {
     public void setDefaultConfig(File configf) {
         this.plugin.getDefaultConfig().set("UltimatePlugin", this.plugin.pdfFile.getVersion());
         this.plugin.getDefaultConfig().set("autoupdate", true);
-        this.plugin.getDefaultConfig().set("Check Bukkit Compatibility", false);
         this.plugin.getDefaultConfig().set("Enabled Plugin Components.Information", true);
         this.plugin.getDefaultConfig().set("Enabled Plugin Components.RecipeChanger", true);
         this.plugin.getDefaultConfig().set("Enabled Plugin Components.DisableEXP", true);

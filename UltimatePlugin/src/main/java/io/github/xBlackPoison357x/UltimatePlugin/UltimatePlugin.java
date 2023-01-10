@@ -287,7 +287,7 @@ extends JavaPlugin {
         if (this.informationf.length() == 0L) {
             this.ul.setInformationConfig(this.informationf);
         }
-        }
+    }   
     public void saveDisableCommandsConfig() {
         try {
             this.DisableCommands.save(this.disablecommandsf);
@@ -365,4 +365,3 @@ extends JavaPlugin {
         }
     }
 }
-
