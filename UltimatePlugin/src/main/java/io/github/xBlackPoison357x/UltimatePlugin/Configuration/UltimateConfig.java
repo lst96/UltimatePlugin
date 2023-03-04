@@ -15,7 +15,6 @@ public class UltimateConfig {
 
 	public void setDefaultConfig(File configf) {
 		plugin.getDefaultConfig().set("UltimatePlugin", plugin.pdfFile.getVersion());
-		plugin.getDefaultConfig().set("updatenotifier", true); 
 		plugin.getDefaultConfig().set("Enabled Plugin Components.Information", true);
 		plugin.getDefaultConfig().set("Enabled Plugin Components.RecipeChanger", true);
 		plugin.getDefaultConfig().set("Enabled Plugin Components.DisableEXP", true);
