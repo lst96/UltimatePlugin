@@ -9,24 +9,22 @@ import org.bukkit.event.player.PlayerJoinEvent;
 
 import io.github.xBlackPoison357x.UltimatePlugin.UltimatePlugin;
 
-public class Elistener
-implements Listener {
-    private UltimatePlugin plugin;
+public class Elistener implements Listener {
+	private UltimatePlugin plugin;
 
-    public Elistener(UltimatePlugin instance) {
-        this.plugin = instance;
-    }
+	public Elistener(UltimatePlugin instance) {
+		plugin = instance;
+	}
 
-    @EventHandler
-    public void onPlayerJoin(PlayerJoinEvent event) {
-        if (event.getPlayer().isOp() || event.getPlayer().hasPermission("information.extra")) {
-            List<String> Extra = this.plugin.getInformationConfig().getStringList("Extra");
-            event.getPlayer().sendMessage(ChatColor.DARK_BLUE + "--Extra(s)--");
-            for (String Extra1 : Extra) {
-                event.getPlayer().sendMessage(ChatColor.translateAlternateColorCodes((char)'&', Extra1));
-            }
-            return;
-        }
-    }
+	@EventHandler
+	public void onPlayerJoin(PlayerJoinEvent event) {
+		if (event.getPlayer().isOp() || event.getPlayer().hasPermission("information.extra")) {
+			List<String> Extra = plugin.getInformationConfig().getStringList("Extra");
+			event.getPlayer().sendMessage(ChatColor.DARK_BLUE + "--Extra(s)--");
+			for (String Extra1 : Extra) {
+				event.getPlayer().sendMessage(ChatColor.translateAlternateColorCodes((char) '&', Extra1));
+			}
+			return;
+		}
+	}
 }
-

@@ -6,19 +6,17 @@ import org.bukkit.event.player.PlayerExpChangeEvent;
 
 import io.github.xBlackPoison357x.UltimatePlugin.UltimatePlugin;
 
-public class PlayerExpChangeEvents
-implements Listener {
-    private UltimatePlugin plugin;
+public class PlayerExpChangeEvents implements Listener {
+	private UltimatePlugin plugin;
 
-    public PlayerExpChangeEvents(UltimatePlugin instance) {
-        this.plugin = instance;
-    }
+	public PlayerExpChangeEvents(UltimatePlugin instance) {
+		plugin = instance;
+	}
 
-    @EventHandler
-    public void onPlayerExpChange(PlayerExpChangeEvent e) {
-        if (this.plugin.getDisableEXPConfig().getBoolean("EXP.ALL")) {
-            e.setAmount(0);
-        }
-    }
+	@EventHandler
+	public void onPlayerExpChange(PlayerExpChangeEvent e) {
+		if (plugin.getDisableEXPConfig().getBoolean("EXP.ALL")) {
+			e.setAmount(0);
+		}
+	}
 }
-

@@ -9,28 +9,27 @@ import org.bukkit.command.CommandSender;
 
 import io.github.xBlackPoison357x.UltimatePlugin.UltimatePlugin;
 
-public class Donate
-implements CommandExecutor {
-    private UltimatePlugin plugin;
+public class Donate implements CommandExecutor {
+	private UltimatePlugin plugin;
 
-    public Donate(UltimatePlugin instance) {
-        this.plugin = instance;
-    }
+	public Donate(UltimatePlugin instance) {
+		plugin = instance;
+	}
 
-    public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
-        if (commandLabel.equalsIgnoreCase("donate")) {
-            // empty if block
-        }
-        if (sender.isOp() || sender.hasPermission("information.donate")) {
-            List<String> Donate2 = this.plugin.getInformationConfig().getStringList("Donate");
-            sender.sendMessage(ChatColor.DARK_BLUE + "--Donation Link(s)--");
-            for (String Donate1 : Donate2) {
-                sender.sendMessage(ChatColor.translateAlternateColorCodes((char)'&', Donate1));
-            }
-            return true;
-        }
-        sender.sendMessage(ChatColor.DARK_RED + this.plugin.pdfFile.getName() + ChatColor.RED + " I'm sorry, but you do not have permission to perform this command. Please contact the server administrators if you believe that this is in error.");
-        return true;
-    }
+	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
+		if (commandLabel.equalsIgnoreCase("donate")) {
+			// empty if block
+		}
+		if (sender.isOp() || sender.hasPermission("information.donate")) {
+			List<String> Donate2 = plugin.getInformationConfig().getStringList("Donate");
+			sender.sendMessage(ChatColor.DARK_BLUE + "--Donation Link(s)--");
+			for (String Donate1 : Donate2) {
+				sender.sendMessage(ChatColor.translateAlternateColorCodes((char) '&', Donate1));
+			}
+			return true;
+		}
+		sender.sendMessage(ChatColor.DARK_RED + plugin.pdfFile.getName() + ChatColor.RED
+				+ " I'm sorry, but you do not have permission to perform this command. Please contact the server administrators if you believe that this is in error.");
+		return true;
+	}
 }
-

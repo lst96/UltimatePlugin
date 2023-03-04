@@ -6,19 +6,17 @@ import org.bukkit.event.block.BlockBreakEvent;
 
 import io.github.xBlackPoison357x.UltimatePlugin.UltimatePlugin;
 
-public class BlockBreakEvents
-implements Listener {
-    private UltimatePlugin plugin;
+public class BlockBreakEvents implements Listener {
+	private UltimatePlugin plugin;
 
-    public BlockBreakEvents(UltimatePlugin instance) {
-        this.plugin = instance;
-    }
+	public BlockBreakEvents(UltimatePlugin instance) {
+		plugin = instance;
+	}
 
-    @EventHandler
-    public void onBreak(BlockBreakEvent e) {
-        if (this.plugin.getDisableEXPConfig().getBoolean("EXP.Ore")) {
-            e.setExpToDrop(0);
-        }
-    }
+	@EventHandler
+	public void onBreak(BlockBreakEvent e) {
+		if (plugin.getDisableEXPConfig().getBoolean("EXP.Ore")) {
+			e.setExpToDrop(0);
+		}
+	}
 }
-

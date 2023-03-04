@@ -1,9 +1,8 @@
 name: UltimatePlugin
-version: 0.9
+version: 1.1
 author: BlackPoison357
 main: io.github.xBlackPoison357x.UltimatePlugin.UltimatePlugin
 api-version: 1.16
-softdepend: []
 commands:
   website: 
       description: Displays your Website link.
@@ -214,8 +213,7 @@ permissions:
             recipe.chirp: true
             recipe.strad: true
             recipe.mall: true 
-            recipe.shulker: true
-		recipe.reinforceddeepslate: true  
+            recipe.shulker: true     
     recipe.member:
         description: gives all permissions.
         children:
@@ -268,8 +266,7 @@ permissions:
             recipe.chirp: true
             recipe.strad: true
             recipe.mall: true
-            recipe.shulker: true 
-		recipe.reinforceddeepslate: true   
+            recipe.shulker: true    
     recipe.admin:
         description: gives all permissions.
         children:
@@ -322,7 +319,6 @@ permissions:
             recipe.strad: true
             recipe.mall: true
             recipe.shulker: true
-		recipe.reinforceddeepslate: true
     frame.*:
       description: Gives all permissions.
       children:

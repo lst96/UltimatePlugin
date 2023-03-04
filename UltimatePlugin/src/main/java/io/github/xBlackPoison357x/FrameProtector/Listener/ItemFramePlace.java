@@ -17,25 +17,25 @@ public class ItemFramePlace implements Listener {
 	private UltimatePlugin plugin;
 
 	public ItemFramePlace(UltimatePlugin instance) {
-		this.plugin = instance;
+		plugin = instance;
 	}
 
-	@EventHandler(priority = EventPriority.HIGHEST)
+	@EventHandler(priority = EventPriority.HIGHEST) // fix this
 	public void AddConfigEntry(HangingPlaceEvent event) {
-			Player p = (Player) event.getPlayer();
-			Entity ee = event.getEntity();
-			if (event.getEntity().getType() == EntityType.ITEM_FRAME) {
-				this.plugin.getFrameProtectorConfig().set("Item Frame.world", p.getUniqueId().toString() + " " + ee.getLocation().getWorld().getName());
-				this.plugin.getFrameProtectorConfig().set("Item Frame.x", p.getUniqueId().toString() + " " +  ee.getLocation().getBlockX());
-				this.plugin.getFrameProtectorConfig().set("Item Frame.y", p.getUniqueId().toString() + " " + ee.getLocation().getBlockY());
-				this.plugin.getFrameProtectorConfig().set("Item Frame.z", p.getUniqueId().toString() + " " + ee.getLocation().getBlockZ());
-				Bukkit.broadcastMessage("Code Appears to be working!");
-				try {
-					this.plugin.getFrameProtectorConfig().save(this.plugin.frameprotectorf);
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-				return;
+		Player p = (Player) event.getPlayer();
+		Entity ee = event.getEntity();
+		if ((event.getEntity().getType() == EntityType.ITEM_FRAME) && p.hasPermission("frame.place")) {
+			plugin.getFrameProtectorConfig().set(p.getUniqueId().toString(), ee.getLocation().getWorld().getName());
+			plugin.getFrameProtectorConfig().set(p.getUniqueId().toString(), " " + ee.getLocation().getBlockX());
+			plugin.getFrameProtectorConfig().set(p.getUniqueId().toString(), " " + ee.getLocation().getBlockY());
+			plugin.getFrameProtectorConfig().set(p.getUniqueId().toString(), " " + ee.getLocation().getBlockZ());
+			Bukkit.broadcastMessage("Code Appears to be working!");
+			try {
+				plugin.getFrameProtectorConfig().save(plugin.frameprotectorf);
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
+			return;
+		}
 	}
 }

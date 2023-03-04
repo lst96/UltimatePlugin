@@ -6,19 +6,17 @@ import org.bukkit.event.player.PlayerFishEvent;
 
 import io.github.xBlackPoison357x.UltimatePlugin.UltimatePlugin;
 
-public class PlayerFishEvents
-implements Listener {
-    private UltimatePlugin plugin;
+public class PlayerFishEvents implements Listener {
+	private UltimatePlugin plugin;
 
-    public PlayerFishEvents(UltimatePlugin instance) {
-        this.plugin = instance;
-    }
+	public PlayerFishEvents(UltimatePlugin instance) {
+		plugin = instance;
+	}
 
-    @EventHandler
-    public void onFish(PlayerFishEvent e) {
-        if (this.plugin.getDisableEXPConfig().getBoolean("EXP.Fish")) {
-            e.setExpToDrop(0);
-        }
-    }
+	@EventHandler
+	public void onFish(PlayerFishEvent e) {
+		if (plugin.getDisableEXPConfig().getBoolean("EXP.Fish")) {
+			e.setExpToDrop(0);
+		}
+	}
 }
-

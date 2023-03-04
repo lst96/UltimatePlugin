@@ -15,7 +15,9 @@ import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
-
+import org.bstats.bukkit.Metrics;
+import net.gravitydevelopment.updater.Updater;
+import net.gravitydevelopment.updater.Updater.ReleaseType;
 import io.github.xBlackPoison357x.DisableCommands.commands.ARLRCommand;
 import io.github.xBlackPoison357x.DisableCommands.commands.CommandBlock;
 import io.github.xBlackPoison357x.DisableEXP.Listener.BlockBreakEvents;
@@ -56,312 +58,323 @@ import io.github.xBlackPoison357x.RecipeChanger.Listeners.Crafting;
 import io.github.xBlackPoison357x.RecipeChanger.Listeners.Permissions;
 import io.github.xBlackPoison357x.UltimatePlugin.Commands.UltimateUpdate;
 import io.github.xBlackPoison357x.UltimatePlugin.Configuration.UltimateConfig;
-import io.github.xBlackPoison357x.bstats.Metrics;
-import io.github.xBlackPoison357x.gravity.updater.Updater;
 
-public class UltimatePlugin
-extends JavaPlugin {
-    public PluginDescriptionFile pdfFile;
-    public String PREFIX;
-    public boolean autoUpdate = false;
-    public boolean metrics = false;
-    Updater updater;
-    Server server = Bukkit.getServer();
-    UltimateConfig ul = new UltimateConfig(this);
-    public ConsoleCommandSender console = this.server.getConsoleSender();
-    private File configf;
-    private File disableexpf;
-    public File frameprotectorf;
-    private File recipechangerf;
-    private File informationf;
-    private File disablecommandsf;
-    private File disablecommandmessagesf;
-    private FileConfiguration config;
-    private FileConfiguration DisableEXP;
-    private FileConfiguration FrameProtector;
-    private FileConfiguration RecipeChanger;
-    private FileConfiguration Information;
-    private FileConfiguration DisableCommands;
-    private FileConfiguration DisableCommandMessages;
+public class UltimatePlugin extends JavaPlugin {
+	public PluginDescriptionFile pdfFile;
+	public String PREFIX;
+	public boolean autoUpdate = false;
+	public boolean metrics = false;
+	Updater updater;
+	Server server = Bukkit.getServer();
+	UltimateConfig ul = new UltimateConfig(this);
+	public ConsoleCommandSender console = server.getConsoleSender();
+	private File configf;
+	private File disableexpf;
+	public File frameprotectorf;
+	private File recipechangerf;
+	private File informationf;
+	private File disablecommandsf;
+	private File disablecommandmessagesf;
+	private FileConfiguration config;
+	private FileConfiguration DisableEXP;
+	private FileConfiguration FrameProtector;
+	private FileConfiguration RecipeChanger;
+	private FileConfiguration Information;
+	private FileConfiguration DisableCommands;
+	private FileConfiguration DisableCommandMessages;
+	public static boolean update = false;
+	public static String name = "";
+	public static ReleaseType type = null;
+	public static String version = "";
+	public static String link = "";
 
-    public void onEnable() {
-        this.pdfFile = this.getDescription();
-        this.PREFIX = ChatColor.GREEN + "[" + this.pdfFile.getName() + "]";
-        this.console.sendMessage(String.valueOf(this.PREFIX) + ChatColor.GREEN + " UltimatePlugin version " + this.pdfFile.getVersion() + " has been enabled.");
-        this.console.sendMessage(String.valueOf(this.PREFIX) + ChatColor.GREEN + " Developed by: " + this.pdfFile.getAuthors());
-        this.createFiles();
-        Crafting cr = new Crafting(this);
-        cr.SetupCrafting();
-        System.gc();
-        int pluginID = 17259;
-        Metrics metrics = new Metrics(this, pluginID);
-        if (this.getDefaultConfig().getBoolean("Enabled Plugin Components.Information")) {
-            this.getCommand("website").setExecutor((CommandExecutor)new Website(this));
-            this.getCommand("donate").setExecutor((CommandExecutor)new Donate(this));
-            this.getCommand("player").setExecutor((CommandExecutor)new PlayerInfo(this));
-            this.getCommand("infovote").setExecutor((CommandExecutor)new Vote(this));
-            this.getCommand("staff").setExecutor((CommandExecutor)new Staff(this));
-            this.getCommand("rules").setExecutor((CommandExecutor)new Rules(this));
-            this.getCommand("ram").setExecutor((CommandExecutor)new Ram(this));
-            this.getCommand("motd").setExecutor((CommandExecutor)new Motd(this));
-            this.getCommand("online").setExecutor((CommandExecutor)new Online(this));
-            this.getCommand("ip").setExecutor((CommandExecutor)new Ip(this));
-            this.getCommand("twitter").setExecutor((CommandExecutor)new Twitter(this));
-            this.getCommand("facebook").setExecutor((CommandExecutor)new Facebook(this));
-            this.getCommand("einfo").setExecutor((CommandExecutor)new Einfo(this));
-            this.getCommand("youtube").setExecutor((CommandExecutor)new Youtube(this));
-            this.getCommand("stats").setExecutor((CommandExecutor)new Stats(this));
-            this.getCommand("enchantall").setExecutor((CommandExecutor)new Enchant(this));
-            this.getCommand("uuid").setExecutor((CommandExecutor)new PlayerUUID(this));
-            this.getServer().getPluginManager().registerEvents((Listener)new BossMessage(this), (Plugin)this);
-            this.getServer().getPluginManager().registerEvents((Listener)new Elistener(this), (Plugin)this);
-            this.getServer().getPluginManager().registerEvents((Listener)new Flight(this), (Plugin)this);
-            this.getServer().getPluginManager().registerEvents((Listener)new Creative(this), (Plugin)this);
-            this.getServer().getPluginManager().registerEvents((Listener)new JoinWorld(this), (Plugin)this);
-            this.getServer().getPluginManager().registerEvents((Listener)new NetherBlock(this), (Plugin)this);
-            this.getServer().getPluginManager().registerEvents((Listener)new Kits(this), (Plugin)this);
-            this.getServer().getScheduler().scheduleSyncRepeatingTask((Plugin)this, (Runnable)new Tps(), 100L, 1L);
+	public void onEnable() {
+		pdfFile.getDescription();
+		PREFIX = ChatColor.GREEN + "[" + pdfFile.getName() + "]";
+		console.sendMessage(String.valueOf(PREFIX) + ChatColor.GREEN + " UltimatePlugin version " + pdfFile.getVersion()
+				+ " has been enabled.");
+		console.sendMessage(String.valueOf(PREFIX) + ChatColor.GREEN + " Developed by: " + pdfFile.getAuthors());
+		createFiles();
+		Crafting cr = new Crafting(this);
+		cr.SetupCrafting();
+		System.gc();
+		int pluginID = 17259;
+		Metrics metrics = new Metrics(this, pluginID);
+		if (getDefaultConfig().getBoolean("Enabled Plugin Components.Information")) {
+			getCommand("website").setExecutor((CommandExecutor) new Website(this));
+			getCommand("donate").setExecutor((CommandExecutor) new Donate(this));
+			getCommand("player").setExecutor((CommandExecutor) new PlayerInfo(this));
+			getCommand("infovote").setExecutor((CommandExecutor) new Vote(this));
+			getCommand("staff").setExecutor((CommandExecutor) new Staff(this));
+			getCommand("rules").setExecutor((CommandExecutor) new Rules(this));
+			getCommand("ram").setExecutor((CommandExecutor) new Ram(this));
+			getCommand("motd").setExecutor((CommandExecutor) new Motd(this));
+			getCommand("online").setExecutor((CommandExecutor) new Online(this));
+			getCommand("ip").setExecutor((CommandExecutor) new Ip(this));
+			getCommand("twitter").setExecutor((CommandExecutor) new Twitter(this));
+			getCommand("facebook").setExecutor((CommandExecutor) new Facebook(this));
+			getCommand("einfo").setExecutor((CommandExecutor) new Einfo(this));
+			getCommand("youtube").setExecutor((CommandExecutor) new Youtube(this));
+			getCommand("stats").setExecutor((CommandExecutor) new Stats(this));
+			getCommand("enchantall").setExecutor((CommandExecutor) new Enchant(this));
+			getCommand("uuid").setExecutor((CommandExecutor) new PlayerUUID(this));
+			getServer().getPluginManager().registerEvents((Listener) new BossMessage(this), (Plugin) this);
+			getServer().getPluginManager().registerEvents((Listener) new Elistener(this), (Plugin) this);
+			getServer().getPluginManager().registerEvents((Listener) new Flight(this), (Plugin) this);
+			getServer().getPluginManager().registerEvents((Listener) new Creative(this), (Plugin) this);
+			getServer().getPluginManager().registerEvents((Listener) new JoinWorld(this), (Plugin) this);
+			getServer().getPluginManager().registerEvents((Listener) new NetherBlock(this), (Plugin) this);
+			getServer().getPluginManager().registerEvents((Listener) new Kits(this), (Plugin) this);
+			getServer().getScheduler().scheduleSyncRepeatingTask((Plugin) this, (Runnable) new Tps(), 100L, 1L);
 
-            }
-            if (this.getDefaultConfig().getBoolean("Enabled Plugin Components.RecipeChanger")) {
-                this.getServer().getPluginManager().registerEvents((Listener)new Permissions(this), (Plugin)this);
-                this.getServer().getPluginManager().registerEvents((Listener)new Crafting(this), (Plugin)this);
-            }
-            if (this.getDefaultConfig().getBoolean("Enabled Plugin Components.FrameProtector")) {
-                this.getServer().getPluginManager().registerEvents((Listener)new ItemRemove(this), (Plugin)this);
-                this.getServer().getPluginManager().registerEvents((Listener)new ItemFramePlace(this), (Plugin)this);
-            }
-            if (this.getDefaultConfig().getBoolean("Enabled Plugin Components.DisableEXP")) {
-                this.getServer().getPluginManager().registerEvents((Listener)new EntityDeathEvents(this), (Plugin)this);
-                this.getServer().getPluginManager().registerEvents((Listener)new BlockBreakEvents(this), (Plugin)this);
-                this.getServer().getPluginManager().registerEvents((Listener)new FurnaceExtractEvents(this), (Plugin)this);
-                this.getServer().getPluginManager().registerEvents((Listener)new PlayerFishEvents(this), (Plugin)this);
-                this.getServer().getPluginManager().registerEvents((Listener)new ExpBottleEvents(this), (Plugin)this);
-                this.getServer().getPluginManager().registerEvents((Listener)new PlayerExpChangeEvents(this), (Plugin)this);
-                this.getServer().getPluginManager().registerEvents((Listener)new EntityBreedEvents(this), (Plugin)this);
-            }
-            if (this.getDefaultConfig().getBoolean("Enabled Plugin Components.DisableCommands")) {
-                this.getCommand("disablecommands").setExecutor((CommandExecutor)new ARLRCommand(this));
-                this.getServer().getPluginManager().registerEvents((Listener)new CommandBlock(this), (Plugin)this);
-            }
-            this.getCommand("ultimateupdate").setExecutor((CommandExecutor)new UltimateUpdate(this));
-            this.autoUpdate = this.getDefaultConfig().getBoolean("autoupdate");
-            if (this.autoUpdate) {
-                this.setupUpdater();
-            }
-            }
-    
-    public FileConfiguration getDefaultConfig() {
-        return this.config;
-    }
+		}
+		if (getDefaultConfig().getBoolean("Enabled Plugin Components.RecipeChanger")) {
+			getServer().getPluginManager().registerEvents((Listener) new Permissions(this), (Plugin) this);
+			getServer().getPluginManager().registerEvents((Listener) new Crafting(this), (Plugin) this);
+		}
+		if (getDefaultConfig().getBoolean("Enabled Plugin Components.FrameProtector")) {
+			getServer().getPluginManager().registerEvents((Listener) new ItemRemove(this), (Plugin) this);
+			getServer().getPluginManager().registerEvents((Listener) new ItemFramePlace(this), (Plugin) this);
+		}
+		if (getDefaultConfig().getBoolean("Enabled Plugin Components.DisableEXP")) {
+			getServer().getPluginManager().registerEvents((Listener) new EntityDeathEvents(this), (Plugin) this);
+			getServer().getPluginManager().registerEvents((Listener) new BlockBreakEvents(this), (Plugin) this);
+			getServer().getPluginManager().registerEvents((Listener) new FurnaceExtractEvents(this), (Plugin) this);
+			getServer().getPluginManager().registerEvents((Listener) new PlayerFishEvents(this), (Plugin) this);
+			getServer().getPluginManager().registerEvents((Listener) new ExpBottleEvents(this), (Plugin) this);
+			getServer().getPluginManager().registerEvents((Listener) new PlayerExpChangeEvents(this), (Plugin) this);
+			getServer().getPluginManager().registerEvents((Listener) new EntityBreedEvents(this), (Plugin) this);
+		}
+		if (getDefaultConfig().getBoolean("Enabled Plugin Components.DisableCommands")) {
+			getCommand("disablecommands").setExecutor((CommandExecutor) new ARLRCommand(this));
+			getServer().getPluginManager().registerEvents((Listener) new CommandBlock(this), (Plugin) this);
+		}
+		getCommand("ultimateupdate").setExecutor((CommandExecutor) new UltimateUpdate(this));
+		joinUpdater();
+		autoUpdate = getDefaultConfig().getBoolean("autoupdate");
+		if (autoUpdate) {
+			setupUpdater();
+		}
+	}
 
-    public FileConfiguration getDisableEXPConfig() {
-        return this.DisableEXP;
-    }
+	public FileConfiguration getDefaultConfig() {
+		return config;
+	}
 
-    public FileConfiguration getDisableCommandsConfig() {
-        return this.DisableCommands;
-    }
+	public FileConfiguration getDisableEXPConfig() {
+		return DisableEXP;
+	}
 
-    public FileConfiguration getDisableCommandMessagesConfig() {
-        return this.DisableCommandMessages;
-    }
+	public FileConfiguration getDisableCommandsConfig() {
+		return DisableCommands;
+	}
 
-    public FileConfiguration getInformationConfig() {
-        return this.Information;
-    }
+	public FileConfiguration getDisableCommandMessagesConfig() {
+		return DisableCommandMessages;
+	}
 
-    public FileConfiguration getRecipeChangerConfig() {
-        return this.RecipeChanger;
-    }
+	public FileConfiguration getInformationConfig() {
+		return Information;
+	}
 
-    public FileConfiguration getFrameProtectorConfig() {
-        return this.FrameProtector;
-    }
+	public FileConfiguration getRecipeChangerConfig() {
+		return RecipeChanger;
+	}
 
-    private void createFiles() {
-        this.configf = new File(this.getDataFolder(), "config.yml");
-        this.disableexpf = new File(this.getDataFolder(), "DisableEXP.yml");
-        this.disablecommandsf = new File(this.getDataFolder(), "DisableCommands.yml");
-        this.disablecommandmessagesf = new File(this.getDataFolder(), "DisableCommandMessages.yml");
-        this.informationf = new File(this.getDataFolder(), "Information.yml");
-        this.recipechangerf = new File(this.getDataFolder(), "RecipeChanger.yml");
-        this.frameprotectorf = new File(this.getDataFolder(), "FrameProtector.yml");
-        if (!this.configf.exists()) {
-            this.configf.getParentFile().mkdirs();
-            try {
-                this.configf.createNewFile();
-            }
-            catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        if (!this.disableexpf.exists()) {
-            this.disableexpf.getParentFile().mkdirs();
-            try {
-                this.disableexpf.createNewFile();
-            }
-            catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        if (!this.disablecommandsf.exists()) {
-            this.disablecommandsf.getParentFile().mkdirs();
-            try {
-                this.disablecommandsf.createNewFile();
-            }
-            catch (IOException e1) {
-                e1.printStackTrace();
-            }
-        }
-        if (!this.disablecommandmessagesf.exists()) {
-            this.disablecommandmessagesf.getParentFile().mkdirs();
-            try {
-                this.disablecommandmessagesf.createNewFile();
-            }
-            catch (IOException e1) {
-                e1.printStackTrace();
-            }
-        }
-        if (!this.informationf.exists()) {
-            this.informationf.getParentFile().mkdirs();
-            try {
-                this.informationf.createNewFile();
-            }
-            catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        if (!this.recipechangerf.exists()) {
-            this.recipechangerf.getParentFile().mkdirs();
-            try {
-                this.recipechangerf.createNewFile();
-            }
-            catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        if (!this.frameprotectorf.exists()) {
-            this.frameprotectorf.getParentFile().mkdirs();
-            try {
-                this.frameprotectorf.createNewFile();
-            }
-            catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        this.config = new YamlConfiguration();
-        this.DisableEXP = new YamlConfiguration();
-        this.DisableCommands = new YamlConfiguration();
-        this.DisableCommandMessages = new YamlConfiguration();
-        this.Information = new YamlConfiguration();
-        this.RecipeChanger = new YamlConfiguration();
-        this.FrameProtector = new YamlConfiguration();
-        try {
-            this.config.load(this.configf);
-            this.DisableEXP.load(this.disableexpf);
-            this.DisableCommands.load(this.disablecommandsf);
-            this.DisableCommandMessages.load(this.disablecommandmessagesf);
-            this.Information.load(this.informationf);
-            this.RecipeChanger.load(this.recipechangerf);
-            this.FrameProtector.load(this.frameprotectorf);
-        }
-        catch (IOException | InvalidConfigurationException e) {
-            e.printStackTrace();
-        }
-        if (this.recipechangerf.length() == 0L) {
-            this.ul.setRecipeChangerConfig(this.recipechangerf);
-        }
-        if (this.configf.length() == 0L) {
-            this.ul.setDefaultConfig(this.configf);
-        }
-        if (this.disableexpf.length() == 0L) {
-            this.ul.setDisableEXPConfig(this.disableexpf);
-        }
-        if (this.disablecommandmessagesf.length() == 0L) {
-            this.ul.setDisableCommandMessagesConfig(this.disablecommandmessagesf);
-        }
-        if (this.frameprotectorf.length() == 0L) {
-            this.ul.setFrameProtectorConfig(this.frameprotectorf);
-        }
-        if (this.informationf.length() == 0L) {
-            this.ul.setInformationConfig(this.informationf);
-        }
-    }   
-    public void saveDisableCommandsConfig() {
-        try {
-            this.DisableCommands.save(this.disablecommandsf);
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+	public FileConfiguration getFrameProtectorConfig() {
+		return FrameProtector;
+	}
 
-    public void onDisable() {
-        Bukkit.getServer().clearRecipes();
-        if (this.autoUpdate) {
-            this.setupUpdater();
-        }
-    }
+	private void createFiles() {
+		configf = new File(getDataFolder(), "config.yml");
+		disableexpf = new File(getDataFolder(), "DisableEXP.yml");
+		disablecommandsf = new File(getDataFolder(), "DisableCommands.yml");
+		disablecommandmessagesf = new File(getDataFolder(), "DisableCommandMessages.yml");
+		informationf = new File(getDataFolder(), "Information.yml");
+		recipechangerf = new File(getDataFolder(), "RecipeChanger.yml");
+		frameprotectorf = new File(getDataFolder(), "FrameProtector.yml");
+		if (!configf.exists()) {
+			configf.getParentFile().mkdirs();
+			try {
+				configf.createNewFile();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		if (!disableexpf.exists()) {
+			disableexpf.getParentFile().mkdirs();
+			try {
+				disableexpf.createNewFile();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		if (!disablecommandsf.exists()) {
+			disablecommandsf.getParentFile().mkdirs();
+			try {
+				disablecommandsf.createNewFile();
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+		}
+		if (!disablecommandmessagesf.exists()) {
+			disablecommandmessagesf.getParentFile().mkdirs();
+			try {
+				disablecommandmessagesf.createNewFile();
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+		}
+		if (!informationf.exists()) {
+			informationf.getParentFile().mkdirs();
+			try {
+				informationf.createNewFile();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		if (!recipechangerf.exists()) {
+			recipechangerf.getParentFile().mkdirs();
+			try {
+				recipechangerf.createNewFile();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		if (!frameprotectorf.exists()) {
+			frameprotectorf.getParentFile().mkdirs();
+			try {
+				frameprotectorf.createNewFile();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		config = new YamlConfiguration();
+		DisableEXP = new YamlConfiguration();
+		DisableCommands = new YamlConfiguration();
+		DisableCommandMessages = new YamlConfiguration();
+		Information = new YamlConfiguration();
+		RecipeChanger = new YamlConfiguration();
+		FrameProtector = new YamlConfiguration();
+		try {
+			config.load(configf);
+			DisableEXP.load(disableexpf);
+			DisableCommands.load(disablecommandsf);
+			DisableCommandMessages.load(disablecommandmessagesf);
+			Information.load(informationf);
+			RecipeChanger.load(recipechangerf);
+			FrameProtector.load(frameprotectorf);
+		} catch (IOException | InvalidConfigurationException e) {
+			e.printStackTrace();
+		}
+		if (recipechangerf.length() == 0L) {
+			ul.setRecipeChangerConfig(recipechangerf);
+		}
+		if (configf.length() == 0L) {
+			ul.setDefaultConfig(configf);
+		}
+		if (disableexpf.length() == 0L) {
+			ul.setDisableEXPConfig(disableexpf);
+		}
+		if (disablecommandmessagesf.length() == 0L) {
+			ul.setDisableCommandMessagesConfig(disablecommandmessagesf);
+		}
+		if (frameprotectorf.length() == 0L) {
+			ul.setFrameProtectorConfig(frameprotectorf);
+		}
+		if (informationf.length() == 0L) {
+			ul.setInformationConfig(informationf);
+		}
+	}
 
-    public void setupUpdater() {
-        Updater updater = new Updater((Plugin)this, 102168, this.getFile(), Updater.UpdateType.DEFAULT, true);
-        Updater.UpdateResult result = updater.getResult();
-        if (updater.getResult() == Updater.UpdateResult.SUCCESS) {
-            this.console.sendMessage(ChatColor.GREEN + "Update " + updater.getLatestName() + " was found and downloaded, will be loaded on next server restart!");
-        }
-        if (updater.getResult() == Updater.UpdateResult.NO_UPDATE) {
-            this.console.sendMessage(ChatColor.GREEN + updater.getLatestName() + " is the latest version available!");
-        }
-        if (updater.getResult() == Updater.UpdateResult.DISABLED) {
-            this.console.sendMessage(ChatColor.RED + this.pdfFile.getName() + " autoupdate is disabled in the configuration!");
-        }
-        if (updater.getResult() == Updater.UpdateResult.FAIL_DOWNLOAD) {
-            this.console.sendMessage(ChatColor.RED + this.pdfFile.getName() + " failed to download " + updater.getLatestName());
-        }
-        if (updater.getResult() == Updater.UpdateResult.FAIL_DBO) {
-            this.console.sendMessage(ChatColor.RED + this.pdfFile.getName() + " updater was unable to contact DBO to download the update!");
-        }
-        if (updater.getResult() == Updater.UpdateResult.FAIL_NOVERSION) {
-            this.console.sendMessage(ChatColor.RED + this.pdfFile.getName() + " no file version found!");
-        }
-        if (updater.getResult() == Updater.UpdateResult.FAIL_BADID) {
-            this.console.sendMessage(ChatColor.RED + this.pdfFile.getName() + " Invalid Plugin ID");
-        }
-        if (updater.getResult() == Updater.UpdateResult.FAIL_APIKEY) {
-            this.console.sendMessage(ChatColor.RED + this.pdfFile.getName() + " Invalid Plugin API Key");
-        }
-        if (updater.getResult() == Updater.UpdateResult.UPDATE_AVAILABLE) {
-            this.console.sendMessage(ChatColor.RED + this.pdfFile.getName() + " has found update" + updater.getLatestName() + " , but it was not downloaded");
-        }
-        switch (result) {
-            case DISABLED: {
-                break;
-            }
-            case FAIL_APIKEY: {
-                break;
-            }
-            case FAIL_BADID: {
-                break;
-            }
-            case FAIL_DBO: {
-                break;
-            }
-            case FAIL_DOWNLOAD: {
-                break;
-            }
-            case FAIL_NOVERSION: {
-                break;
-            }
-            case NO_UPDATE: {
-                break;
-            }
-            case SUCCESS: {
-                break;
-            }
-            case UPDATE_AVAILABLE: {
-                break;
-            }
-        }
-    }
+	public void saveDisableCommandsConfig() {
+		try {
+			DisableCommands.save(disablecommandsf);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void onDisable() {
+		Bukkit.getServer().clearRecipes();
+		if (autoUpdate) {
+			setupUpdater();
+		}
+	}
+
+	public void joinUpdater() {
+		Updater updater = new Updater(this, 102168, getFile(), Updater.UpdateType.NO_DOWNLOAD, false); // Start Updater
+																										// but just do a
+																										// version check
+		update = updater.getResult() == Updater.UpdateResult.UPDATE_AVAILABLE; // Determine if there is an update ready
+																				// for us
+		name = updater.getLatestName(); // Get the latest name
+		version = updater.getLatestGameVersion(); // Get the latest game version
+		type = updater.getLatestType(); // Get the latest file's type
+		link = updater.getLatestFileLink(); // Get the latest link
+	}
+
+	public void setupUpdater() {
+		Updater updater = new Updater(this, 102168, getFile(), Updater.UpdateType.DEFAULT, true);
+		Updater.UpdateResult result = updater.getResult();
+		if (updater.getResult() == Updater.UpdateResult.SUCCESS) {
+			console.sendMessage(ChatColor.GREEN + "Update " + updater.getLatestName()
+					+ " was found and downloaded, will be loaded on next server restart!");
+		}
+		if (updater.getResult() == Updater.UpdateResult.NO_UPDATE) {
+			console.sendMessage(ChatColor.GREEN + updater.getLatestName() + " is the latest version available!");
+		}
+		if (updater.getResult() == Updater.UpdateResult.DISABLED) {
+			console.sendMessage(ChatColor.RED + pdfFile.getName() + " autoupdate is disabled in the configuration!");
+		}
+		if (updater.getResult() == Updater.UpdateResult.FAIL_DOWNLOAD) {
+			console.sendMessage(ChatColor.RED + pdfFile.getName() + " failed to download " + updater.getLatestName());
+		}
+		if (updater.getResult() == Updater.UpdateResult.FAIL_DBO) {
+			console.sendMessage(
+					ChatColor.RED + pdfFile.getName() + " updater was unable to contact DBO to download the update!");
+		}
+		if (updater.getResult() == Updater.UpdateResult.FAIL_NOVERSION) {
+			console.sendMessage(ChatColor.RED + pdfFile.getName() + " no file version found!");
+		}
+		if (updater.getResult() == Updater.UpdateResult.FAIL_BADID) {
+			console.sendMessage(ChatColor.RED + pdfFile.getName() + " Invalid Plugin ID");
+		}
+		if (updater.getResult() == Updater.UpdateResult.FAIL_APIKEY) {
+			console.sendMessage(ChatColor.RED + pdfFile.getName() + " Invalid Plugin API Key");
+		}
+		if (updater.getResult() == Updater.UpdateResult.UPDATE_AVAILABLE) {
+			console.sendMessage(ChatColor.RED + pdfFile.getName() + " has found update" + updater.getLatestName()
+					+ " , but it was not downloaded");
+		}
+		switch (result) {
+		case DISABLED: {
+			break;
+		}
+		case FAIL_APIKEY: {
+			break;
+		}
+		case FAIL_BADID: {
+			break;
+		}
+		case FAIL_DBO: {
+			break;
+		}
+		case FAIL_DOWNLOAD: {
+			break;
+		}
+		case FAIL_NOVERSION: {
+			break;
+		}
+		case NO_UPDATE: {
+			break;
+		}
+		case SUCCESS: {
+			break;
+		}
+		case UPDATE_AVAILABLE: {
+			break;
+		}
+		}
+	}
 }

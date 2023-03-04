@@ -6,19 +6,17 @@ import org.bukkit.event.inventory.FurnaceExtractEvent;
 
 import io.github.xBlackPoison357x.UltimatePlugin.UltimatePlugin;
 
-public class FurnaceExtractEvents
-implements Listener {
-    private UltimatePlugin plugin;
+public class FurnaceExtractEvents implements Listener {
+	private UltimatePlugin plugin;
 
-    public FurnaceExtractEvents(UltimatePlugin instance) {
-        this.plugin = instance;
-    }
+	public FurnaceExtractEvents(UltimatePlugin instance) {
+		plugin = instance;
+	}
 
-    @EventHandler
-    public void onSmelt(FurnaceExtractEvent e) {
-        if (this.plugin.getDisableEXPConfig().getBoolean("EXP.Smelt")) {
-            e.setExpToDrop(0);
-        }
-    }
+	@EventHandler
+	public void onSmelt(FurnaceExtractEvent e) {
+		if (plugin.getDisableEXPConfig().getBoolean("EXP.Smelt")) {
+			e.setExpToDrop(0);
+		}
+	}
 }
-
