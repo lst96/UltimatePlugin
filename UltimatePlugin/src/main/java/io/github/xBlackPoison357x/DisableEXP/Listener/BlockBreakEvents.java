@@ -7,7 +7,7 @@ import org.bukkit.event.block.BlockBreakEvent;
 import io.github.xBlackPoison357x.UltimatePlugin.UltimatePlugin;
 
 public class BlockBreakEvents implements Listener {
-	private UltimatePlugin plugin;
+	public UltimatePlugin plugin;
 
 	public BlockBreakEvents(UltimatePlugin instance) {
 		plugin = instance;

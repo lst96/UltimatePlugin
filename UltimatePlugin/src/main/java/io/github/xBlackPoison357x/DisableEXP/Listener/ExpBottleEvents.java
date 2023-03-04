@@ -7,7 +7,7 @@ import org.bukkit.event.entity.ExpBottleEvent;
 import io.github.xBlackPoison357x.UltimatePlugin.UltimatePlugin;
 
 public class ExpBottleEvents implements Listener {
-	private UltimatePlugin plugin;
+	public UltimatePlugin plugin;
 
 	public ExpBottleEvents(UltimatePlugin instance) {
 		plugin = instance;

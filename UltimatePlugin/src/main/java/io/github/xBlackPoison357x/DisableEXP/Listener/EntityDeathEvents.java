@@ -7,7 +7,7 @@ import org.bukkit.event.entity.EntityDeathEvent;
 import io.github.xBlackPoison357x.UltimatePlugin.UltimatePlugin;
 
 public class EntityDeathEvents implements Listener {
-	private UltimatePlugin plugin;
+	public UltimatePlugin plugin;
 
 	public EntityDeathEvents(UltimatePlugin instance) {
 		plugin = instance;

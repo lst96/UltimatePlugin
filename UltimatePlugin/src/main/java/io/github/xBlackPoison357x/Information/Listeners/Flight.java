@@ -9,7 +9,7 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import io.github.xBlackPoison357x.UltimatePlugin.UltimatePlugin;
 
 public class Flight implements Listener {
-	private UltimatePlugin plugin;
+	public UltimatePlugin plugin;
 
 	public Flight(UltimatePlugin instance) {
 		plugin = instance;

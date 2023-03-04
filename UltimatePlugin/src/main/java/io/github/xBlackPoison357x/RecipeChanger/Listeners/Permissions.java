@@ -11,7 +11,7 @@ import org.bukkit.inventory.ItemStack;
 import io.github.xBlackPoison357x.UltimatePlugin.UltimatePlugin;
 
 public class Permissions implements Listener {
-	private UltimatePlugin plugin;
+	public UltimatePlugin plugin;
 
 	public Permissions(UltimatePlugin instance) {
 		plugin = instance;

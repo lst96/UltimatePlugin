@@ -10,7 +10,7 @@ import org.bukkit.command.CommandSender;
 import io.github.xBlackPoison357x.UltimatePlugin.UltimatePlugin;
 
 public class Website implements CommandExecutor {
-	private UltimatePlugin plugin;
+	public UltimatePlugin plugin;
 
 	public Website(UltimatePlugin instance) {
 		plugin = instance;

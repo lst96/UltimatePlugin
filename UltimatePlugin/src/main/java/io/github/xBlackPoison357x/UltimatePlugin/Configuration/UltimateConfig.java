@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import io.github.xBlackPoison357x.UltimatePlugin.UltimatePlugin;
 
 public class UltimateConfig {
-	private UltimatePlugin plugin;
+	public UltimatePlugin plugin;
 
 	public UltimateConfig(UltimatePlugin instance) {
 		plugin = instance;
@@ -15,12 +15,13 @@ public class UltimateConfig {
 
 	public void setDefaultConfig(File configf) {
 		plugin.getDefaultConfig().set("UltimatePlugin", plugin.pdfFile.getVersion());
-		plugin.getDefaultConfig().set("autoupdate", true);
+		plugin.getDefaultConfig().set("updatenotifier", true); 
 		plugin.getDefaultConfig().set("Enabled Plugin Components.Information", true);
 		plugin.getDefaultConfig().set("Enabled Plugin Components.RecipeChanger", true);
 		plugin.getDefaultConfig().set("Enabled Plugin Components.DisableEXP", true);
 		plugin.getDefaultConfig().set("Enabled Plugin Components.FrameProtector", true);
 		plugin.getDefaultConfig().set("Enabled Plugin Components.DisableCommands", true);
+		plugin.getDefaultConfig().set("Enabled Plugin Components.UltimatePlugin", true);
 		try {
 			plugin.getDefaultConfig().save(configf);
 		} catch (IOException e) {

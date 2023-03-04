@@ -5,19 +5,14 @@ import java.io.IOException;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.Server;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.event.Listener;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bstats.bukkit.Metrics;
 import net.gravitydevelopment.updater.Updater;
-import net.gravitydevelopment.updater.Updater.ReleaseType;
 import io.github.xBlackPoison357x.DisableCommands.commands.ARLRCommand;
 import io.github.xBlackPoison357x.DisableCommands.commands.CommandBlock;
 import io.github.xBlackPoison357x.DisableEXP.Listener.BlockBreakEvents;
@@ -65,95 +60,83 @@ public class UltimatePlugin extends JavaPlugin {
 	public boolean autoUpdate = false;
 	public boolean metrics = false;
 	Updater updater;
-	Server server = Bukkit.getServer();
 	UltimateConfig ul = new UltimateConfig(this);
-	public ConsoleCommandSender console = server.getConsoleSender();
-	private File configf;
-	private File disableexpf;
+	public ConsoleCommandSender console = Bukkit.getServer().getConsoleSender();
+	public File configf;
+	public File disableexpf;
 	public File frameprotectorf;
-	private File recipechangerf;
-	private File informationf;
-	private File disablecommandsf;
-	private File disablecommandmessagesf;
-	private FileConfiguration config;
-	private FileConfiguration DisableEXP;
-	private FileConfiguration FrameProtector;
-	private FileConfiguration RecipeChanger;
-	private FileConfiguration Information;
-	private FileConfiguration DisableCommands;
-	private FileConfiguration DisableCommandMessages;
-	public static boolean update = false;
-	public static String name = "";
-	public static ReleaseType type = null;
-	public static String version = "";
-	public static String link = "";
-
+	public File recipechangerf;
+	public File informationf;
+	public File disablecommandsf;
+	public File disablecommandmessagesf;
+	public FileConfiguration config;
+	public FileConfiguration DisableEXP;
+	public FileConfiguration FrameProtector;
+	public FileConfiguration RecipeChanger;
+	public FileConfiguration Information;
+	public FileConfiguration DisableCommands;
+	public FileConfiguration DisableCommandMessages;
+	
 	public void onEnable() {
-		pdfFile.getDescription();
 		PREFIX = ChatColor.GREEN + "[" + pdfFile.getName() + "]";
 		console.sendMessage(String.valueOf(PREFIX) + ChatColor.GREEN + " UltimatePlugin version " + pdfFile.getVersion()
 				+ " has been enabled.");
 		console.sendMessage(String.valueOf(PREFIX) + ChatColor.GREEN + " Developed by: " + pdfFile.getAuthors());
 		createFiles();
-		Crafting cr = new Crafting(this);
-		cr.SetupCrafting();
-		System.gc();
-		int pluginID = 17259;
-		Metrics metrics = new Metrics(this, pluginID);
+		new Metrics(this, 17259);
 		if (getDefaultConfig().getBoolean("Enabled Plugin Components.Information")) {
-			getCommand("website").setExecutor((CommandExecutor) new Website(this));
-			getCommand("donate").setExecutor((CommandExecutor) new Donate(this));
-			getCommand("player").setExecutor((CommandExecutor) new PlayerInfo(this));
-			getCommand("infovote").setExecutor((CommandExecutor) new Vote(this));
-			getCommand("staff").setExecutor((CommandExecutor) new Staff(this));
-			getCommand("rules").setExecutor((CommandExecutor) new Rules(this));
-			getCommand("ram").setExecutor((CommandExecutor) new Ram(this));
-			getCommand("motd").setExecutor((CommandExecutor) new Motd(this));
-			getCommand("online").setExecutor((CommandExecutor) new Online(this));
-			getCommand("ip").setExecutor((CommandExecutor) new Ip(this));
-			getCommand("twitter").setExecutor((CommandExecutor) new Twitter(this));
-			getCommand("facebook").setExecutor((CommandExecutor) new Facebook(this));
-			getCommand("einfo").setExecutor((CommandExecutor) new Einfo(this));
-			getCommand("youtube").setExecutor((CommandExecutor) new Youtube(this));
-			getCommand("stats").setExecutor((CommandExecutor) new Stats(this));
-			getCommand("enchantall").setExecutor((CommandExecutor) new Enchant(this));
-			getCommand("uuid").setExecutor((CommandExecutor) new PlayerUUID(this));
-			getServer().getPluginManager().registerEvents((Listener) new BossMessage(this), (Plugin) this);
-			getServer().getPluginManager().registerEvents((Listener) new Elistener(this), (Plugin) this);
-			getServer().getPluginManager().registerEvents((Listener) new Flight(this), (Plugin) this);
-			getServer().getPluginManager().registerEvents((Listener) new Creative(this), (Plugin) this);
-			getServer().getPluginManager().registerEvents((Listener) new JoinWorld(this), (Plugin) this);
-			getServer().getPluginManager().registerEvents((Listener) new NetherBlock(this), (Plugin) this);
-			getServer().getPluginManager().registerEvents((Listener) new Kits(this), (Plugin) this);
-			getServer().getScheduler().scheduleSyncRepeatingTask((Plugin) this, (Runnable) new Tps(), 100L, 1L);
+			getCommand("website").setExecutor(new Website(this));
+			getCommand("donate").setExecutor(new Donate(this));
+			getCommand("player").setExecutor(new PlayerInfo(this));
+			getCommand("infovote").setExecutor(new Vote(this));
+			getCommand("staff").setExecutor(new Staff(this));
+			getCommand("rules").setExecutor(new Rules(this));
+			getCommand("ram").setExecutor(new Ram(this));
+			getCommand("motd").setExecutor(new Motd(this));
+			getCommand("online").setExecutor(new Online(this));
+			getCommand("ip").setExecutor(new Ip(this));
+			getCommand("twitter").setExecutor(new Twitter(this));
+			getCommand("facebook").setExecutor(new Facebook(this));
+			getCommand("einfo").setExecutor(new Einfo(this));
+			getCommand("youtube").setExecutor(new Youtube(this));
+			getCommand("stats").setExecutor(new Stats(this));
+			getCommand("enchantall").setExecutor(new Enchant(this));
+			getCommand("uuid").setExecutor(new PlayerUUID(this));
+			getServer().getPluginManager().registerEvents(new BossMessage(this), this);
+			getServer().getPluginManager().registerEvents(new Elistener(this), this);
+			getServer().getPluginManager().registerEvents(new Flight(this), this);
+			getServer().getPluginManager().registerEvents(new Creative(this), this);
+			getServer().getPluginManager().registerEvents(new JoinWorld(this), this);
+			getServer().getPluginManager().registerEvents(new NetherBlock(this), this);
+			getServer().getPluginManager().registerEvents(new Kits(this), this);
+			getServer().getScheduler().scheduleSyncRepeatingTask(this, new Tps(), 100L, 1L);
 
 		}
 		if (getDefaultConfig().getBoolean("Enabled Plugin Components.RecipeChanger")) {
-			getServer().getPluginManager().registerEvents((Listener) new Permissions(this), (Plugin) this);
-			getServer().getPluginManager().registerEvents((Listener) new Crafting(this), (Plugin) this);
+			getServer().getPluginManager().registerEvents(new Permissions(this), this);
+			getServer().getPluginManager().registerEvents(new Crafting(this), this);
+			Crafting.getInstance().SetupCrafting();
 		}
 		if (getDefaultConfig().getBoolean("Enabled Plugin Components.FrameProtector")) {
-			getServer().getPluginManager().registerEvents((Listener) new ItemRemove(this), (Plugin) this);
-			getServer().getPluginManager().registerEvents((Listener) new ItemFramePlace(this), (Plugin) this);
+			getServer().getPluginManager().registerEvents(new ItemRemove(this), this);
+			//getServer().getPluginManager().registerEvents(new ItemFramePlace(this), this);
 		}
 		if (getDefaultConfig().getBoolean("Enabled Plugin Components.DisableEXP")) {
-			getServer().getPluginManager().registerEvents((Listener) new EntityDeathEvents(this), (Plugin) this);
-			getServer().getPluginManager().registerEvents((Listener) new BlockBreakEvents(this), (Plugin) this);
-			getServer().getPluginManager().registerEvents((Listener) new FurnaceExtractEvents(this), (Plugin) this);
-			getServer().getPluginManager().registerEvents((Listener) new PlayerFishEvents(this), (Plugin) this);
-			getServer().getPluginManager().registerEvents((Listener) new ExpBottleEvents(this), (Plugin) this);
-			getServer().getPluginManager().registerEvents((Listener) new PlayerExpChangeEvents(this), (Plugin) this);
-			getServer().getPluginManager().registerEvents((Listener) new EntityBreedEvents(this), (Plugin) this);
+			getServer().getPluginManager().registerEvents(new EntityDeathEvents(this), this);
+			getServer().getPluginManager().registerEvents(new BlockBreakEvents(this), this);
+			getServer().getPluginManager().registerEvents(new FurnaceExtractEvents(this), this);
+			getServer().getPluginManager().registerEvents(new PlayerFishEvents(this), this);
+			getServer().getPluginManager().registerEvents(new ExpBottleEvents(this), this);
+			getServer().getPluginManager().registerEvents(new PlayerExpChangeEvents(this), this);
+			getServer().getPluginManager().registerEvents(new EntityBreedEvents(this), this);
 		}
 		if (getDefaultConfig().getBoolean("Enabled Plugin Components.DisableCommands")) {
-			getCommand("disablecommands").setExecutor((CommandExecutor) new ARLRCommand(this));
-			getServer().getPluginManager().registerEvents((Listener) new CommandBlock(this), (Plugin) this);
+			getCommand("disablecommands").setExecutor(new ARLRCommand(this));
+			getServer().getPluginManager().registerEvents(new CommandBlock(this), this);
 		}
-		getCommand("ultimateupdate").setExecutor((CommandExecutor) new UltimateUpdate(this));
-		joinUpdater();
-		autoUpdate = getDefaultConfig().getBoolean("autoupdate");
-		if (autoUpdate) {
+		if (getDefaultConfig().getBoolean("Enabled Plugin Components.UltimatePlugin")) {
 			setupUpdater();
+			getCommand("ultimateupdate").setExecutor(new UltimateUpdate(this));
 		}
 	}
 
@@ -185,7 +168,7 @@ public class UltimatePlugin extends JavaPlugin {
 		return FrameProtector;
 	}
 
-	private void createFiles() {
+	public void createFiles() {
 		configf = new File(getDataFolder(), "config.yml");
 		disableexpf = new File(getDataFolder(), "DisableEXP.yml");
 		disablecommandsf = new File(getDataFolder(), "DisableCommands.yml");
@@ -301,17 +284,8 @@ public class UltimatePlugin extends JavaPlugin {
 			setupUpdater();
 		}
 	}
-
-	public void joinUpdater() {
-		Updater updater = new Updater(this, 102168, getFile(), Updater.UpdateType.NO_DOWNLOAD, false); // Start Updater
-																										// but just do a
-																										// version check
-		update = updater.getResult() == Updater.UpdateResult.UPDATE_AVAILABLE; // Determine if there is an update ready
-																				// for us
-		name = updater.getLatestName(); // Get the latest name
-		version = updater.getLatestGameVersion(); // Get the latest game version
-		type = updater.getLatestType(); // Get the latest file's type
-		link = updater.getLatestFileLink(); // Get the latest link
+	public void commandupdater() {
+		new Updater(this, 102168, getFile(), Updater.UpdateType.NO_VERSION_CHECK, true);
 	}
 
 	public void setupUpdater() {

@@ -11,8 +11,8 @@ import org.bukkit.inventory.ShapelessRecipe;
 import io.github.xBlackPoison357x.UltimatePlugin.UltimatePlugin;
 
 public class Crafting implements Listener {
-	private UltimatePlugin plugin;
-	private static Crafting singleton;
+	public UltimatePlugin plugin;
+	public static Crafting singleton;
 
 	public Crafting(UltimatePlugin instance) {
 		plugin = instance;

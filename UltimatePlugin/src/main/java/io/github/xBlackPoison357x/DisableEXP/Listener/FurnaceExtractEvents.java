@@ -7,7 +7,7 @@ import org.bukkit.event.inventory.FurnaceExtractEvent;
 import io.github.xBlackPoison357x.UltimatePlugin.UltimatePlugin;
 
 public class FurnaceExtractEvents implements Listener {
-	private UltimatePlugin plugin;
+	public UltimatePlugin plugin;
 
 	public FurnaceExtractEvents(UltimatePlugin instance) {
 		plugin = instance;

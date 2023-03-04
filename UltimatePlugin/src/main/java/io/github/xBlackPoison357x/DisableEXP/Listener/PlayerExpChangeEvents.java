@@ -7,7 +7,7 @@ import org.bukkit.event.player.PlayerExpChangeEvent;
 import io.github.xBlackPoison357x.UltimatePlugin.UltimatePlugin;
 
 public class PlayerExpChangeEvents implements Listener {
-	private UltimatePlugin plugin;
+	public UltimatePlugin plugin;
 
 	public PlayerExpChangeEvents(UltimatePlugin instance) {
 		plugin = instance;

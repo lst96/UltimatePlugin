@@ -14,7 +14,7 @@ import org.bukkit.event.hanging.HangingPlaceEvent;
 import io.github.xBlackPoison357x.UltimatePlugin.UltimatePlugin;
 
 public class ItemFramePlace implements Listener {
-	private UltimatePlugin plugin;
+	public UltimatePlugin plugin;
 
 	public ItemFramePlace(UltimatePlugin instance) {
 		plugin = instance;
@@ -39,3 +39,5 @@ public class ItemFramePlace implements Listener {
 		}
 	}
 }
+
+//WIP, currently saves item frame place location but doesn't remove it on deletion nor does it continue saving past 1 item frame placement.

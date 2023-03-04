@@ -9,7 +9,7 @@ import org.bukkit.command.CommandSender;
 import io.github.xBlackPoison357x.UltimatePlugin.UltimatePlugin;
 
 public class Motd implements CommandExecutor {
-	private UltimatePlugin plugin;
+	public UltimatePlugin plugin;
 
 	public Motd(UltimatePlugin instance) {
 		plugin = instance;

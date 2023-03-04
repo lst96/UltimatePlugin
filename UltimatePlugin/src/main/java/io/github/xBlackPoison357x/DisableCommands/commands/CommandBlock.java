@@ -11,7 +11,7 @@ import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import io.github.xBlackPoison357x.UltimatePlugin.UltimatePlugin;
 
 public class CommandBlock implements Listener {
-	private UltimatePlugin plugin;
+	public UltimatePlugin plugin;
 
 	public CommandBlock(UltimatePlugin instance) {
 		plugin = instance;

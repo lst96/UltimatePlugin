@@ -7,7 +7,7 @@ import org.bukkit.event.entity.EntityBreedEvent;
 import io.github.xBlackPoison357x.UltimatePlugin.UltimatePlugin;
 
 public class EntityBreedEvents implements Listener {
-	private UltimatePlugin plugin;
+	public UltimatePlugin plugin;
 
 	public EntityBreedEvents(UltimatePlugin instance) {
 		plugin = instance;

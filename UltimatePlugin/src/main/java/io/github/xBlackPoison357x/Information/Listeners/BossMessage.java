@@ -13,7 +13,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import io.github.xBlackPoison357x.UltimatePlugin.UltimatePlugin;
 
 public class BossMessage implements Listener {
-	private UltimatePlugin plugin;
+	public UltimatePlugin plugin;
 
 	public BossMessage(UltimatePlugin instance) {
 		plugin = instance;

@@ -21,7 +21,7 @@ import org.bukkit.event.player.PlayerInteractEntityEvent;
 import io.github.xBlackPoison357x.UltimatePlugin.UltimatePlugin;
 
 public class ItemRemove implements Listener {
-	private UltimatePlugin plugin;
+	public UltimatePlugin plugin;
 
 	public ItemRemove(UltimatePlugin instance) {
 		plugin = instance;
@@ -113,7 +113,7 @@ public class ItemRemove implements Listener {
 	}
 
 	// TODO: fix this
-	private static final BlockFace[] SIDES = new BlockFace[] { BlockFace.UP, BlockFace.DOWN, BlockFace.NORTH,
+	public static final BlockFace[] SIDES = new BlockFace[] { BlockFace.UP, BlockFace.DOWN, BlockFace.NORTH,
 			BlockFace.SOUTH, BlockFace.WEST, BlockFace.EAST };
 
 	@EventHandler(priority = EventPriority.HIGHEST)

@@ -10,7 +10,7 @@ import org.bukkit.command.CommandSender;
 import io.github.xBlackPoison357x.UltimatePlugin.UltimatePlugin;
 
 public class ARLRCommand implements CommandExecutor {
-	private UltimatePlugin plugin;
+	public UltimatePlugin plugin;
 
 	public ARLRCommand(UltimatePlugin instance) {
 		plugin = instance;

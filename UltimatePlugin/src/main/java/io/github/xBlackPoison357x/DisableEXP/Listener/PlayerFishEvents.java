@@ -7,7 +7,7 @@ import org.bukkit.event.player.PlayerFishEvent;
 import io.github.xBlackPoison357x.UltimatePlugin.UltimatePlugin;
 
 public class PlayerFishEvents implements Listener {
-	private UltimatePlugin plugin;
+	public UltimatePlugin plugin;
 
 	public PlayerFishEvents(UltimatePlugin instance) {
 		plugin = instance;

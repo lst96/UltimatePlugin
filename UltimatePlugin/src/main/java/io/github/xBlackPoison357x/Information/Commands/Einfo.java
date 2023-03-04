@@ -10,7 +10,7 @@ import org.bukkit.command.CommandSender;
 import io.github.xBlackPoison357x.UltimatePlugin.UltimatePlugin;
 
 public class Einfo implements CommandExecutor {
-	private UltimatePlugin plugin;
+	public UltimatePlugin plugin;
 
 	public Einfo(UltimatePlugin instance) {
 		plugin = instance;

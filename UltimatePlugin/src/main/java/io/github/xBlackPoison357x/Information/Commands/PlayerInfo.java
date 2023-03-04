@@ -10,7 +10,7 @@ import org.bukkit.entity.Player;
 import io.github.xBlackPoison357x.UltimatePlugin.UltimatePlugin;
 
 public class PlayerInfo implements CommandExecutor {
-	private UltimatePlugin plugin;
+	public UltimatePlugin plugin;
 
 	public PlayerInfo(UltimatePlugin instance) {
 		plugin = instance;

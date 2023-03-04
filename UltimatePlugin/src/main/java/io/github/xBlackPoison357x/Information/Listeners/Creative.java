@@ -10,7 +10,7 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import io.github.xBlackPoison357x.UltimatePlugin.UltimatePlugin;
 
 public class Creative implements Listener {
-	private UltimatePlugin plugin;
+	public UltimatePlugin plugin;
 
 	public Creative(UltimatePlugin instance) {
 		plugin = instance;

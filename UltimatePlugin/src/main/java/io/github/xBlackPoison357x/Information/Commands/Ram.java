@@ -11,7 +11,7 @@ import io.github.xBlackPoison357x.UltimatePlugin.UltimatePlugin;
 
 public class Ram implements CommandExecutor {
 	public final long serverStart = System.currentTimeMillis();
-	private UltimatePlugin plugin;
+	public UltimatePlugin plugin;
 
 	public Ram(UltimatePlugin instance) {
 		plugin = instance;

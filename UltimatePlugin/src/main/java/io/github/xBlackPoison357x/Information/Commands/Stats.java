@@ -10,7 +10,7 @@ import org.bukkit.entity.SpawnCategory;
 import io.github.xBlackPoison357x.UltimatePlugin.UltimatePlugin;
 
 public class Stats implements CommandExecutor {
-	private UltimatePlugin plugin;
+	public UltimatePlugin plugin;
 
 	public Stats(UltimatePlugin instance) {
 		plugin = instance;

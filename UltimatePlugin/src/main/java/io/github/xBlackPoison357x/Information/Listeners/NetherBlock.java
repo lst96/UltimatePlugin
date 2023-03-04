@@ -14,7 +14,7 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import io.github.xBlackPoison357x.UltimatePlugin.UltimatePlugin;
 
 public class NetherBlock implements Listener {
-	private UltimatePlugin plugin;
+	public UltimatePlugin plugin;
 
 	public NetherBlock(UltimatePlugin instance) {
 		plugin = instance;
@@ -36,7 +36,7 @@ public class NetherBlock implements Listener {
 		}
 	}
 
-	private Location getWorldSpawn() {
+	public Location getWorldSpawn() {
 		for (final World world : Bukkit.getServer().getWorlds()) {
 			if (world.getEnvironment() != World.Environment.NORMAL) {
 				continue;
