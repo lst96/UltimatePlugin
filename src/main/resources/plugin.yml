@@ -1,0 +1,347 @@
+name: UltimatePlugin
+version: 1.1
+author: BlackPoison357
+main: io.github.xBlackPoison357x.UltimatePlugin.UltimatePlugin
+api-version: 1.16
+commands:
+  website: 
+      description: Displays your Website link.
+      aliases: [infowebsite]
+  Donate:
+      description: Displays donation link.
+      aliases: [infodonate]
+  InfoVote:
+      description: Displays voting link.
+      aliases: [vote]
+  Staff:
+      description: Displays staff. 
+      aliases: [infostaff]
+  Rules:
+      description: Displays rules.
+      aliases: [inforules]
+  Ram:
+      description: Displays Ram usage.
+      aliases: [inforam]
+  Motd:
+      description: Displays Motd.
+      aliases: [infomotd]
+  Online:
+      description: Displays online players.
+      aliases: [infoonline]
+  Ip:
+      description: Displays Server Ip.
+      aliases: [infoip]
+  Player:
+      description: Displays player info.
+      aliases: [infoplayer]
+  Twitter:
+      description: Displays twitter link.
+      aliases: [infotwitter]
+  Facebook:
+      description: Displays facebook link.
+      aliases: [infofacebook]
+  Einfo:
+      description: Displays Extra Information about the server.
+      aliases: [info]
+  Youtube:
+      description: Displays youtube link.
+      aliases: [infoyoutube]
+  Stats:
+      description: Displays Stats about the server.   
+      aliases: [infostats]
+  Enchantall:
+      description: Enchants an item fully.
+      aliases: [enchant]
+  Uuid:
+      description: Gets a player's UUID.
+      aliases: [infouuid]
+  Ultimateupdate:
+      description: manually checks for an update.
+      aliases: [uupdate]
+  disablecommands:
+    description: Allows addition, listing, and removing commands from the forbidden commands list.
+    usage: |
+      /disablecommands - Shows the help menu
+      /disablecommands add <command> - Adds to the disabled commands list (Don't add /)
+      /disablecommands remove <command> - Removes a command from the disabled commands list.
+      /disablecommands list - Lists all the disabled commands.
+permissions:
+    ultimate.update:
+        default: false
+    information.*:
+        description: Gives access to all information commands
+        children:
+            information.website: true
+            information.donate: true
+            information.vote: true
+            information.staff: true
+            information.rules: true
+            information.ram: true
+            information.online: true
+            information.ip: true
+            information.player: true
+            information.twitter: true
+            information.facebook: true
+            information.extra: true
+            information.youtube: true
+            information.stats: true
+            information.creativebypass.world: true
+            information.creativebypass.nether: true
+            information.creativebypass.end: true
+            information.joinbypass.world: true
+            information.joinbypass.nether: true
+            information.joinbypass.end: true
+            information.uuid: true
+            information.netherbuild.notify: true
+            information.netherbuildbypass: true
+            information.starterkit: true
+            information.bossmessage:  true
+    information.member:
+        description: Gives access to member commands
+        children:
+            information.website: true
+            information.donate: true
+            information.vote: true
+            information.staff: true
+            information.ram: false
+            information.online: false
+            information.ip: true
+            information.player: false
+            information.twitter: true
+            information.facebook: true
+            information.extra: true
+            information.youtube: true
+            information.stats: false
+            information.creativebypass.world: false
+            information.creativebypass.nether: false
+            information.creativebypass.end: false
+            information.joinbypass.world: false
+            information.joinbypass.nether: false
+            information.joinbypass.end: false
+            information.uuid: false
+            information.netherbuild.notify: true    
+            information.netherbuildbypass: false
+            information.starterkit: false
+            information.bossmessage:  true
+    information.admin:
+        description: Gives access to admin commands
+        children:
+            information.website: true
+            information.donate: true
+            information.vote: true
+            information.staff: true
+            information.rules: true
+            information.ram: true
+            information.online: true
+            information.ip: true
+            information.player: true
+            information.twitter: true
+            information.facebook: true
+            information.extra: true
+            information.youtube: true
+            information.stats: true
+            information.flightbypass.world: true
+            information.flightbypass.nether: true
+            information.flightbypass.end: true
+            information.creativebypass.world: true
+            information.creativebypass.nether: true
+            information.creativebypass.end: true
+            information.joinbypass.world: true
+            information.joinbypass.nether: true
+            information.joinbypass.end: true
+            information.uuid: true
+            information.netherbuild.notify: true     
+            information.netherbuildbypass: true     
+            information.starterkit: true 
+            information.safezoneflight: true
+            information.enemyflight: true
+            information.neutralflight: true
+            information.allyflight: true
+            information.truceflight: true
+            information.warzoneflight: true
+            information.wildernessflight: true
+            information.nosafezonedamage: true
+            information.bossmessage:  true
+    recipe.*:
+        description: gives all permissions.
+        children:
+            recipe.ironhorse: true
+            recipe.goldhorse: true
+            recipe.diamondhorse: true
+            recipe.nametag: true
+            recipe.gunpowder: true
+            recipe.dragonegg: true
+            recipe.redstoneore: true
+            recipe.saddle: true
+            recipe.bedrock: true 
+            recipe.sponge: true
+            recipe.enchanting: true
+            recipe.chainleggings: true
+            recipe.chainboots: true
+            recipe.chainhelmet: true
+            recipe.chainchest: true 
+            recipe.fire: true
+            recipe.tallgrass: true 
+            recipe.grassblock: true
+            recipe.ice: true
+            recipe.cobweb: true
+            recipe.mobspawner: true
+            recipe.command: true
+            recipe.podzol: true
+            recipe.doubletallgrass: true
+            recipe.packedice: true
+            recipe.cowegg: true
+            recipe.chickenegg: true
+            recipe.sheepegg: true
+            recipe.horseegg: true
+            recipe.bategg: true
+            recipe.mooshroomegg: true
+            recipe.ocelotegg: true
+            recipe.squidegg: true
+            recipe.wolfegg: true
+            recipe.pigegg: true
+            recipe.obsidian: true
+            reciep.leather: true
+            recipe.cocoabean: true
+            recipe.stal: true
+            recipe.11: true
+            recipe.far: true
+            recipe.13: true
+            recipe.cat: true
+            recipe.blocks: true
+            recipe.mellhoi: true
+            recipe.chirp: true
+            recipe.strad: true
+            recipe.mall: true 
+            recipe.shulker: true     
+    recipe.member:
+        description: gives all permissions.
+        children:
+            recipe.ironhorse: true
+            recipe.goldhorse: true
+            recipe.diamondhorse: true
+            recipe.nametag: true
+            recipe.gunpowder: true
+            recipe.dragonegg: false
+            recipe.redstoneore: true
+            recipe.saddle: true
+            recipe.bedrock: false
+            recipe.sponge: true
+            recipe.enchanting: true
+            recipe.chainleggings: true
+            recipe.chainboots: true
+            recipe.chainhelmet: true
+            recipe.chainchest: true 
+            recipe.fire: false
+            recipe.chiseled: true
+            recipe.tallgrass: true 
+            recipe.grassblock: true
+            recipe.ice: true
+            recipe.cobweb: true
+            recipe.mobspawner: false
+            recipe.command: false
+            recipe.podzol: true
+            recipe.doubletallgrass: true
+            recipe.packedice: true
+            recipe.cowegg: true
+            recipe.chickenegg: true
+            recipe.sheepegg: true
+            recipe.horseegg: true
+            recipe.bategg: true
+            recipe.mooshroomegg: true
+            recipe.ocelotegg: true
+            recipe.squidegg: true
+            recipe.wolfegg: true
+            recipe.pigegg: true
+            recipe.obsidian: true
+            recipe.leather: true
+            recipe.cocoabean: true
+            recipe.stal: true
+            recipe.11: true
+            recipe.far: true
+            recipe.13: true
+            recipe.cat: true
+            recipe.blocks: true
+            recipe.mellhoi: true
+            recipe.chirp: true
+            recipe.strad: true
+            recipe.mall: true
+            recipe.shulker: true    
+    recipe.admin:
+        description: gives all permissions.
+        children:
+            recipe.ironhorse: true
+            recipe.goldhorse: true
+            recipe.diamondhorse: true
+            recipe.nametag: true
+            recipe.gunpowder: true
+            recipe.dragonegg: true
+            recipe.redstoneore: true
+            recipe.saddle: true
+            recipe.bedrock: true 
+            recipe.sponge: true
+            recipe.enchanting: true
+            recipe.chainleggings: true
+            recipe.chainboots: true
+            recipe.chainhelmet: true
+            recipe.chainchest: true 
+            recipe.fire: true
+            recipe.tallgrass: true 
+            recipe.grassblock: true
+            recipe.ice: true
+            recipe.cobweb: true
+            recipe.mobspawner: true
+            recipe.command: true
+            recipe.podzol: true
+            recipe.doubletallgrass: true
+            recipe.packedice: true
+            recipe.cowegg: true
+            recipe.chickenegg: true
+            recipe.sheepegg: true
+            recipe.horseegg: true
+            recipe.bategg: true
+            recipe.mooshroomegg: true
+            recipe.ocelotegg: true
+            recipe.squidegg: true
+            recipe.wolfegg: true
+            recipe.pigegg: true
+            recipe.obsidian: true
+            recipe.leather: true
+            recipe.cocoabean: true
+            recipe.stal: true
+            recipe.11: true
+            recipe.far: true
+            recipe.13: true
+            recipe.cat: true
+            recipe.blocks: true
+            recipe.mellhoi: true
+            recipe.chirp: true
+            recipe.strad: true
+            recipe.mall: true
+            recipe.shulker: true
+    frame.*:
+      description: Gives all permissions.
+      children:
+        frame.remove: true
+        frame.place: true
+        frame.item.remove: true
+        frame.rotate: true
+    disablecommands.*:
+        description: Gives all permissions to do with DisableCommands
+        children:
+        disablecommands.bypass: true
+        disablecommands.add: true
+        disablecommands.remove: true
+        disablecommands.list: true
+    disablecommands.bypass:
+        description: Bypasses command blocker
+        default: false
+    disablecommands.add:
+      description: Adds to the disabled commands list
+      default: false
+    disablecommands.remove:
+      description: Removes from the disabled commands list
+      default: false
+    disablecommands.list:
+      description: Lists all the disabled commands
+      default: false

@@ -8,24 +8,23 @@ import org.bukkit.command.CommandSender;
 
 import io.github.xBlackPoison357x.UltimatePlugin.UltimatePlugin;
 
-public class Online implements CommandExecutor {
+public class Motd implements CommandExecutor {
 	public UltimatePlugin plugin;
 
-	public Online(UltimatePlugin instance) {
+	public Motd(UltimatePlugin instance) {
 		plugin = instance;
 	}
 
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
-		if (commandLabel.equalsIgnoreCase("online")) {
+		if (commandLabel.equalsIgnoreCase("motd")) {
 			// empty if block
 		}
-		if (sender.isOp() || sender.hasPermission("information.online")) {
-			sender.sendMessage(ChatColor.DARK_RED + plugin.pdfFile.getName() + ChatColor.GREEN
-					+ Bukkit.getOnlinePlayers().size() + ChatColor.RESET + ChatColor.YELLOW + " of " + ChatColor.RESET
-					+ ChatColor.GREEN + Bukkit.getMaxPlayers());
+		if (sender.isOp() || sender.hasPermission("information.motd")) {
+			sender.sendMessage(
+					ChatColor.DARK_RED + "[" + plugin.pdfFile.getName() + "] " + ChatColor.YELLOW + Bukkit.getMotd().toString());
 			return true;
 		}
-		sender.sendMessage(ChatColor.DARK_RED + plugin.pdfFile.getName() + ChatColor.RED
+		sender.sendMessage(ChatColor.DARK_RED + "[" + plugin.pdfFile.getName() + "] " + ChatColor.RED
 				+ " I'm sorry, but you do not have permission to perform this command. Please contact the server administrators if you believe that this is in error.");
 		return true;
 	}

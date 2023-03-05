@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<classpath>
-	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="lib" path="C:/Users/Lucky/Desktop/Minecraft/Spigot Server/Spigot Update/spigot-1.11.jar"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="C:/Users/Lucky/Desktop/Minecraft/Spigot Server/plugins/Factions.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Lucky/Desktop/Minecraft/Spigot Server/plugins/MassiveCore.jar"/>
-	<classpathentry kind="output" path="bin"/>
-</classpath>

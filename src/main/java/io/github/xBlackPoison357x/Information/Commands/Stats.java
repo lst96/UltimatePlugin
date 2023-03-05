@@ -41,17 +41,20 @@ public class Stats implements CommandExecutor {
 			sender.sendMessage(ChatColor.GOLD + "[Ticks Per Ambient Spawn]: " + ChatColor.WHITE
 					+ Bukkit.getTicksPerSpawns(SpawnCategory.AMBIENT));
 			sender.sendMessage(ChatColor.GOLD + "[Ops]: " + ChatColor.WHITE + Bukkit.getServer().getOperators());
-			if (Bukkit.getVersion().startsWith("git-Bukkit")) {
+			if (Bukkit.getVersion().contains("Bukkit")) {
 				sender.sendMessage(ChatColor.GOLD + "[CraftBukkit Version]: " + ChatColor.WHITE + Bukkit.getVersion()
 						+ " (Implementing API version " + Bukkit.getBukkitVersion() + ")");
-			} else if (Bukkit.getVersion().startsWith("git-Spigot")) {
+			} else if (Bukkit.getVersion().contains("Spigot")) {
 				sender.sendMessage(ChatColor.GOLD + "[Spigot Version]: " + ChatColor.WHITE + Bukkit.getVersion()
+						+ " (Implementing API version " + Bukkit.getBukkitVersion() + ")");
+			} else if (Bukkit.getVersion().contains("Paper")) {
+				sender.sendMessage(ChatColor.GOLD + "[Paper Version]: " + ChatColor.WHITE + Bukkit.getVersion()
 						+ " (Implementing API version " + Bukkit.getBukkitVersion() + ")");
 			} else {
 				sender.sendMessage(ChatColor.GOLD + "[Unknown Version]: " + ChatColor.WHITE + Bukkit.getVersion()
 						+ " (Implementing API version " + Bukkit.getBukkitVersion() + ")");
 			}
-			sender.sendMessage(ChatColor.GOLD + plugin.pdfFile.getName() + ChatColor.WHITE
+			sender.sendMessage(ChatColor.GOLD + "[" + plugin.pdfFile.getName() + "]: " + ChatColor.WHITE
 					+ Bukkit.getServer().getPluginManager().getPlugin("UltimatePlugin").getDescription().getVersion());
 			return true;
 		}

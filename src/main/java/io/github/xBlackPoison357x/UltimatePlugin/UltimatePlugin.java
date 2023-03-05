@@ -78,6 +78,7 @@ public class UltimatePlugin extends JavaPlugin {
 	public FileConfiguration DisableCommandMessages;
 	
 	public void onEnable() {
+		pdfFile = getDescription();
 		PREFIX = ChatColor.GREEN + "[" + pdfFile.getName() + "]";
 		console.sendMessage(String.valueOf(PREFIX) + ChatColor.GREEN + " UltimatePlugin version " + pdfFile.getVersion()
 				+ " has been enabled.");
