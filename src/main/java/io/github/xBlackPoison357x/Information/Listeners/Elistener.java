@@ -20,7 +20,7 @@ public class Elistener implements Listener {
 	public void onPlayerJoin(PlayerJoinEvent event) {
 		if (event.getPlayer().isOp() || event.getPlayer().hasPermission("information.extra")) {
 			List<String> Extra = plugin.getInformationConfig().getStringList("Extra");
-			event.getPlayer().sendMessage(ChatColor.DARK_BLUE + "--Extra(s)--");
+			event.getPlayer().sendMessage(ChatColor.BLUE + "--Extra(s)--");
 			for (String Extra1 : Extra) {
 				event.getPlayer().sendMessage(ChatColor.translateAlternateColorCodes((char) '&', Extra1));
 			}

@@ -14,11 +14,11 @@
 		</repository>
 		<repository>
 			<id>dustplanet-releases</id>
-			<url>https://repo.dustplanet.de/ui/native/libs-release-local/</url>
+			<url>https://repo.dustplanet.de/artifactory/libs-release-local</url>
 		</repository>
 	</repositories>
 	<dependencies>
-		<!-- Paper as an example -->
+		<!-- Paper  -->
 		<dependency>
 			<groupId>io.papermc.paper</groupId>
 			<artifactId>paper-api</artifactId>
@@ -32,6 +32,7 @@
 			<version>3.0.1</version>
 			<scope>compile</scope>
 		</dependency>
+		<!-- Updater -->
 		<dependency>
 			<groupId>net.gravitydevelopment.updater</groupId>
 			<artifactId>updater</artifactId>

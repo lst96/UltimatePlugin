@@ -28,7 +28,7 @@ import io.github.xBlackPoison357x.Information.Commands.Donate;
 import io.github.xBlackPoison357x.Information.Commands.Einfo;
 import io.github.xBlackPoison357x.Information.Commands.Enchant;
 import io.github.xBlackPoison357x.Information.Commands.Facebook;
-import io.github.xBlackPoison357x.Information.Commands.Ip;
+import io.github.xBlackPoison357x.Information.Commands.IP;
 import io.github.xBlackPoison357x.Information.Commands.Motd;
 import io.github.xBlackPoison357x.Information.Commands.Online;
 import io.github.xBlackPoison357x.Information.Commands.PlayerInfo;
@@ -95,7 +95,7 @@ public class UltimatePlugin extends JavaPlugin {
 			getCommand("ram").setExecutor(new Ram(this));
 			getCommand("motd").setExecutor(new Motd(this));
 			getCommand("online").setExecutor(new Online(this));
-			getCommand("ip").setExecutor(new Ip(this));
+			getCommand("ip").setExecutor(new IP(this));
 			getCommand("twitter").setExecutor(new Twitter(this));
 			getCommand("facebook").setExecutor(new Facebook(this));
 			getCommand("einfo").setExecutor(new Einfo(this));

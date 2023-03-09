@@ -13,11 +13,11 @@ import io.github.xBlackPoison357x.UltimatePlugin.UltimatePlugin;
 public class Enchant implements CommandExecutor {
 	public Enchant(UltimatePlugin instance) {
 	}
-
+//send error when player doesn't have permission to use
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
 		if (!commandLabel.equalsIgnoreCase("enchantall") || !(sender instanceof Player)) {
 			sender.sendMessage(
-					ChatColor.RED + "Error:" + ChatColor.DARK_RED + " Command can only be used by a player!");
+					ChatColor.RED + "Error:" + ChatColor.RED + " Command can only be used by a player!");
 			return true;
 		}
 		if (sender.isOp() || sender.hasPermission("information.enchantall")) {
@@ -139,7 +139,7 @@ public class Enchant implements CommandExecutor {
 					|| i != Material.IRON_BOOTS || i != Material.LEATHER_BOOTS || i == Material.CHAINMAIL_BOOTS) {
 				// empty if block
 			}
-			player.sendMessage(ChatColor.RED + "Error:" + ChatColor.DARK_RED + " Item in hand can't be enchanted!");
+			player.sendMessage(ChatColor.RED + "Error:" + ChatColor.RED + " Item in hand can't be enchanted!");
 			return true;
 		}
 		return false;

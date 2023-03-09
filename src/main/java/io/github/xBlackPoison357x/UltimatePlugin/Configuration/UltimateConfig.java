@@ -87,6 +87,14 @@ public class UltimateConfig {
 		plugin.getInformationConfig().set("Boss Message.Enable", true);
 		plugin.getInformationConfig().set("Blocktopofnetherbuilding", false);
 		plugin.getInformationConfig().set("Starter Kit", false);
+		plugin.getInformationConfig().set("Messages.Permission Denied",
+				"I'm sorry, but you do not have permission to perform this command. Please contact the server administrator(s) if you believe that this is in error.");
+		plugin.getInformationConfig().set("Messages.Permission Creative Denied", "You are not allowed to use creative in this world!");
+		plugin.getInformationConfig().set("Messages.Permission Flight Denied", "You are not allowed to fly in this world!");
+		plugin.getInformationConfig().set("Messages.Permission.Join World.Config Error", "Config Error, all worlds are disabled, please undisable at least 1 world.");
+		plugin.getInformationConfig().set("Messages.Permission.Join World.Disabled Error", "World disabled, teleporting to");
+		plugin.getInformationConfig().set("Messages.Permission.Join World.Join Error", "You are not allowed to join");
+		
 		try {
 			plugin.getInformationConfig().save(informationf);
 		} catch (IOException e) {

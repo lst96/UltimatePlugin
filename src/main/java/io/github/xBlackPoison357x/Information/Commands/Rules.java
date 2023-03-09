@@ -22,14 +22,13 @@ public class Rules implements CommandExecutor {
 		}
 		if (sender.isOp() || sender.hasPermission("information.rules")) {
 			List<String> Rules2 = plugin.getInformationConfig().getStringList("Rules");
-			sender.sendMessage(ChatColor.DARK_BLUE + "--Current Rule(s)--");
+			sender.sendMessage(ChatColor.BLUE + "--Current Rule(s)--");
 			for (String Rules1 : Rules2) {
 				sender.sendMessage(ChatColor.translateAlternateColorCodes((char) '&', Rules1));
 			}
 			return true;
 		}
-		sender.sendMessage(ChatColor.DARK_RED + plugin.pdfFile.getName() + ChatColor.RED
-				+ " I'm sorry, but you do not have permission to perform this command. Please contact the server administrators if you believe that this is in error.");
-		return true;
+		sender.sendMessage(ChatColor.RED + plugin.getInformationConfig().getString("Messages.Permission Denied"));
+		return false;
 	}
 }

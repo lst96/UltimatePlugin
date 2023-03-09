@@ -35,8 +35,7 @@ public class PlayerUUID implements CommandExecutor {
 			sender.sendMessage(ChatColor.RED + args[0] + " does not exist, check your spelling and try again!");
 			return false;
 		}
-		sender.sendMessage(ChatColor.DARK_RED + plugin.pdfFile.getName() + ChatColor.RED
-				+ " I'm sorry, but you do not have permission to perform this command. Please contact the server administrators if you believe that this is in error.");
+		sender.sendMessage(ChatColor.RED + plugin.getInformationConfig().getString("Messages.Permission Denied"));
 		return false;
 	}
 }

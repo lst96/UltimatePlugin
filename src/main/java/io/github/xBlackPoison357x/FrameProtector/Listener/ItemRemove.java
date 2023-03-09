@@ -47,7 +47,7 @@ public class ItemRemove implements Listener {
 		} else {
 			event.setCancelled(true);
 			if (plugin.getFrameProtectorConfig().getBoolean("Messages.Enable")) {
-				p.sendMessage(ChatColor.DARK_RED + msg1);
+				p.sendMessage(ChatColor.RED + msg1);
 				return;
 			}
 		}
@@ -63,7 +63,7 @@ public class ItemRemove implements Listener {
 		if (!p.isOp() && !p.hasPermission("frame.place")) {
 			event.setCancelled(true);
 			if (plugin.getFrameProtectorConfig().getBoolean("Messages.Enable")) {
-				p.sendMessage(ChatColor.DARK_RED + msg2);
+				p.sendMessage(ChatColor.RED + msg2);
 				return;
 			}
 		}
@@ -84,7 +84,7 @@ public class ItemRemove implements Listener {
 		if (!player.isOp() && !player.hasPermission("frame.rotate")) {
 			event.setCancelled(true);
 			if (plugin.getFrameProtectorConfig().getBoolean("Messages.Enable")) {
-				player.sendMessage(ChatColor.DARK_RED + msg3);
+				player.sendMessage(ChatColor.RED + msg3);
 			}
 		}
 	}
@@ -99,7 +99,7 @@ public class ItemRemove implements Listener {
 					&& !p.hasPermission("frame.item.remove")) {
 				e.setCancelled(true);
 				if (plugin.getFrameProtectorConfig().getBoolean("Messages.Enable")) {
-					p.sendMessage(ChatColor.DARK_RED + msg4);
+					p.sendMessage(ChatColor.RED + msg4);
 				}
 			}
 		}
@@ -107,7 +107,7 @@ public class ItemRemove implements Listener {
 				&& !(p.getPlayer().isOp()) && !p.hasPermission("frame.item.remove")) {
 			e.setCancelled(true);
 			if (plugin.getFrameProtectorConfig().getBoolean("Messages.Enable")) {
-				p.sendMessage(ChatColor.DARK_RED + msg4);
+				p.sendMessage(ChatColor.RED + msg4);
 			}
 		}
 	}

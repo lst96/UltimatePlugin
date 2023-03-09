@@ -4,11 +4,14 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.World;
+import org.bukkit.World.Environment;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerChangedWorldEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerKickEvent;
 
 import io.github.xBlackPoison357x.UltimatePlugin.UltimatePlugin;
 
@@ -17,146 +20,142 @@ public class JoinWorld implements Listener {
 
 	public JoinWorld(UltimatePlugin instance) {
 		plugin = instance;
+		
+		
+		//test join world custom name support and custom messages
 	}
+	String msg = ChatColor.RED + plugin.getInformationConfig().getString("Messages.Permission.Join.World Disabled Error");
+	String msg2 = ChatColor.RED + plugin.getInformationConfig().getString("Messages.Permission.Join.World Config Error");
+	String msg3 = ChatColor.RED + plugin.getInformationConfig().getString("Messages.Permission.Join.World Join Error");
 
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onPlayerChangeWorld(PlayerChangedWorldEvent event) {
-		World world;
-		Location loc;
-		World end;
-		World nether;
+		Player p = event.getPlayer();
+		Environment e = p.getWorld().getEnvironment();
+		
 		if (plugin.getInformationConfig().getBoolean("Disabled Join Worlds.world_the_end")
-				&& (!event.getPlayer().isOp() || !event.getPlayer().hasPermission("information.joinbypass.end"))
-				&& event.getPlayer().getWorld().getName().endsWith("end")) {
+				&& (!p.isOp() || !p.hasPermission("information.joinbypass.end"))
+				&& e.equals(World.Environment.THE_END)) {
 			if (!plugin.getInformationConfig().getBoolean("Disabled Join Worlds.world")) {
-				world = Bukkit.getWorld("world");
-				loc = world.getSpawnLocation();
-				event.getPlayer().teleport(loc);
-				event.getPlayer().sendMessage(ChatColor.RED + "You are not allowed to join the end!");
+				p.sendMessage(msg3 + " " + e);
+				p.teleport(getWorldSpawn());
 			} else if (!plugin.getInformationConfig().getBoolean("Disabled Join Worlds.world_nether")) {
-				nether = Bukkit.getWorld("world_nether");
-				loc = nether.getSpawnLocation();
-				event.getPlayer().teleport(loc);
-				event.getPlayer().sendMessage("World disabled, teleporting to world_nether instead");
+				p.teleport(getNetherSpawn());
+				p.sendMessage(msg + " " + e);
 			} else {
-				event.getPlayer().sendMessage(
-						ChatColor.RED + "Config Error, all worlds are disabled, please undisable at least 1 world.");
+				p.sendMessage(msg2);
 			}
 		}
 		if (plugin.getInformationConfig().getBoolean("Disabled Join Worlds.world_nether")
-				&& (!event.getPlayer().isOp() || !event.getPlayer().hasPermission("information.joinbypass.nether"))
-				&& event.getPlayer().getWorld().getName().endsWith("nether")) {
+				&& (!p.isOp() || !p.hasPermission("information.joinbypass.nether"))
+				&& e.equals(World.Environment.NETHER)) {
 			if (!plugin.getInformationConfig().getBoolean("Disabled Join Worlds.world")) {
-				world = Bukkit.getWorld("world");
-				loc = world.getSpawnLocation();
-				event.getPlayer().teleport(loc);
-				event.getPlayer().sendMessage(ChatColor.RED + "You are not allowed to join the nether!");
+				p.sendMessage(msg3 + " " + e);
+				p.teleport(getNetherSpawn());
 			} else if (!plugin.getInformationConfig().getBoolean("Disabled Join Worlds.world_the_end")) {
-				end = Bukkit.getWorld("world_the_end");
-				loc = end.getSpawnLocation();
-				event.getPlayer().teleport(loc);
-				event.getPlayer().sendMessage("World disabled, teleporting to world_end instead");
+				p.sendMessage(msg + " " + e);
+				p.teleport(getEndSpawn());
 			} else {
-				event.getPlayer().sendMessage(
-						ChatColor.RED + "Config Error, all worlds are disabled, please undisable at least 1 world.");
+				p.sendMessage(msg2);
 			}
 		}
 		if (plugin.getInformationConfig().getBoolean("Disabled Join Worlds.world")
-				&& (!event.getPlayer().isOp() || !event.getPlayer().hasPermission("information.joinbypass.world"))
-				&& event.getPlayer().getWorld().getName().endsWith("world")) {
+				&& (!p.isOp() || !p.hasPermission("information.joinbypass.world"))
+				&& e.equals(World.Environment.NORMAL)) {
 			if (!plugin.getInformationConfig().getBoolean("Disabled Join Worlds.world_nether")) {
-				nether = Bukkit.getWorld("world_nether");
-				loc = nether.getSpawnLocation();
-				event.getPlayer().teleport(loc);
-				event.getPlayer().sendMessage(ChatColor.RED + "You are not allowed to join the world!");
+				p.sendMessage(msg3 + " " + e);
+				p.teleport(getNetherSpawn());
 			} else if (!plugin.getInformationConfig().getBoolean("Disabled Join Worlds.world_the_end")) {
-				end = Bukkit.getWorld("world_the_end");
-				loc = end.getSpawnLocation();
-				event.getPlayer().teleport(loc);
-				event.getPlayer().sendMessage("World disabled, teleporting to world_the_end instead");
+				p.sendMessage(msg + " " + e);
+				p.teleport(getEndSpawn());
 			} else {
-				event.getPlayer().sendMessage(
-						ChatColor.RED + "Config Error, all worlds are disabled, please undisable at least 1 world.");
+				p.sendMessage(msg2);
 			}
 		}
 		if (plugin.getInformationConfig().getBoolean("Disabled Join Worlds.world")
 				&& plugin.getInformationConfig().getBoolean("Disabled Join Worlds.world_the_nether")
 				&& plugin.getInformationConfig().getBoolean("Disabled Join Worlds.world_the_end")) {
-			event.getPlayer().kickPlayer("Config Error, all worlds are disabled, please undisable at least 1 world.");
-			plugin.console.sendMessage(
-					ChatColor.DARK_RED + "Config Error, all worlds are disabled, please undisable at least 1 world.");
+			p.kickPlayer(msg2);
+			plugin.console.sendMessage(msg2);
 		}
 	}
 
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onPlayerChangeWorld(PlayerJoinEvent event) {
-		World world;
-		Location loc;
-		World end;
-		World nether;
+		Player p = event.getPlayer();
+		Environment e = p.getWorld().getEnvironment();
 		if (plugin.getInformationConfig().getBoolean("Disabled Join Worlds.world_the_end")
-				&& (!event.getPlayer().isOp() || !event.getPlayer().hasPermission("information.joinbypass.end"))
-				&& event.getPlayer().getWorld().getName().endsWith("end")) {
+				&& (!p.isOp() || !p.hasPermission("information.joinbypass.end"))
+				&& e.equals(World.Environment.THE_END)) {
 			if (!plugin.getInformationConfig().getBoolean("Disabled Join Worlds.world")) {
-				world = Bukkit.getWorld("world");
-				loc = world.getSpawnLocation();
-				event.getPlayer().teleport(loc);
-				event.getPlayer().sendMessage(ChatColor.RED + "You are not allowed to join the end!");
+				p.teleport(getWorldSpawn());
+				p.sendMessage(msg3 + " " + e);
 			} else if (!plugin.getInformationConfig().getBoolean("Disabled Join Worlds.world_nether")) {
-				nether = Bukkit.getWorld("world_nether");
-				loc = nether.getSpawnLocation();
-				event.getPlayer().teleport(loc);
-				event.getPlayer().sendMessage("World disabled, teleporting to world_nether instead");
+				p.sendMessage(msg + " " + e);
+				p.teleport(getNetherSpawn());
 			} else {
-				event.getPlayer().sendMessage(
-						ChatColor.RED + "Config Error, all worlds are disabled, please undisable at least 1 world.");
+				p.sendMessage(msg2);
 			}
 		}
 		if (plugin.getInformationConfig().getBoolean("Disabled Join Worlds.world_nether")
-				&& (!event.getPlayer().isOp() || !event.getPlayer().hasPermission("information.joinbypass.nether"))
-				&& event.getPlayer().getWorld().getName().endsWith("nether")) {
+				&& (!p.isOp() || !p.hasPermission("information.joinbypass.nether"))
+				&& e.equals(World.Environment.NETHER)) {
 			if (!plugin.getInformationConfig().getBoolean("Disabled Join Worlds.world")) {
-				world = Bukkit.getWorld("world");
-				loc = world.getSpawnLocation();
-				event.getPlayer().teleport(loc);
-				event.getPlayer().sendMessage(ChatColor.RED + "You are not allowed to join the nether!");
+				p.sendMessage(msg3 + " " + e);
+				p.teleport(getWorldSpawn());
 			} else if (!plugin.getInformationConfig().getBoolean("Disabled Join Worlds.world_the_end")) {
-				end = Bukkit.getWorld("world_the_end");
-				loc = end.getSpawnLocation();
-				event.getPlayer().teleport(loc);
-				event.getPlayer().sendMessage("World disabled, teleporting to world_end instead");
+				p.sendMessage(msg + " " + e);
+				p.teleport(getEndSpawn());
 			} else {
-				event.getPlayer().sendMessage(
-						ChatColor.RED + "Config Error, all worlds are disabled, please undisable at least 1 world.");
+				p.sendMessage(msg2);
 			}
 		}
 		if (plugin.getInformationConfig().getBoolean("Disabled Join Worlds.world")
-				&& (!event.getPlayer().isOp() || !event.getPlayer().hasPermission("information.joinbypass.world"))
-				&& event.getPlayer().getWorld().getName().endsWith("world")) {
+				&& (!p.isOp() || !p.hasPermission("information.joinbypass.world"))
+				&& e.equals(World.Environment.NORMAL)) {
 			if (!plugin.getInformationConfig().getBoolean("Disabled Join Worlds.world_nether")) {
-				nether = Bukkit.getWorld("world_nether");
-				loc = nether.getSpawnLocation();
-				event.getPlayer().teleport(loc);
-				event.getPlayer().sendMessage(ChatColor.RED + "You are not allowed to join the world!");
+				p.sendMessage(msg3 + " " + e);
+				p.teleport(getNetherSpawn());
 			} else if (!plugin.getInformationConfig().getBoolean("Disabled Join Worlds.world_the_end")) {
-				end = Bukkit.getWorld("world_the_end");
-				loc = end.getSpawnLocation();
-				event.getPlayer().teleport(loc);
-				event.getPlayer().sendMessage("World disabled, teleporting to world_the_end instead");
+				p.sendMessage(msg + " " + e);
+				p.teleport(getEndSpawn());
 			} else {
-				event.getPlayer().sendMessage(
-						ChatColor.RED + "Config Error, all worlds are disabled, please undisable at least 1 world.");
+				p.sendMessage(msg2);
 			}
 		}
 		if (plugin.getInformationConfig().getBoolean("Disabled Join Worlds.world")
 				&& plugin.getInformationConfig().getBoolean("Disabled Join Worlds.world_the_nether")
 				&& plugin.getInformationConfig().getBoolean("Disabled Join Worlds.world_the_end")) {
-			event.getPlayer().kickPlayer(
-					ChatColor.DARK_RED + "Config Error, all worlds are disabled, please undisable at least 1 world.");
-			plugin.console.sendMessage(
-					ChatColor.DARK_RED + "Config Error, all worlds are disabled, please undisable at least 1 world.");
-			Bukkit.broadcastMessage(
-					(ChatColor.DARK_RED + "Config Error, all worlds are disabled, please undisable at least 1 world."));
+			p.kickPlayer(msg2);
+			plugin.console.sendMessage(msg2);
+			Bukkit.broadcastMessage(msg2);
 		}
 	}
+	public Location getWorldSpawn() {
+		for (final World world : Bukkit.getServer().getWorlds()) {
+			if (world.getEnvironment() != World.Environment.NORMAL) {
+				continue;
+			}
+			return world.getSpawnLocation();
+		}
+		return Bukkit.getServer().getWorlds().get(0).getSpawnLocation();
+	}
+public Location getNetherSpawn() {
+	for (final World world : Bukkit.getServer().getWorlds()) {
+		if (world.getEnvironment() != World.Environment.NETHER) {
+			continue;
+		}
+		return world.getSpawnLocation();
+	}
+	return Bukkit.getServer().getWorlds().get(1).getSpawnLocation();
+}
+public Location getEndSpawn() {
+	for (final World world : Bukkit.getServer().getWorlds()) {
+		if (world.getEnvironment() != World.Environment.THE_END) {
+			continue;
+		}
+		return world.getSpawnLocation();
+	}
+	return Bukkit.getServer().getWorlds().get(2).getSpawnLocation();
+}
 }

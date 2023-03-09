@@ -22,14 +22,13 @@ public class Website implements CommandExecutor {
 		}
 		if (sender.isOp() || sender.hasPermission("information.website")) {
 			List<String> Website2 = plugin.getInformationConfig().getStringList("Website");
-			sender.sendMessage(ChatColor.DARK_BLUE + "--Website Link(s)--");
+			sender.sendMessage(ChatColor.BLUE + "--Website Link(s)--");
 			for (String Website1 : Website2) {
 				sender.sendMessage(ChatColor.translateAlternateColorCodes((char) '&', Website1));
 			}
 			return true;
 		}
-		sender.sendMessage(ChatColor.DARK_RED + plugin.pdfFile.getName() + ChatColor.RED
-				+ " I'm sorry, but you do not have permission to perform this command. Please contact the server administrators if you believe that this is in error.");
-		return true;
+		sender.sendMessage(ChatColor.RED + plugin.getInformationConfig().getString("Messages.Permission Denied"));;
+		return false;
 	}
 }

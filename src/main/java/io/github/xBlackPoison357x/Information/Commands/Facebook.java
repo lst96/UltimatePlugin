@@ -18,18 +18,16 @@ public class Facebook implements CommandExecutor {
 
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
 		if (commandLabel.equalsIgnoreCase("facebook")) {
-			// empty if block
 		}
 		if (sender.isOp() || sender.hasPermission("information.facebook")) {
 			List<String> Facebook2 = plugin.getInformationConfig().getStringList("Facebook");
-			sender.sendMessage(ChatColor.DARK_BLUE + "--Facebook Link(s)--");
+			sender.sendMessage(ChatColor.BLUE + "--Facebook Link(s)--");
 			for (String Facebook1 : Facebook2) {
 				sender.sendMessage(ChatColor.translateAlternateColorCodes((char) '&', Facebook1));
 			}
-			return true;
-		}
-		sender.sendMessage(ChatColor.DARK_RED + plugin.pdfFile.getName() + ChatColor.RED
-				+ " I'm sorry, but you do not have permission to perform this command. Please contact the server administrators if you believe that this is in error.");
+		sender.sendMessage(ChatColor.RED + plugin.getInformationConfig().getString("Messages.Permission Denied"));
 		return true;
 	}
+		return false;
+}
 }

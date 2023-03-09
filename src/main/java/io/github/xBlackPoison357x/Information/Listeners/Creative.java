@@ -2,6 +2,7 @@ package io.github.xBlackPoison357x.Information.Listeners;
 
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -18,26 +19,28 @@ public class Creative implements Listener {
 
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onPlayerChangeWorld(PlayerMoveEvent event) {
+		String msg = ChatColor.RED + plugin.getInformationConfig().getString("Messages.Permission Creative Denied");
+		Player p = event.getPlayer();
 		if (plugin.getInformationConfig().getBoolean("Disabled Creative Worlds.world_the_end")
-				&& (!event.getPlayer().isOp() || !event.getPlayer().hasPermission("information.creativebypass.end"))
-				&& event.getPlayer().getWorld().getName().endsWith("end")
-				&& event.getPlayer().getGameMode().equals(GameMode.CREATIVE)) {
-			event.getPlayer().setGameMode(GameMode.SURVIVAL);
-			event.getPlayer().sendMessage(ChatColor.RED + "You are not allowed to use creative in this world!");
+				&& (!p.isOp() || !p.hasPermission("information.creativebypass.end"))
+				&& p.getWorld().getName().endsWith("end")
+				&& p.getGameMode().equals(GameMode.CREATIVE)) {
+			p.setGameMode(GameMode.SURVIVAL);
+			p.sendMessage(msg);
 		}
 		if (plugin.getInformationConfig().getBoolean("Disabled Creative Worlds.world_nether")
-				&& (!event.getPlayer().isOp() || !event.getPlayer().hasPermission("information.creativebypass.nether"))
-				&& event.getPlayer().getWorld().getName().endsWith("nether")
-				&& event.getPlayer().getGameMode().equals(GameMode.CREATIVE)) {
-			event.getPlayer().setGameMode(GameMode.SURVIVAL);
-			event.getPlayer().sendMessage(ChatColor.RED + "You are not allowed to use creative in this world!");
+				&& (!p.isOp() || !p.hasPermission("information.creativebypass.nether"))
+				&& p.getWorld().getName().endsWith("nether")
+				&& p.getGameMode().equals(GameMode.CREATIVE)) {
+			p.setGameMode(GameMode.SURVIVAL);
+			p.sendMessage(msg);
 		}
 		if (plugin.getInformationConfig().getBoolean("Disabled Creative Worlds.world")
-				&& (!event.getPlayer().isOp() || !event.getPlayer().hasPermission("information.creativebypass.world"))
-				&& event.getPlayer().getWorld().getName().endsWith("world")
-				&& event.getPlayer().getGameMode().equals(GameMode.CREATIVE)) {
-			event.getPlayer().setGameMode(GameMode.SURVIVAL);
-			event.getPlayer().sendMessage(ChatColor.RED + "You are not allowed to use creative in this world!");
+				&& (!p.isOp() || !p.hasPermission("information.creativebypass.world"))
+				&& p.getWorld().getName().endsWith("world")
+				&& p.getGameMode().equals(GameMode.CREATIVE)) {
+			p.setGameMode(GameMode.SURVIVAL);
+			p.sendMessage(msg);
 		}
 	}
 }

@@ -18,18 +18,16 @@ public class Donate implements CommandExecutor {
 
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
 		if (commandLabel.equalsIgnoreCase("donate")) {
-			// empty if block
 		}
 		if (sender.isOp() || sender.hasPermission("information.donate")) {
 			List<String> Donate2 = plugin.getInformationConfig().getStringList("Donate");
-			sender.sendMessage(ChatColor.DARK_BLUE + "--Donation Link(s)--");
+			sender.sendMessage(ChatColor.BLUE + "--Donation Link(s)--");
 			for (String Donate1 : Donate2) {
 				sender.sendMessage(ChatColor.translateAlternateColorCodes((char) '&', Donate1));
 			}
 			return true;
 		}
-		sender.sendMessage(ChatColor.DARK_RED + plugin.pdfFile.getName() + ChatColor.RED
-				+ " I'm sorry, but you do not have permission to perform this command. Please contact the server administrators if you believe that this is in error.");
-		return true;
+		sender.sendMessage(ChatColor.RED + plugin.getInformationConfig().getString("Messages.Permission Denied"));
+		return false;
 	}
 }

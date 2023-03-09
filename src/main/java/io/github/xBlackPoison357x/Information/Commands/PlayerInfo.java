@@ -25,7 +25,7 @@ public class PlayerInfo implements CommandExecutor {
 				}
 				Player targetplayer = Bukkit.getPlayer(args[0]);
 				if (targetplayer == null) {
-					sender.sendMessage(ChatColor.DARK_RED + args[0] + ChatColor.RED + " is currently not online.");
+					sender.sendMessage(ChatColor.RED + args[0] + ChatColor.RED + " is currently not online.");
 					return true;
 				}
 				sender.sendMessage(ChatColor.GOLD + "====== Player: " + ChatColor.RED + targetplayer.getName()
@@ -47,8 +47,7 @@ public class PlayerInfo implements CommandExecutor {
 				sender.sendMessage(ChatColor.GOLD + " Fly mode: " + ChatColor.GREEN + targetplayer.isFlying());
 				return true;
 			}
-			sender.sendMessage(ChatColor.DARK_RED + plugin.pdfFile.getName() + ChatColor.RED
-					+ " I'm sorry, but you do not have permission to perform this command. Please contact the server administrators if you believe that this is in error.");
+			sender.sendMessage(ChatColor.RED + plugin.getInformationConfig().getString("Messages.Permission Denied"));
 			return false;
 		}
 		return false;

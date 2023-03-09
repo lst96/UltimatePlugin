@@ -22,14 +22,13 @@ public class Youtube implements CommandExecutor {
 		}
 		if (sender.isOp() || sender.hasPermission("information.youtube")) {
 			List<String> Youtube2 = plugin.getInformationConfig().getStringList("Youtube");
-			sender.sendMessage(ChatColor.DARK_BLUE + "--Youtube Link(s)--");
+			sender.sendMessage(ChatColor.BLUE + "--Youtube Link(s)--");
 			for (String Youtube1 : Youtube2) {
 				sender.sendMessage(ChatColor.translateAlternateColorCodes((char) '&', Youtube1));
 			}
 			return true;
 		}
-		sender.sendMessage(ChatColor.DARK_RED + plugin.pdfFile.getName() + ChatColor.RED
-				+ " I'm sorry, but you do not have permission to perform this command. Please contact the server administrators if you believe that this is in error.");
-		return true;
+		sender.sendMessage(ChatColor.RED + plugin.getInformationConfig().getString("Messages.Permission Denied"));
+		return false;
 	}
 }

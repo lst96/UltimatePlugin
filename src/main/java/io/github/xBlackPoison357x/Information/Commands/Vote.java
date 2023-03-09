@@ -22,14 +22,13 @@ public class Vote implements CommandExecutor {
 		}
 		if (sender.isOp() || sender.hasPermission("information.vote")) {
 			List<String> Vote2 = plugin.getInformationConfig().getStringList("Vote");
-			sender.sendMessage(ChatColor.DARK_BLUE + "--Current Voting Link(s)--");
+			sender.sendMessage(ChatColor.BLUE + "--Current Voting Link(s)--");
 			for (String Vote1 : Vote2) {
 				sender.sendMessage(ChatColor.translateAlternateColorCodes((char) '&', Vote1));
 			}
 			return true;
 		}
-		sender.sendMessage(ChatColor.DARK_RED + plugin.pdfFile.getName() + ChatColor.RED
-				+ " I'm sorry, but you do not have permission to perform this command. Please contact the server administrators if you believe that this is in error.");
-		return true;
+		sender.sendMessage(ChatColor.RED + plugin.getInformationConfig().getString("Messages.Permission Denied"));
+		return false;
 	}
 }

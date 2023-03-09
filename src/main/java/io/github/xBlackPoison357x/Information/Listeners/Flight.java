@@ -1,6 +1,7 @@
 package io.github.xBlackPoison357x.Information.Listeners;
 
 import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -17,26 +18,28 @@ public class Flight implements Listener {
 
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onPlayerChangeWorld(PlayerMoveEvent event) {
+		String msg = ChatColor.RED + plugin.getInformationConfig().getString("Messages.Permission Flight Denied");
+		Player p = event.getPlayer();
 		if (plugin.getInformationConfig().getBoolean("Disabled Flight Worlds.world_the_end")
-				&& (!event.getPlayer().isOp() || !event.getPlayer().hasPermission("information.flightbypass.end"))
-				&& event.getPlayer().getWorld().getName().endsWith("end") && event.getPlayer().isFlying()) {
-			event.getPlayer().setAllowFlight(false);
-			event.getPlayer().setFlying(false);
-			event.getPlayer().sendMessage(ChatColor.RED + "You are not allowed to fly in this world!");
+				&& (!p.isOp() || !p.hasPermission("information.flightbypass.end"))
+				&& p.getWorld().getName().endsWith("end") && p.isFlying()) {
+			p.setAllowFlight(false);
+			p.setFlying(false);
+			p.sendMessage(msg);
 		}
 		if (plugin.getInformationConfig().getBoolean("Disabled Flight Worlds.world_nether")
-				&& (!event.getPlayer().isOp() || !event.getPlayer().hasPermission("information.flightbypass.nether"))
-				&& event.getPlayer().getWorld().getName().endsWith("nether") && event.getPlayer().isFlying()) {
-			event.getPlayer().setAllowFlight(false);
-			event.getPlayer().setFlying(false);
-			event.getPlayer().sendMessage(ChatColor.RED + "You are not allowed to fly in this world!");
+				&& (!p.isOp() || !p.hasPermission("information.flightbypass.nether"))
+				&& p.getWorld().getName().endsWith("nether") && p.isFlying()) {
+			p.setAllowFlight(false);
+			p.setFlying(false);
+			p.sendMessage(msg);
 		}
 		if (plugin.getInformationConfig().getBoolean("Disabled Flight Worlds.world")
-				&& (!event.getPlayer().isOp() || !event.getPlayer().hasPermission("information.flightbypass.world"))
-				&& event.getPlayer().getWorld().getName().endsWith("world") && event.getPlayer().isFlying()) {
-			event.getPlayer().setAllowFlight(false);
-			event.getPlayer().setFlying(false);
-			event.getPlayer().sendMessage(ChatColor.RED + "You are not allowed to fly in this world!");
+				&& (!p.isOp() || !p.hasPermission("information.flightbypass.world"))
+				&& p.getWorld().getName().endsWith("world") && p.isFlying()) {
+			p.setAllowFlight(false);
+			p.setFlying(false);
+			p.sendMessage(msg);
 		}
 	}
 }
