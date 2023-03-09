@@ -57,7 +57,7 @@
     </repository>
     <repository>
       <id>dustplanet-releases</id>
-      <url>https://repo.dustplanet.de/ui/native/libs-release-local/</url>
+      <url>https://repo.dustplanet.de/artifactory/libs-release-local</url>
     </repository>
   </repositories>
   <dependencies>

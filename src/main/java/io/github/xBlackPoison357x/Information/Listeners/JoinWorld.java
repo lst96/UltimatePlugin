@@ -20,19 +20,21 @@ public class JoinWorld implements Listener {
 
 	public JoinWorld(UltimatePlugin instance) {
 		plugin = instance;
-		
-		
-		//test join world custom name support and custom messages
+
+		// test join world custom name support and custom messages
 	}
-	String msg = ChatColor.RED + plugin.getInformationConfig().getString("Messages.Permission.Join.World Disabled Error");
-	String msg2 = ChatColor.RED + plugin.getInformationConfig().getString("Messages.Permission.Join.World Config Error");
+
+	String msg = ChatColor.RED
+			+ plugin.getInformationConfig().getString("Messages.Permission.Join.World Disabled Error");
+	String msg2 = ChatColor.RED
+			+ plugin.getInformationConfig().getString("Messages.Permission.Join.World Config Error");
 	String msg3 = ChatColor.RED + plugin.getInformationConfig().getString("Messages.Permission.Join.World Join Error");
 
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onPlayerChangeWorld(PlayerChangedWorldEvent event) {
 		Player p = event.getPlayer();
 		Environment e = p.getWorld().getEnvironment();
-		
+
 		if (plugin.getInformationConfig().getBoolean("Disabled Join Worlds.world_the_end")
 				&& (!p.isOp() || !p.hasPermission("information.joinbypass.end"))
 				&& e.equals(World.Environment.THE_END)) {
@@ -40,8 +42,8 @@ public class JoinWorld implements Listener {
 				p.sendMessage(msg3 + " " + e);
 				p.teleport(getWorldSpawn());
 			} else if (!plugin.getInformationConfig().getBoolean("Disabled Join Worlds.world_nether")) {
-				p.teleport(getNetherSpawn());
 				p.sendMessage(msg + " " + e);
+				p.teleport(getNetherSpawn());
 			} else {
 				p.sendMessage(msg2);
 			}
@@ -88,8 +90,8 @@ public class JoinWorld implements Listener {
 				&& (!p.isOp() || !p.hasPermission("information.joinbypass.end"))
 				&& e.equals(World.Environment.THE_END)) {
 			if (!plugin.getInformationConfig().getBoolean("Disabled Join Worlds.world")) {
-				p.teleport(getWorldSpawn());
 				p.sendMessage(msg3 + " " + e);
+				p.teleport(getWorldSpawn());
 			} else if (!plugin.getInformationConfig().getBoolean("Disabled Join Worlds.world_nether")) {
 				p.sendMessage(msg + " " + e);
 				p.teleport(getNetherSpawn());
@@ -131,6 +133,7 @@ public class JoinWorld implements Listener {
 			Bukkit.broadcastMessage(msg2);
 		}
 	}
+
 	public Location getWorldSpawn() {
 		for (final World world : Bukkit.getServer().getWorlds()) {
 			if (world.getEnvironment() != World.Environment.NORMAL) {
@@ -140,22 +143,24 @@ public class JoinWorld implements Listener {
 		}
 		return Bukkit.getServer().getWorlds().get(0).getSpawnLocation();
 	}
-public Location getNetherSpawn() {
-	for (final World world : Bukkit.getServer().getWorlds()) {
-		if (world.getEnvironment() != World.Environment.NETHER) {
-			continue;
+
+	public Location getNetherSpawn() {
+		for (final World world : Bukkit.getServer().getWorlds()) {
+			if (world.getEnvironment() != World.Environment.NETHER) {
+				continue;
+			}
+			return world.getSpawnLocation();
 		}
-		return world.getSpawnLocation();
+		return Bukkit.getServer().getWorlds().get(1).getSpawnLocation();
 	}
-	return Bukkit.getServer().getWorlds().get(1).getSpawnLocation();
-}
-public Location getEndSpawn() {
-	for (final World world : Bukkit.getServer().getWorlds()) {
-		if (world.getEnvironment() != World.Environment.THE_END) {
-			continue;
+
+	public Location getEndSpawn() {
+		for (final World world : Bukkit.getServer().getWorlds()) {
+			if (world.getEnvironment() != World.Environment.THE_END) {
+				continue;
+			}
+			return world.getSpawnLocation();
 		}
-		return world.getSpawnLocation();
+		return Bukkit.getServer().getWorlds().get(2).getSpawnLocation();
 	}
-	return Bukkit.getServer().getWorlds().get(2).getSpawnLocation();
-}
 }
