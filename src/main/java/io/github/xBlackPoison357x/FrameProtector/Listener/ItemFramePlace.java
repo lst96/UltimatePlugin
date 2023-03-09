@@ -20,7 +20,7 @@ public class ItemFramePlace implements Listener {
 		plugin = instance;
 	}
 
-	@EventHandler(priority = EventPriority.HIGHEST) // fix this
+	@EventHandler(priority = EventPriority.LOWEST) // fix this
 	public void AddConfigEntry(HangingPlaceEvent event) {
 		Player p = (Player) event.getPlayer();
 		Entity ee = event.getEntity();

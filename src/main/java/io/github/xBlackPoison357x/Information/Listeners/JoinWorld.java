@@ -11,8 +11,6 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerChangedWorldEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerKickEvent;
-
 import io.github.xBlackPoison357x.UltimatePlugin.UltimatePlugin;
 
 public class JoinWorld implements Listener {
@@ -20,117 +18,107 @@ public class JoinWorld implements Listener {
 
 	public JoinWorld(UltimatePlugin instance) {
 		plugin = instance;
-
-		// test join world custom name support and custom messages
 	}
+	
+	// Fix teleport message sent
 
-	String msg = ChatColor.RED
-			+ plugin.getInformationConfig().getString("Messages.Permission.Join.World Disabled Error");
-	String msg2 = ChatColor.RED
-			+ plugin.getInformationConfig().getString("Messages.Permission.Join.World Config Error");
-	String msg3 = ChatColor.RED + plugin.getInformationConfig().getString("Messages.Permission.Join.World Join Error");
-
-	@EventHandler(priority = EventPriority.HIGHEST)
+	@EventHandler(priority = EventPriority.LOWEST)
 	public void onPlayerChangeWorld(PlayerChangedWorldEvent event) {
+		String msg = ChatColor.RED
+				+ plugin.getInformationConfig().getString("Messages.Permission.Join World Disabled Error");
+		String msg2 = ChatColor.RED
+				+ plugin.getInformationConfig().getString("Messages.Permission.Join World Config Error");
+		String msg3 = ChatColor.RED + plugin.getInformationConfig().getString("Messages.Permission.Join World Join Error");
 		Player p = event.getPlayer();
 		Environment e = p.getWorld().getEnvironment();
-
 		if (plugin.getInformationConfig().getBoolean("Disabled Join Worlds.world_the_end")
 				&& (!p.isOp() || !p.hasPermission("information.joinbypass.end"))
 				&& e.equals(World.Environment.THE_END)) {
 			if (!plugin.getInformationConfig().getBoolean("Disabled Join Worlds.world")) {
-				p.sendMessage(msg3 + " " + e);
 				p.teleport(getWorldSpawn());
+				p.sendMessage(msg3 + " " + e);
 			} else if (!plugin.getInformationConfig().getBoolean("Disabled Join Worlds.world_nether")) {
-				p.sendMessage(msg + " " + e);
 				p.teleport(getNetherSpawn());
+				p.sendMessage(msg + " " + e);
 			} else {
-				p.sendMessage(msg2);
+				p.kickPlayer(msg2);
 			}
 		}
 		if (plugin.getInformationConfig().getBoolean("Disabled Join Worlds.world_nether")
 				&& (!p.isOp() || !p.hasPermission("information.joinbypass.nether"))
 				&& e.equals(World.Environment.NETHER)) {
 			if (!plugin.getInformationConfig().getBoolean("Disabled Join Worlds.world")) {
-				p.sendMessage(msg3 + " " + e);
 				p.teleport(getNetherSpawn());
+				p.sendMessage(msg3 + " " + e);
 			} else if (!plugin.getInformationConfig().getBoolean("Disabled Join Worlds.world_the_end")) {
-				p.sendMessage(msg + " " + e);
 				p.teleport(getEndSpawn());
+				p.sendMessage(msg + " " + e);
 			} else {
-				p.sendMessage(msg2);
+				p.kickPlayer(msg2);
 			}
 		}
 		if (plugin.getInformationConfig().getBoolean("Disabled Join Worlds.world")
 				&& (!p.isOp() || !p.hasPermission("information.joinbypass.world"))
 				&& e.equals(World.Environment.NORMAL)) {
 			if (!plugin.getInformationConfig().getBoolean("Disabled Join Worlds.world_nether")) {
-				p.sendMessage(msg3 + " " + e);
 				p.teleport(getNetherSpawn());
+				p.sendMessage(msg3 + " " + e);
 			} else if (!plugin.getInformationConfig().getBoolean("Disabled Join Worlds.world_the_end")) {
-				p.sendMessage(msg + " " + e);
 				p.teleport(getEndSpawn());
+				p.sendMessage(msg + " " + e);
 			} else {
-				p.sendMessage(msg2);
+				p.kickPlayer(msg2);
 			}
 		}
-		if (plugin.getInformationConfig().getBoolean("Disabled Join Worlds.world")
-				&& plugin.getInformationConfig().getBoolean("Disabled Join Worlds.world_the_nether")
-				&& plugin.getInformationConfig().getBoolean("Disabled Join Worlds.world_the_end")) {
-			p.kickPlayer(msg2);
-			plugin.console.sendMessage(msg2);
 		}
-	}
 
-	@EventHandler(priority = EventPriority.HIGHEST)
+	@EventHandler(priority = EventPriority.LOWEST)
 	public void onPlayerChangeWorld(PlayerJoinEvent event) {
+		String msg = ChatColor.RED
+				+ plugin.getInformationConfig().getString("Messages.Permission.Join World Disabled Error");
+		String msg2 = ChatColor.RED
+				+ plugin.getInformationConfig().getString("Messages.Permission.Join World Config Error");
+		String msg3 = ChatColor.RED + plugin.getInformationConfig().getString("Messages.Permission.Join World Join Error");
 		Player p = event.getPlayer();
 		Environment e = p.getWorld().getEnvironment();
 		if (plugin.getInformationConfig().getBoolean("Disabled Join Worlds.world_the_end")
 				&& (!p.isOp() || !p.hasPermission("information.joinbypass.end"))
 				&& e.equals(World.Environment.THE_END)) {
 			if (!plugin.getInformationConfig().getBoolean("Disabled Join Worlds.world")) {
-				p.sendMessage(msg3 + " " + e);
 				p.teleport(getWorldSpawn());
+				p.sendMessage(msg3 + " " + e);
 			} else if (!plugin.getInformationConfig().getBoolean("Disabled Join Worlds.world_nether")) {
-				p.sendMessage(msg + " " + e);
 				p.teleport(getNetherSpawn());
+				p.sendMessage(msg + " " + e);
 			} else {
-				p.sendMessage(msg2);
+				p.kickPlayer(msg2);
 			}
 		}
 		if (plugin.getInformationConfig().getBoolean("Disabled Join Worlds.world_nether")
 				&& (!p.isOp() || !p.hasPermission("information.joinbypass.nether"))
 				&& e.equals(World.Environment.NETHER)) {
 			if (!plugin.getInformationConfig().getBoolean("Disabled Join Worlds.world")) {
-				p.sendMessage(msg3 + " " + e);
 				p.teleport(getWorldSpawn());
+				p.sendMessage(msg3 + " " + e);
 			} else if (!plugin.getInformationConfig().getBoolean("Disabled Join Worlds.world_the_end")) {
-				p.sendMessage(msg + " " + e);
 				p.teleport(getEndSpawn());
+				p.sendMessage(msg + " " + e);
 			} else {
-				p.sendMessage(msg2);
+				p.kickPlayer(msg2);
 			}
 		}
 		if (plugin.getInformationConfig().getBoolean("Disabled Join Worlds.world")
 				&& (!p.isOp() || !p.hasPermission("information.joinbypass.world"))
 				&& e.equals(World.Environment.NORMAL)) {
 			if (!plugin.getInformationConfig().getBoolean("Disabled Join Worlds.world_nether")) {
-				p.sendMessage(msg3 + " " + e);
 				p.teleport(getNetherSpawn());
+				p.sendMessage(msg3 + " " + e);
 			} else if (!plugin.getInformationConfig().getBoolean("Disabled Join Worlds.world_the_end")) {
-				p.sendMessage(msg + " " + e);
 				p.teleport(getEndSpawn());
+				p.sendMessage(msg + " " + e);
 			} else {
-				p.sendMessage(msg2);
+				p.kickPlayer(msg2);
 			}
-		}
-		if (plugin.getInformationConfig().getBoolean("Disabled Join Worlds.world")
-				&& plugin.getInformationConfig().getBoolean("Disabled Join Worlds.world_the_nether")
-				&& plugin.getInformationConfig().getBoolean("Disabled Join Worlds.world_the_end")) {
-			p.kickPlayer(msg2);
-			plugin.console.sendMessage(msg2);
-			Bukkit.broadcastMessage(msg2);
 		}
 	}
 

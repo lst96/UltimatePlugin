@@ -17,7 +17,7 @@ public class Kits implements Listener {
 		plugin = instance;
 	}
 
-	@EventHandler(priority = EventPriority.HIGHEST)
+	@EventHandler(priority = EventPriority.LOWEST)
 	public void onPlayerJoin(PlayerJoinEvent event) {
 		Player player = event.getPlayer();
 		if (plugin.getInformationConfig().getBoolean("Starter Kit")

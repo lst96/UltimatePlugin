@@ -17,7 +17,7 @@ public class CommandBlock implements Listener {
 		plugin = instance;
 	}
 
-	@EventHandler(priority = EventPriority.HIGHEST)
+	@EventHandler(priority = EventPriority.LOWEST)
 	public void onPreprocess(PlayerCommandPreprocessEvent event) {
 		String command = event.getMessage().substring(1);
 		if (!event.getPlayer().isOp() && !event.getPlayer().hasPermission("disablecommands.bypass")) {

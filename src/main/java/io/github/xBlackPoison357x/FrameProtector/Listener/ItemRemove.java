@@ -27,7 +27,7 @@ public class ItemRemove implements Listener {
 		plugin = instance;
 	}
 
-	@EventHandler(priority = EventPriority.HIGHEST)
+	@EventHandler(priority = EventPriority.LOWEST)
 	public void onDestroyByEntity(HangingBreakByEntityEvent event) {
 		String msg1 = plugin.getFrameProtectorConfig().getString("Messages.Remove Frame Deny Message");
 		Entity ee = event.getEntity();
@@ -53,7 +53,7 @@ public class ItemRemove implements Listener {
 		}
 	}
 
-	@EventHandler(priority = EventPriority.HIGHEST)
+	@EventHandler(priority = EventPriority.LOWEST)
 	public void OnPlaceByEntity(HangingPlaceEvent event) {
 		String msg2 = plugin.getFrameProtectorConfig().getString("Messages.Place Deny Message");
 		Player p = event.getPlayer();
@@ -69,7 +69,7 @@ public class ItemRemove implements Listener {
 		}
 	}
 
-	@EventHandler(priority = EventPriority.HIGHEST)
+	@EventHandler(priority = EventPriority.LOWEST)
 	public void canRotate(PlayerInteractEntityEvent event) {
 		String msg3 = plugin.getFrameProtectorConfig().getString("Messages.Rotate Deny Message");
 		Entity entity = event.getRightClicked();
@@ -89,7 +89,7 @@ public class ItemRemove implements Listener {
 		}
 	}
 
-	@EventHandler(priority = EventPriority.HIGHEST)
+	@EventHandler(priority = EventPriority.LOWEST)
 	public void ItemRemoval(EntityDamageByEntityEvent e) {
 		Player p = null;
 		String msg4 = plugin.getFrameProtectorConfig().getString("Messages.Remove Item Deny Message");
@@ -116,7 +116,7 @@ public class ItemRemove implements Listener {
 	public static final BlockFace[] SIDES = new BlockFace[] { BlockFace.UP, BlockFace.DOWN, BlockFace.NORTH,
 			BlockFace.SOUTH, BlockFace.WEST, BlockFace.EAST };
 
-	@EventHandler(priority = EventPriority.HIGHEST)
+	@EventHandler(priority = EventPriority.LOWEST)
 	public void onBlockBreak(BlockBreakEvent e) {
 		for (BlockFace side : SIDES) {
 			final Block b = e.getBlock().getRelative(side);

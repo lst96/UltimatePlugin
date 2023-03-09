@@ -20,7 +20,7 @@ public class NetherBlock implements Listener {
 		plugin = instance;
 	}
 
-	@EventHandler(priority = EventPriority.HIGHEST)
+	@EventHandler(priority = EventPriority.LOWEST)
 	public void onPlayerMove(PlayerMoveEvent event) {
 		Player p = event.getPlayer();
 		Environment e = p.getWorld().getEnvironment();
