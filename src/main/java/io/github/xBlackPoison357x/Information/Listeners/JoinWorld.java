@@ -19,8 +19,6 @@ public class JoinWorld implements Listener {
 	public JoinWorld(UltimatePlugin instance) {
 		plugin = instance;
 	}
-	
-	// Fix teleport message sent
 
 	@EventHandler(priority = EventPriority.LOWEST)
 	public void onPlayerChangeWorld(PlayerChangedWorldEvent event) {
@@ -36,10 +34,10 @@ public class JoinWorld implements Listener {
 				&& e.equals(World.Environment.THE_END)) {
 			if (!plugin.getInformationConfig().getBoolean("Disabled Join Worlds.world")) {
 				p.teleport(getWorldSpawn());
-				p.sendMessage(msg3 + " " + e);
+				p.sendMessage(msg3 + " " + Bukkit.getServer().getWorlds().get(0).getName());
 			} else if (!plugin.getInformationConfig().getBoolean("Disabled Join Worlds.world_nether")) {
 				p.teleport(getNetherSpawn());
-				p.sendMessage(msg + " " + e);
+				p.sendMessage(msg + " " + Bukkit.getServer().getWorlds().get(1).getName());
 			} else {
 				p.kickPlayer(msg2);
 			}
@@ -49,10 +47,10 @@ public class JoinWorld implements Listener {
 				&& e.equals(World.Environment.NETHER)) {
 			if (!plugin.getInformationConfig().getBoolean("Disabled Join Worlds.world")) {
 				p.teleport(getNetherSpawn());
-				p.sendMessage(msg3 + " " + e);
+				p.sendMessage(msg3 + " " + Bukkit.getServer().getWorlds().get(1).getName());
 			} else if (!plugin.getInformationConfig().getBoolean("Disabled Join Worlds.world_the_end")) {
 				p.teleport(getEndSpawn());
-				p.sendMessage(msg + " " + e);
+				p.sendMessage(msg + " " + Bukkit.getServer().getWorlds().get(2).getName());
 			} else {
 				p.kickPlayer(msg2);
 			}
@@ -62,10 +60,10 @@ public class JoinWorld implements Listener {
 				&& e.equals(World.Environment.NORMAL)) {
 			if (!plugin.getInformationConfig().getBoolean("Disabled Join Worlds.world_nether")) {
 				p.teleport(getNetherSpawn());
-				p.sendMessage(msg3 + " " + e);
+				p.sendMessage(msg3 + " " + Bukkit.getServer().getWorlds().get(1).getName());
 			} else if (!plugin.getInformationConfig().getBoolean("Disabled Join Worlds.world_the_end")) {
 				p.teleport(getEndSpawn());
-				p.sendMessage(msg + " " + e);
+				p.sendMessage(msg + " " + Bukkit.getServer().getWorlds().get(2).getName());
 			} else {
 				p.kickPlayer(msg2);
 			}
@@ -86,10 +84,10 @@ public class JoinWorld implements Listener {
 				&& e.equals(World.Environment.THE_END)) {
 			if (!plugin.getInformationConfig().getBoolean("Disabled Join Worlds.world")) {
 				p.teleport(getWorldSpawn());
-				p.sendMessage(msg3 + " " + e);
+				p.sendMessage(msg3 + " " + Bukkit.getServer().getWorlds().get(0).getName());
 			} else if (!plugin.getInformationConfig().getBoolean("Disabled Join Worlds.world_nether")) {
 				p.teleport(getNetherSpawn());
-				p.sendMessage(msg + " " + e);
+				p.sendMessage(msg + " " + Bukkit.getServer().getWorlds().get(1).getName());
 			} else {
 				p.kickPlayer(msg2);
 			}
@@ -99,10 +97,10 @@ public class JoinWorld implements Listener {
 				&& e.equals(World.Environment.NETHER)) {
 			if (!plugin.getInformationConfig().getBoolean("Disabled Join Worlds.world")) {
 				p.teleport(getWorldSpawn());
-				p.sendMessage(msg3 + " " + e);
+				p.sendMessage(msg3 + " " + Bukkit.getServer().getWorlds().get(0).getName());
 			} else if (!plugin.getInformationConfig().getBoolean("Disabled Join Worlds.world_the_end")) {
 				p.teleport(getEndSpawn());
-				p.sendMessage(msg + " " + e);
+				p.sendMessage(msg + " " + Bukkit.getServer().getWorlds().get(2).getName());
 			} else {
 				p.kickPlayer(msg2);
 			}
@@ -112,10 +110,10 @@ public class JoinWorld implements Listener {
 				&& e.equals(World.Environment.NORMAL)) {
 			if (!plugin.getInformationConfig().getBoolean("Disabled Join Worlds.world_nether")) {
 				p.teleport(getNetherSpawn());
-				p.sendMessage(msg3 + " " + e);
+				p.sendMessage(msg3 + " " + Bukkit.getServer().getWorlds().get(1).getName());
 			} else if (!plugin.getInformationConfig().getBoolean("Disabled Join Worlds.world_the_end")) {
 				p.teleport(getEndSpawn());
-				p.sendMessage(msg + " " + e);
+				p.sendMessage(msg + " " + Bukkit.getServer().getWorlds().get(2).getName());
 			} else {
 				p.kickPlayer(msg2);
 			}
