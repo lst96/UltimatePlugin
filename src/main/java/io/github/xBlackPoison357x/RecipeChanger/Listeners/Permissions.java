@@ -70,16 +70,16 @@ public class Permissions implements Listener {
 	    itemPermissions.put(Material.MUSIC_DISC_STAL, "recipe.stal");
 	    itemPermissions.put(Material.MUSIC_DISC_11, "recipe.11");
 	    itemPermissions.put(Material.MUSIC_DISC_FAR, "recipe.far");
-		itemPermissions.put(Material.MUSIC_DISC_WARD, "recipe.ward");
-		itemPermissions.put(Material.MUSIC_DISC_13, "recipe.13");
-		itemPermissions.put(Material.MUSIC_DISC_CAT, "recipe.cat");
-		itemPermissions.put(Material.MUSIC_DISC_BLOCKS, "recipe.blocks");
-		itemPermissions.put(Material.MUSIC_DISC_MELLOHI, "recipe.mellohi");
-		itemPermissions.put(Material.MUSIC_DISC_CHIRP, "recipe.chirp");
-		itemPermissions.put(Material.MUSIC_DISC_STRAD, "recipe.strad");
-		itemPermissions.put(Material.MUSIC_DISC_MALL, "recipe.mall");
-		itemPermissions.put(Material.SHULKER_SHELL, "recipe.shulker");
-		itemPermissions.put(Material.REINFORCED_DEEPSLATE, "recipe.reinforceddeepslate");
+	    itemPermissions.put(Material.MUSIC_DISC_WARD, "recipe.ward");
+	    itemPermissions.put(Material.MUSIC_DISC_13, "recipe.13");
+	    itemPermissions.put(Material.MUSIC_DISC_CAT, "recipe.cat");
+	    itemPermissions.put(Material.MUSIC_DISC_BLOCKS, "recipe.blocks");
+	    itemPermissions.put(Material.MUSIC_DISC_MELLOHI, "recipe.mellohi");
+	    itemPermissions.put(Material.MUSIC_DISC_CHIRP, "recipe.chirp");
+	    itemPermissions.put(Material.MUSIC_DISC_STRAD, "recipe.strad");
+	    itemPermissions.put(Material.MUSIC_DISC_MALL, "recipe.mall");
+	    itemPermissions.put(Material.SHULKER_SHELL, "recipe.shulker");
+	    itemPermissions.put(Material.REINFORCED_DEEPSLATE, "recipe.reinforceddeepslate");
 		// Iterate through materials and check if player has permission
 	    if (item == null || item.getType() == Material.AIR) {
 	        // Ignore null or air items
@@ -97,4 +97,3 @@ public class Permissions implements Listener {
 
 	    player.sendMessage(ChatColor.GREEN + craft);
 	}
-}
