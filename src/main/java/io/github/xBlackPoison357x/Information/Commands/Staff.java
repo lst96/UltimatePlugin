@@ -9,26 +9,30 @@ import org.bukkit.command.CommandSender;
 
 import io.github.xBlackPoison357x.UltimatePlugin.UltimatePlugin;
 
+
 public class Staff implements CommandExecutor {
 	public UltimatePlugin plugin;
+
 
 	public Staff(UltimatePlugin instance) {
 		plugin = instance;
 	}
 
-	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
-		if (commandLabel.equalsIgnoreCase("staff")) {
-			// empty if block
-		}
-		if (sender.isOp() || sender.hasPermission("information.staff")) {
-			List<String> Staff2 = plugin.getInformationConfig().getStringList("Staff");
-			sender.sendMessage(ChatColor.BLUE + "--Current Staff(s)--");
-			for (String Staff1 : Staff2) {
-				sender.sendMessage(ChatColor.translateAlternateColorCodes((char) '&', Staff1));
-			}
-			return true;
-		}
-		sender.sendMessage(ChatColor.RED + plugin.getInformationConfig().getString("Messages.Permission Denied"));
-		return false;
+	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+	    if (!label.equalsIgnoreCase("staff")) {
+	        return false;
+	    }
+
+	    if (!sender.hasPermission("information.staff")) {
+	        sender.sendMessage(ChatColor.RED + plugin.getInformationConfig().getString("Messages.Permission Denied"));
+	        return false;
+	    }
+
+	    List<String> staffList = plugin.getInformationConfig().getStringList("Staff");
+	    sender.sendMessage(ChatColor.BLUE + "--Current Staff(s)--");
+	    for (String staff : staffList) {
+	        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', staff));
+	    }
+	    return true;
 	}
 }

@@ -9,26 +9,30 @@ import org.bukkit.command.CommandSender;
 
 import io.github.xBlackPoison357x.UltimatePlugin.UltimatePlugin;
 
+
 public class Einfo implements CommandExecutor {
 	public UltimatePlugin plugin;
+
 
 	public Einfo(UltimatePlugin instance) {
 		plugin = instance;
 	}
 
-	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
-		if (commandLabel.equalsIgnoreCase("einfo")) {
-			// empty if block
-		}
-		if (sender.isOp() || sender.hasPermission("information.extra")) {
-			List<String> Extra = plugin.getInformationConfig().getStringList("Extra");
-			sender.sendMessage(ChatColor.BLUE + "--Extra(s)--");
-			for (String Extra1 : Extra) {
-				sender.sendMessage(ChatColor.translateAlternateColorCodes((char) '&', Extra1));
-			}
-			return true;
-		}
-		sender.sendMessage(ChatColor.RED + plugin.getInformationConfig().getString("Messages.Permission Denied"));
-		return false;
+	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+	    if (!label.equalsIgnoreCase("einfo")) {
+	        return false;
+	    }
+
+	    if (!sender.hasPermission("information.extra")) {
+	        sender.sendMessage(ChatColor.RED + plugin.getInformationConfig().getString("Messages.Permission Denied"));
+	        return true;
+	    }
+
+	    List<String> extraList = plugin.getInformationConfig().getStringList("Extra");
+	    sender.sendMessage(ChatColor.BLUE + "--Extras--");
+	    for (String extra : extraList) {
+	        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', extra));
+	    }
+	    return true;
 	}
 }

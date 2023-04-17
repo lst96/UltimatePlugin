@@ -97,4 +97,4 @@ public class Permissions implements Listener {
 
 	    player.sendMessage(ChatColor.GREEN + craft);
 	}
-	}
+}

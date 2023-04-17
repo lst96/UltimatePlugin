@@ -3,13 +3,15 @@ package io.github.xBlackPoison357x.UltimatePlugin.Configuration;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
+import org.bukkit.Material;
 import io.github.xBlackPoison357x.UltimatePlugin.UltimatePlugin;
 
-public class UltimateConfig {
+public class ConfigurationMessages {
 	public UltimatePlugin plugin;
 
-	public UltimateConfig(UltimatePlugin instance) {
+	public ConfigurationMessages(UltimatePlugin instance) {
 		plugin = instance;
 	}
 
@@ -44,24 +46,16 @@ public class UltimateConfig {
 	}
 
 	public void setInformationConfig(File informationf) {
-		ArrayList<String> website = new ArrayList<String>();
-		website.add("&1 Website");
-		ArrayList<String> donate = new ArrayList<String>();
-		donate.add("&2 Donate");
-		ArrayList<String> rules = new ArrayList<String>();
-		rules.add("&3 Rules");
-		ArrayList<String> staff = new ArrayList<String>();
-		staff.add("&4 Staff");
-		ArrayList<String> twitter = new ArrayList<String>();
-		twitter.add("&6 Twitter");
-		ArrayList<String> facebook = new ArrayList<String>();
-		facebook.add("&7 Facebook");
-		ArrayList<String> youtube = new ArrayList<String>();
-		youtube.add("&8 Youtube");
-		ArrayList<String> extra = new ArrayList<String>();
-		extra.add("&9 Extra");
-		ArrayList<String> vote = new ArrayList<String>();
-		vote.add("&a Vote");
+		ArrayList<String> website = new ArrayList<>(Arrays.asList("&1 Website"));
+		ArrayList<String> donate = new ArrayList<>(Arrays.asList("&2 Donate"));
+		ArrayList<String> rules = new ArrayList<>(Arrays.asList("&3 Rules"));
+		ArrayList<String> staff = new ArrayList<>(Arrays.asList("&4 Staff"));
+		ArrayList<String> twitter = new ArrayList<>(Arrays.asList("&6 Twitter"));
+		ArrayList<String> facebook = new ArrayList<>(Arrays.asList("&7 Facebook"));
+		ArrayList<String> youtube = new ArrayList<>(Arrays.asList("&8 Youtube"));
+		ArrayList<String> extra = new ArrayList<>(Arrays.asList("&9 Extra"));
+		ArrayList<String> vote = new ArrayList<>(Arrays.asList("&a Vote"));
+
 		plugin.getInformationConfig().set("Website", website);
 		plugin.getInformationConfig().set("Donate", donate);
 		plugin.getInformationConfig().set("Rules", rules);
@@ -71,6 +65,7 @@ public class UltimateConfig {
 		plugin.getInformationConfig().set("Youtube", youtube);
 		plugin.getInformationConfig().set("Extra", extra);
 		plugin.getInformationConfig().set("Vote", vote);
+
 		plugin.getInformationConfig().set("Disabled Flight Worlds.world", false);
 		plugin.getInformationConfig().set("Disabled Flight Worlds.world_nether", false);
 		plugin.getInformationConfig().set("Disabled Flight Worlds.world_the_end", false);
@@ -86,7 +81,23 @@ public class UltimateConfig {
 		plugin.getInformationConfig().set("Boss Message.Flag", "DARKEN_SKY");
 		plugin.getInformationConfig().set("Boss Message.Enable", true);
 		plugin.getInformationConfig().set("Blocktopofnetherbuilding", false);
-		plugin.getInformationConfig().set("Starter Kit", false);
+
+		plugin.getInformationConfig().set("Starter Kit Items.helmet.type", Material.IRON_HELMET.toString());
+		plugin.getInformationConfig().set("Starter Kit Items.chestplate.type", Material.IRON_CHESTPLATE.toString());
+		plugin.getInformationConfig().set("Starter Kit Items.leggings.type", Material.IRON_LEGGINGS.toString());
+		plugin.getInformationConfig().set("Starter Kit Items.boots.type", Material.IRON_BOOTS.toString());
+		plugin.getInformationConfig().set("Starter Kit Items.sword.type", Material.IRON_SWORD.toString());
+		plugin.getInformationConfig().set("Starter Kit Items.pickaxe.type", Material.IRON_PICKAXE.toString());
+		plugin.getInformationConfig().set("Starter Kit Items.axe.type", Material.IRON_AXE.toString());
+		plugin.getInformationConfig().set("Starter Kit Items.shovel.type", Material.IRON_SHOVEL.toString());
+		plugin.getInformationConfig().set("Starter Kit Items.hoe.type", Material.IRON_HOE.toString());
+		plugin.getInformationConfig().set("Starter Kit Items.bow.type", Material.BOW.toString());
+		plugin.getInformationConfig().set("Starter Kit Items.arrows.type", Material.ARROW.toString());
+		plugin.getInformationConfig().set("Starter Kit Items.arrows.amount", 32);
+		plugin.getInformationConfig().set("Starter Kit Items.bread.type", Material.BREAD.toString());
+		plugin.getInformationConfig().set("Starter Kit Items.bread.amount", 16);
+
+
 		plugin.getInformationConfig().set("Messages.Permission Denied",
 				"I'm sorry, but you do not have permission to perform this command. Please contact the server administrator(s) if you believe that this is in error.");
 		plugin.getInformationConfig().set("Messages.Permission.Creative Denied", "You are not allowed to use creative in this world!");
@@ -103,64 +114,34 @@ public class UltimateConfig {
 	}
 
 	public void setRecipeChangerConfig(File recipechangerf) {
-		plugin.getRecipeChangerConfig().set("Horse Armor.Iron", false);
-		plugin.getRecipeChangerConfig().set("Horse Armor.Gold", false);
-		plugin.getRecipeChangerConfig().set("Horse Armor.Diamond", false);
-		plugin.getRecipeChangerConfig().set("Chain Armor.Helmet", false);
-		plugin.getRecipeChangerConfig().set("Chain Armor.ChestPiece", false);
-		plugin.getRecipeChangerConfig().set("Chain Armor.Leggings", false);
-		plugin.getRecipeChangerConfig().set("Chain Armor.Boots", false);
-		plugin.getRecipeChangerConfig().set("Spawn Eggs.Bat", false);
-		plugin.getRecipeChangerConfig().set("Spawn Eggs.Chicken", false);
-		plugin.getRecipeChangerConfig().set("Spawn Eggs.Cow", false);
-		plugin.getRecipeChangerConfig().set("Spawn Eggs.Horse", false);
-		plugin.getRecipeChangerConfig().set("Spawn Eggs.Mooshroom", false);
-		plugin.getRecipeChangerConfig().set("Spawn Eggs.Ocelot", false);
-		plugin.getRecipeChangerConfig().set("Spawn Eggs.Pig", false);
-		plugin.getRecipeChangerConfig().set("Spawn Eggs.Sheep", false);
-		plugin.getRecipeChangerConfig().set("Spawn Eggs.Squid", false);
-		plugin.getRecipeChangerConfig().set("Spawn Eggs.Wolf", false);
-		plugin.getRecipeChangerConfig().set("Music Discs.stal", false);
-		plugin.getRecipeChangerConfig().set("Music Discs.11", false);
-		plugin.getRecipeChangerConfig().set("Music Discs.far", false);
-		plugin.getRecipeChangerConfig().set("Music Discs.ward", false);
-		plugin.getRecipeChangerConfig().set("Music Discs.13", false);
-		plugin.getRecipeChangerConfig().set("Music Discs.cat", false);
-		plugin.getRecipeChangerConfig().set("Music Discs.blocks", false);
-		plugin.getRecipeChangerConfig().set("Music Discs.mellohi", false);
-		plugin.getRecipeChangerConfig().set("Music Discs.chirp", false);
-		plugin.getRecipeChangerConfig().set("Music Discs.strad", false);
-		plugin.getRecipeChangerConfig().set("Music Discs.mall", false);
-		plugin.getRecipeChangerConfig().set("Misc.Name Tag", false);
-		plugin.getRecipeChangerConfig().set("Misc.Saddle", false);
-		plugin.getRecipeChangerConfig().set("Misc.Grass Block", false);
-		plugin.getRecipeChangerConfig().set("Misc.Obsidian", false);
-		plugin.getRecipeChangerConfig().set("Misc.Grass", false);
-		plugin.getRecipeChangerConfig().set("Misc.Ice", false);
-		plugin.getRecipeChangerConfig().set("Misc.Fire", false);
-		plugin.getRecipeChangerConfig().set("Misc.Bottle o Enchanting", false);
-		plugin.getRecipeChangerConfig().set("Misc.Sponge", false);
-		plugin.getRecipeChangerConfig().set("Misc.Bedrock", false);
-		plugin.getRecipeChangerConfig().set("Misc.Dragon Egg", false);
-		plugin.getRecipeChangerConfig().set("Misc.Gunpowder", false);
-		plugin.getRecipeChangerConfig().set("Misc.Monster Spawner", false);
-		plugin.getRecipeChangerConfig().set("Misc.Command Block", false);
-		plugin.getRecipeChangerConfig().set("Misc.Podzol", false);
-		plugin.getRecipeChangerConfig().set("Misc.Double Tallgrass", false);
-		plugin.getRecipeChangerConfig().set("Misc.Packed Ice", false);
-		plugin.getRecipeChangerConfig().set("Misc.Leather", false);
-		plugin.getRecipeChangerConfig().set("Misc.Cocoa Beans", false);
-		plugin.getRecipeChangerConfig().set("Misc.Shulker Shell", false);
-		plugin.getRecipeChangerConfig().set("Misc.Reinforced Deepslate", false);
-		plugin.getRecipeChangerConfig().set("Messages.Permission Granted", "You have permission to craft this item!");
-		plugin.getRecipeChangerConfig().set("Messages.Permission Denied",
-				"I'm sorry, but you do not have permission to craft this item. Please contact the server administrator(s) if you believe that this is in error.");
-		try {
-			plugin.getRecipeChangerConfig().save(recipechangerf);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+	    String[] keys = {"Horse Armor.Iron", "Horse Armor.Gold", "Horse Armor.Diamond",
+	                     "Chain Armor.Helmet", "Chain Armor.ChestPiece", "Chain Armor.Leggings",
+	                     "Chain Armor.Boots", "Spawn Eggs.Bat", "Spawn Eggs.Chicken", "Spawn Eggs.Cow",
+	                     "Spawn Eggs.Horse", "Spawn Eggs.Mooshroom", "Spawn Eggs.Ocelot", "Spawn Eggs.Pig",
+	                     "Spawn Eggs.Sheep", "Spawn Eggs.Squid", "Spawn Eggs.Wolf", "Music Discs.stal",
+	                     "Music Discs.11", "Music Discs.far", "Music Discs.ward", "Music Discs.13",
+	                     "Music Discs.cat", "Music Discs.blocks", "Music Discs.mellohi", "Music Discs.chirp",
+	                     "Music Discs.strad", "Music Discs.mall", "Misc.Name Tag", "Misc.Saddle",
+	                     "Misc.Grass Block", "Misc.Obsidian", "Misc.Grass", "Misc.Ice", "Misc.Fire",
+	                     "Misc.Bottle o Enchanting", "Misc.Sponge", "Misc.Bedrock", "Misc.Dragon Egg",
+	                     "Misc.Gunpowder", "Misc.Monster Spawner", "Misc.Command Block", "Misc.Podzol",
+	                     "Misc.Double Tallgrass", "Misc.Packed Ice", "Misc.Leather", "Misc.Cocoa Beans",
+	                     "Misc.Shulker Shell", "Misc.Reinforced Deepslate"};
+
+	    for (String key : keys) {
+	        plugin.getRecipeChangerConfig().set(key, false);
+	    }
+
+	    plugin.getRecipeChangerConfig().set("Messages.Permission Granted", "You have permission to craft this item!");
+	    plugin.getRecipeChangerConfig().set("Messages.Permission Denied",
+	        "I'm sorry, but you do not have permission to craft this item. Please contact the server administrator(s) if you believe that this is in error.");
+	    try {
+	        plugin.getRecipeChangerConfig().save(recipechangerf);
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	    }
 	}
+
 
 	public void setDisableCommandMessagesConfig(File disablecommandmessagesf) {
 		plugin.getDisableCommandMessagesConfig().set("Messages.Command Deny Message", "That command is not allowed!");

@@ -8,23 +8,25 @@ import org.bukkit.command.CommandSender;
 
 import io.github.xBlackPoison357x.UltimatePlugin.UltimatePlugin;
 
+
 public class Motd implements CommandExecutor {
 	public UltimatePlugin plugin;
+
 
 	public Motd(UltimatePlugin instance) {
 		plugin = instance;
 	}
 
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
-		if (commandLabel.equalsIgnoreCase("motd")) {
-			// empty if block
-		}
-		if (sender.isOp() || sender.hasPermission("information.motd")) {
-			sender.sendMessage(
-					ChatColor.RED + "[" + plugin.pdfFile.getName() + "] " + ChatColor.YELLOW + Bukkit.getMotd().toString());
-			return true;
-		}
-		sender.sendMessage(ChatColor.RED + plugin.getInformationConfig().getString("Messages.Permission Denied"));
-		return false;
+	    if (commandLabel.equalsIgnoreCase("motd")) {
+	        if (sender.isOp() || sender.hasPermission("information.motd")) {
+	            sender.sendMessage(ChatColor.RED + "[" + plugin.pdfFile.getName() + "] " + ChatColor.YELLOW + Bukkit.getMotd().toString());
+	            return true;
+	        } else {
+	            sender.sendMessage(ChatColor.RED + plugin.getInformationConfig().getString("Messages.Permission Denied"));
+	            return false;
+	        }
+	    }
+	    return false;
 	}
 }

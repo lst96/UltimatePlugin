@@ -62,10 +62,9 @@ public class Crafting implements Listener {
 		if (plugin.getRecipeChangerConfig().getBoolean("Misc.Saddle")) {
 			ShapedRecipe saddle = new ShapedRecipe(new NamespacedKey(plugin, "SADDLE"),
 					(new ItemStack(Material.SADDLE)));
-			saddle.shape(new String[] { "LLL", "LLL", "ISI" });
+			saddle.shape(new String[] { "LLL", "LIL", "INI" });
 			saddle.setIngredient('L', Material.LEATHER);
 			saddle.setIngredient('I', Material.IRON_INGOT);
-			saddle.setIngredient('S', Material.STRING);
 			Bukkit.addRecipe(saddle);
 		}
 		if (plugin.getRecipeChangerConfig().getBoolean("Misc.Grass Block")) {
@@ -93,7 +92,7 @@ public class Crafting implements Listener {
 		}
 		if (plugin.getRecipeChangerConfig().getBoolean("Misc.Grass")) {
 			ShapedRecipe TallGrass = new ShapedRecipe(new NamespacedKey(plugin, "GRASS"),
-					(new ItemStack(Material.GRASS)));
+					(new ItemStack(Material.TALL_GRASS)));
 			TallGrass.shape(new String[] { "NNN", "NSN", "NGN" });
 			TallGrass.setIngredient('G', Material.GRASS);
 			TallGrass.setIngredient('S', Material.WHEAT_SEEDS);
@@ -117,28 +116,28 @@ public class Crafting implements Listener {
 			ShapedRecipe Chelmet = new ShapedRecipe(new NamespacedKey(plugin, "CHAINMAIL_HELMET"),
 					(new ItemStack(Material.CHAINMAIL_HELMET)));
 			Chelmet.shape(new String[] { "FFF", "FNF", "NNN" });
-			Chelmet.setIngredient('F', Material.IRON_BARS);
+			Chelmet.setIngredient('F', Material.CHAIN);
 			Bukkit.addRecipe(Chelmet);
 		}
 		if (plugin.getRecipeChangerConfig().getBoolean("Chain Armor.ChestPiece")) {
 			ShapedRecipe Cchestpiece = new ShapedRecipe(new NamespacedKey(plugin, "CHAINMAIL_CHESTPLATE"),
 					(new ItemStack(Material.CHAINMAIL_CHESTPLATE)));
 			Cchestpiece.shape(new String[] { "FNF", "FFF", "FFF" });
-			Cchestpiece.setIngredient('F', Material.IRON_BARS);
+			Cchestpiece.setIngredient('F', Material.CHAIN);
 			Bukkit.addRecipe(Cchestpiece);
 		}
 		if (plugin.getRecipeChangerConfig().getBoolean("Chain Armor.Leggings")) {
 			ShapedRecipe Cleggings = new ShapedRecipe(new NamespacedKey(plugin, "CHAINMAIL_LEGGINGS"),
 					(new ItemStack(Material.CHAINMAIL_LEGGINGS)));
 			Cleggings.shape(new String[] { "FFF", "FNF", "FNF" });
-			Cleggings.setIngredient('F', Material.IRON_BARS);
+			Cleggings.setIngredient('F', Material.CHAIN);
 			Bukkit.addRecipe(Cleggings);
 		}
 		if (plugin.getRecipeChangerConfig().getBoolean("Chain Armor.Boots")) {
 			ShapedRecipe Cboots = new ShapedRecipe(new NamespacedKey(plugin, "CHAINMAIL_BOOTS"),
 					(new ItemStack(Material.CHAINMAIL_BOOTS)));
 			Cboots.shape(new String[] { "NNN", "FNF", "FNF" });
-			Cboots.setIngredient('F', Material.IRON_BARS);
+			Cboots.setIngredient('F', Material.CHAIN);
 			Bukkit.addRecipe(Cboots);
 		}
 		if (plugin.getRecipeChangerConfig().getBoolean("Misc.Bottle o Enchanting")) {
@@ -224,7 +223,7 @@ public class Crafting implements Listener {
 		if (plugin.getRecipeChangerConfig().getBoolean("Misc.Packed Ice")) {
 			ShapedRecipe packedice = new ShapedRecipe(new NamespacedKey(plugin, "PACKED_ICE"),
 					(new ItemStack(Material.PACKED_ICE)));
-			packedice.shape(new String[] { "NNN", "NII", "NII" });
+			packedice.shape(new String[] { "III", "III", "III" });
 			packedice.setIngredient('I', Material.ICE);
 			Bukkit.addRecipe(packedice);
 		}

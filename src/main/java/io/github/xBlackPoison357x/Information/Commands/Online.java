@@ -8,24 +8,29 @@ import org.bukkit.command.CommandSender;
 
 import io.github.xBlackPoison357x.UltimatePlugin.UltimatePlugin;
 
+
 public class Online implements CommandExecutor {
 	public UltimatePlugin plugin;
+
 
 	public Online(UltimatePlugin instance) {
 		plugin = instance;
 	}
 
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
-		if (commandLabel.equalsIgnoreCase("online")) {
-			// empty if block
-		}
-		if (sender.isOp() || sender.hasPermission("information.online")) {
-			sender.sendMessage(ChatColor.RED + "[" + plugin.pdfFile.getName() + "] " + ChatColor.GREEN
-					+ Bukkit.getOnlinePlayers().size() + ChatColor.RESET + ChatColor.YELLOW + " of " + ChatColor.RESET
-					+ ChatColor.GREEN + Bukkit.getMaxPlayers());
-			return true;
-		}
-		sender.sendMessage(ChatColor.RED + plugin.getInformationConfig().getString("Messages.Permission Denied"));
-		return false;
+	    if (commandLabel.equalsIgnoreCase("online")) {
+	        if (!sender.hasPermission("information.online")) {
+	            sender.sendMessage(ChatColor.RED + plugin.getInformationConfig().getString("Messages.Permission Denied"));
+	            return true;
+	        }
+	        
+	        int onlinePlayers = Bukkit.getOnlinePlayers().size();
+	        int maxPlayers = Bukkit.getMaxPlayers();
+	        sender.sendMessage(ChatColor.RED + "[" + plugin.pdfFile.getName() + "] " + ChatColor.GREEN
+	            + onlinePlayers + ChatColor.RESET + ChatColor.YELLOW + " of " + ChatColor.RESET
+	            + ChatColor.GREEN + maxPlayers);
+	        return true;
+	    }
+	    return false;
 	}
 }

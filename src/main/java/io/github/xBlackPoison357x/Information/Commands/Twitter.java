@@ -9,26 +9,28 @@ import org.bukkit.command.CommandSender;
 
 import io.github.xBlackPoison357x.UltimatePlugin.UltimatePlugin;
 
+
 public class Twitter implements CommandExecutor {
 	public UltimatePlugin plugin;
+
 
 	public Twitter(UltimatePlugin instance) {
 		plugin = instance;
 	}
 
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
-		if (commandLabel.equalsIgnoreCase("twitter")) {
-			// empty if block
-		}
-		if (sender.isOp() || sender.hasPermission("information.twitter")) {
-			List<String> Twitter2 = plugin.getInformationConfig().getStringList("Twitter");
-			sender.sendMessage(ChatColor.BLUE + "--Twitter Link(s)--");
-			for (String Twitter1 : Twitter2) {
-				sender.sendMessage(ChatColor.translateAlternateColorCodes((char) '&', Twitter1));
-			}
-			return true;
-		}
-		sender.sendMessage(ChatColor.RED + plugin.getInformationConfig().getString("Messages.Permission Denied"));
-		return false;
+	    if (commandLabel.equalsIgnoreCase("twitter")) {
+	        if (sender.isOp() || sender.hasPermission("information.twitter")) {
+	            List<String> twitterLinks = plugin.getInformationConfig().getStringList("Twitter");
+	            sender.sendMessage(ChatColor.BLUE + "--Twitter Link(s)--");
+	            for (String link : twitterLinks) {
+	                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', link));
+	            }
+	            return true;
+	        }
+	        sender.sendMessage(ChatColor.RED + plugin.getInformationConfig().getString("Messages.Permission Denied"));
+	        return false;
+	    }
+	    return false;
 	}
 }

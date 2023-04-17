@@ -1,36 +1,34 @@
 package io.github.xBlackPoison357x.Information.Runnables;
 
 public class Tps implements Runnable {
-	public static int TICK_COUNT = 0;
-	public static long[] TICKS = new long[600];
-	public static long LAST_TICK = 0L;
+	private static final int TICKS_TO_KEEP = 600;
+	private static int tickCount = 0;
+	private static long[] tickTimestamps = new long[TICKS_TO_KEEP];
 
 	public static double getTPS() {
 		return getTPS(100);
 	}
 
 	public static double getTPS(int ticks) {
-		if (TICK_COUNT < ticks) {
+		if (tickCount < ticks) {
 			return 20.0D;
 		}
-		int target = (TICK_COUNT - 1 - ticks) % TICKS.length;
-		long elapsed = System.currentTimeMillis() - TICKS[target];
+		int target = (tickCount - 1 - ticks) % TICKS_TO_KEEP;
+		long elapsed = System.currentTimeMillis() - tickTimestamps[target];
 
 		return ticks / (elapsed / 1000.0D);
 	}
 
 	public static long getElapsed(int tickID) {
-		if (TICK_COUNT - tickID >= TICKS.length) {
+		if (tickCount - tickID >= TICKS_TO_KEEP) {
+			return -1L;
 		}
-
-		long time = TICKS[(tickID % TICKS.length)];
+		long time = tickTimestamps[tickID % TICKS_TO_KEEP];
 		return System.currentTimeMillis() - time;
 	}
 
 	public void run() {
-		TICKS[(TICK_COUNT % TICKS.length)] = System.currentTimeMillis();
-
-		TICK_COUNT += 1;
+		tickTimestamps[tickCount % TICKS_TO_KEEP] = System.currentTimeMillis();
+		tickCount++;
 	}
-
 }

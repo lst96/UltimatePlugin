@@ -10,25 +10,30 @@ import org.bukkit.command.CommandSender;
 import io.github.xBlackPoison357x.UltimatePlugin.UltimatePlugin;
 
 public class Website implements CommandExecutor {
-	public UltimatePlugin plugin;
+    public UltimatePlugin plugin;
 
-	public Website(UltimatePlugin instance) {
-		plugin = instance;
-	}
+    public Website(UltimatePlugin instance) {
+        plugin = instance;
+    }
 
-	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
-		if (commandLabel.equalsIgnoreCase("website")) {
-			// empty if block
-		}
-		if (sender.isOp() || sender.hasPermission("information.website")) {
-			List<String> Website2 = plugin.getInformationConfig().getStringList("Website");
-			sender.sendMessage(ChatColor.BLUE + "--Website Link(s)--");
-			for (String Website1 : Website2) {
-				sender.sendMessage(ChatColor.translateAlternateColorCodes((char) '&', Website1));
-			}
-			return true;
-		}
-		sender.sendMessage(ChatColor.RED + plugin.getInformationConfig().getString("Messages.Permission Denied"));;
-		return false;
-	}
+    public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
+        if (!commandLabel.equalsIgnoreCase("website")) {
+            return false;
+        }
+
+        if (!sender.hasPermission("information.website")) {
+            sender.sendMessage(ChatColor.RED + plugin.getInformationConfig().getString("Messages.Permission Denied"));
+            return true;
+        }
+
+        List<String> websites = plugin.getInformationConfig().getStringList("Website");
+
+        sender.sendMessage(ChatColor.BLUE + "--Website Link(s)--");
+
+        for (String website : websites) {
+            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', website));
+        }
+
+        return true;
+    }
 }

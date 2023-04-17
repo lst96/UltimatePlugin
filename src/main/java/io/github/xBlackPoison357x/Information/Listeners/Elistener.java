@@ -3,6 +3,7 @@ package io.github.xBlackPoison357x.Information.Listeners;
 import java.util.List;
 
 import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -18,13 +19,11 @@ public class Elistener implements Listener {
 
 	@EventHandler
 	public void onPlayerJoin(PlayerJoinEvent event) {
-		if (event.getPlayer().isOp() || event.getPlayer().hasPermission("information.extra")) {
-			List<String> Extra = plugin.getInformationConfig().getStringList("Extra");
-			event.getPlayer().sendMessage(ChatColor.BLUE + "--Extra(s)--");
-			for (String Extra1 : Extra) {
-				event.getPlayer().sendMessage(ChatColor.translateAlternateColorCodes((char) '&', Extra1));
-			}
-			return;
-		}
+	    Player player = event.getPlayer();
+	    if (player.isOp() || player.hasPermission("information.extra")) {
+	        List<String> extras = plugin.getInformationConfig().getStringList("Extra");
+	        player.sendMessage(ChatColor.BLUE + "--Extras--");
+	        extras.forEach(extra -> player.sendMessage(ChatColor.translateAlternateColorCodes('&', extra)));
+	    }
 	}
 }

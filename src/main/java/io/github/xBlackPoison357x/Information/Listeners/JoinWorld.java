@@ -22,13 +22,13 @@ public class JoinWorld implements Listener {
 
 	@EventHandler(priority = EventPriority.LOWEST)
 	public void onPlayerChangeWorld(PlayerChangedWorldEvent event) {
+		Player p = event.getPlayer();
+		Environment e = p.getWorld().getEnvironment();
 		String msg = ChatColor.RED
 				+ plugin.getInformationConfig().getString("Messages.Permission.Join World Disabled Error");
 		String msg2 = ChatColor.RED
 				+ plugin.getInformationConfig().getString("Messages.Permission.Join World Config Error");
 		String msg3 = ChatColor.RED + plugin.getInformationConfig().getString("Messages.Permission.Join World Join Error");
-		Player p = event.getPlayer();
-		Environment e = p.getWorld().getEnvironment();
 		if (plugin.getInformationConfig().getBoolean("Disabled Join Worlds.world_the_end")
 				&& (!p.isOp() || !p.hasPermission("information.joinbypass.end"))
 				&& e.equals(World.Environment.THE_END)) {
@@ -72,13 +72,13 @@ public class JoinWorld implements Listener {
 
 	@EventHandler(priority = EventPriority.LOWEST)
 	public void onPlayerChangeWorld(PlayerJoinEvent event) {
+		Player p = event.getPlayer();
+		Environment e = p.getWorld().getEnvironment();
 		String msg = ChatColor.RED
 				+ plugin.getInformationConfig().getString("Messages.Permission.Join World Disabled Error");
 		String msg2 = ChatColor.RED
 				+ plugin.getInformationConfig().getString("Messages.Permission.Join World Config Error");
 		String msg3 = ChatColor.RED + plugin.getInformationConfig().getString("Messages.Permission.Join World Join Error");
-		Player p = event.getPlayer();
-		Environment e = p.getWorld().getEnvironment();
 		if (plugin.getInformationConfig().getBoolean("Disabled Join Worlds.world_the_end")
 				&& (!p.isOp() || !p.hasPermission("information.joinbypass.end"))
 				&& e.equals(World.Environment.THE_END)) {

@@ -19,29 +19,37 @@ public class Flight implements Listener {
 
 	@EventHandler(priority = EventPriority.LOWEST)
 	public void onPlayerChangeWorld(PlayerMoveEvent event) {
-		String msg = ChatColor.RED + plugin.getInformationConfig().getString("Messages.Permission Flight Denied");
-		Player p = event.getPlayer();
-		Environment e = p.getWorld().getEnvironment();
-		if (plugin.getInformationConfig().getBoolean("Disabled Flight Worlds.world_the_end")
-				&& (!p.isOp() || !p.hasPermission("information.flightbypass.end"))
-				&& e.equals(Environment.THE_END) && p.isFlying()) {
-			p.setAllowFlight(false);
-			p.setFlying(false);
-			p.sendMessage(msg);
-		}
-		if (plugin.getInformationConfig().getBoolean("Disabled Flight Worlds.world_nether")
-				&& (!p.isOp() || !p.hasPermission("information.flightbypass.nether"))
-				&& e.equals(Environment.NETHER) && p.isFlying()) {
-			p.setAllowFlight(false);
-			p.setFlying(false);
-			p.sendMessage(msg);
-		}
-		if (plugin.getInformationConfig().getBoolean("Disabled Flight Worlds.world")
-				&& (!p.isOp() || !p.hasPermission("information.flightbypass.world"))
-				&& e.equals(Environment.NORMAL) && p.isFlying()) {
-			p.setAllowFlight(false);
-			p.setFlying(false);
-			p.sendMessage(msg);
-		}
+	    Player player = event.getPlayer();
+	    Environment environment = player.getWorld().getEnvironment();
+	    String permissionMsg = ChatColor.RED + plugin.getInformationConfig().getString("Messages.Permission Flight Denied");
+
+	    if (!player.isFlying()) {
+	        return;
+	    }
+
+	    if (plugin.getInformationConfig().getBoolean("Disabled Flight Worlds.world_the_end") &&
+	            environment == Environment.THE_END &&
+	            !player.hasPermission("information.flightbypass.end")) {
+	        denyFlight(player, permissionMsg);
+	    }
+
+	    if (plugin.getInformationConfig().getBoolean("Disabled Flight Worlds.world_nether") &&
+	            environment == Environment.NETHER &&
+	            !player.hasPermission("information.flightbypass.nether")) {
+	        denyFlight(player, permissionMsg);
+	    }
+
+	    if (plugin.getInformationConfig().getBoolean("Disabled Flight Worlds.world") &&
+	            environment == Environment.NORMAL &&
+	            !player.hasPermission("information.flightbypass.world")) {
+	        denyFlight(player, permissionMsg);
+	    }
+	}
+
+	private void denyFlight(Player player, String message) {
+	    player.setAllowFlight(false);
+	    player.setFlying(false);
+	    player.sendMessage(message);
 	}
 }
+

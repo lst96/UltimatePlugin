@@ -1,10 +1,12 @@
 package io.github.xBlackPoison357x.FrameProtector.Listener;
 
-import org.bukkit.Bukkit;
+import java.io.IOException;
+import java.util.List;
+import java.util.Map;
+
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.ItemFrame;
@@ -13,7 +15,6 @@ import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.hanging.HangingBreakByEntityEvent;
 import org.bukkit.event.hanging.HangingPlaceEvent;
@@ -28,31 +29,28 @@ public class ItemRemove implements Listener {
 	}
 
 	@EventHandler(priority = EventPriority.LOWEST)
-	public void onDestroyByEntity(HangingBreakByEntityEvent event) {
-		String msg1 = plugin.getFrameProtectorConfig().getString("Messages.Remove Frame Deny Message");
-		Entity ee = event.getEntity();
-		Player p = (Player) event.getRemover();
-		if (event.getRemover() instanceof Player && event.getEntity().getType() == EntityType.ITEM_FRAME
-				&& (!p.isOp() || !p.hasPermission("frame.remove"))
-				&& plugin.getFrameProtectorConfig().get(p.getUniqueId().toString()) == p.getUniqueId().toString() + " "
-						+ p.getLocation().getWorld().getName()
-				&& plugin.getFrameProtectorConfig().get("Item Frame.x") == p.getUniqueId().toString() + " "
-						+ ee.getLocation().getBlockX()
-				&& plugin.getFrameProtectorConfig().get("Item Frame.y") == p.getUniqueId().toString() + " "
-						+ ee.getLocation().getBlockY()
-				&& plugin.getFrameProtectorConfig().get("Item Frame.z") == p.getUniqueId().toString() + " "
-						+ ee.getLocation().getBlockZ()) {
-			event.setCancelled(false);
-			Bukkit.broadcastMessage("Event not Canceled");
-		} else {
-			event.setCancelled(true);
-			if (plugin.getFrameProtectorConfig().getBoolean("Messages.Enable")) {
-				p.sendMessage(ChatColor.RED + msg1);
-				return;
-			}
-		}
+	public void onItemFrameRemove(HangingBreakByEntityEvent event) {
+	    Entity entity = event.getEntity();
+	    if (entity.getType() == EntityType.ITEM_FRAME) {
+	        ItemFrame itemFrame = (ItemFrame) entity;
+	        Player player = null;
+	        if (event.getRemover() instanceof Player) {
+	            player = (Player) event.getRemover();
+	        }
+
+	        if (player != null) {
+	            if (canRemoveItemFrame(player, itemFrame)) {
+	                removeItemFrameFromConfig(player, itemFrame);
+	                player.sendMessage(ChatColor.GREEN + "Item frame removed successfully.");
+	            } else {
+	                player.sendMessage(ChatColor.RED + "You are not the owner of this item frame and cannot remove it.");
+	                event.setCancelled(true);
+	            }
+	        }
+	    }
 	}
 
+//if player is allowed to place item frame, if not cancel event.
 	@EventHandler(priority = EventPriority.LOWEST)
 	public void OnPlaceByEntity(HangingPlaceEvent event) {
 		String msg2 = plugin.getFrameProtectorConfig().getString("Messages.Place Deny Message");
@@ -68,7 +66,7 @@ public class ItemRemove implements Listener {
 			}
 		}
 	}
-
+//if player is allowed to rotate item frame, if not cancel event
 	@EventHandler(priority = EventPriority.LOWEST)
 	public void canRotate(PlayerInteractEntityEvent event) {
 		String msg3 = plugin.getFrameProtectorConfig().getString("Messages.Rotate Deny Message");
@@ -88,44 +86,114 @@ public class ItemRemove implements Listener {
 			}
 		}
 	}
-
-	@EventHandler(priority = EventPriority.LOWEST)
 	public void ItemRemoval(EntityDamageByEntityEvent e) {
-		Player p = null;
-		String msg4 = plugin.getFrameProtectorConfig().getString("Messages.Remove Item Deny Message");
-		if (e.getDamager() instanceof Player) {
-			p = (Player) e.getDamager();
-			if (e.getEntity().getType() == EntityType.ITEM_FRAME && !p.isOp()
-					&& !p.hasPermission("frame.item.remove")) {
-				e.setCancelled(true);
-				if (plugin.getFrameProtectorConfig().getBoolean("Messages.Enable")) {
-					p.sendMessage(ChatColor.RED + msg4);
-				}
-			}
-		}
-		if (e.getDamager() instanceof Projectile && e.getEntity().getType() == EntityType.ITEM_FRAME
-				&& !(p.getPlayer().isOp()) && !p.hasPermission("frame.item.remove")) {
-			e.setCancelled(true);
-			if (plugin.getFrameProtectorConfig().getBoolean("Messages.Enable")) {
-				p.sendMessage(ChatColor.RED + msg4);
-			}
-		}
+	    Player p = null;
+	    String msg4 = plugin.getFrameProtectorConfig().getString("Messages.Remove Item Deny Message");
+
+	    if (e.getDamager() instanceof Player) {
+	        p = (Player) e.getDamager();
+	        if (e.getEntity().getType() == EntityType.ITEM_FRAME && (p.isOp() || p.hasPermission("frame.item.remove")) 
+	                && canRemoveItemFrame(p, (ItemFrame) e.getEntity())) {
+	            removeItemFrameFromConfig(p, (ItemFrame) e.getEntity());
+	            p.sendMessage(ChatColor.GREEN + "Item frame removed successfully.");
+	        } else {
+	            e.setCancelled(true);
+	            if (plugin.getFrameProtectorConfig().getBoolean("Messages.Enable") && p != null) {
+	                p.sendMessage(ChatColor.RED + msg4);
+	            }
+	        }
+	    }
+
+	    if (e.getDamager() instanceof Projectile && e.getEntity().getType() == EntityType.ITEM_FRAME) {
+	        if (canRemoveItemFrame(p, (ItemFrame) e.getEntity())) {
+	            removeItemFrameFromConfig(p, (ItemFrame) e.getEntity());
+	            if (p != null) {
+	                p.sendMessage(ChatColor.GREEN + "Item frame removed successfully.");
+	            }
+	        } else {
+	            e.setCancelled(true);
+	            if (plugin.getFrameProtectorConfig().getBoolean("Messages.Enable") && p != null) {
+	                p.sendMessage(ChatColor.RED + msg4);
+	            }
+	        }
+	    }
+
+	    if (e.getDamager() instanceof Player && e.getEntity() instanceof ItemFrame) {
+	        Player player = (Player) e.getDamager();
+	        ItemFrame itemFrame = (ItemFrame) e.getEntity();
+	        if (canRemoveItemFrame(player, itemFrame)) {
+	            removeItemFrameFromConfig(player, itemFrame);
+	            player.sendMessage(ChatColor.GREEN + "Item frame removed successfully.");
+	        } else {
+	            player.sendMessage(ChatColor.RED + "You are not the owner of this item frame and cannot remove it.");
+	            e.setCancelled(true);
+	        }
+	    }
 	}
 
-	// TODO: fix this
-	public static final BlockFace[] SIDES = new BlockFace[] { BlockFace.UP, BlockFace.DOWN, BlockFace.NORTH,
-			BlockFace.SOUTH, BlockFace.WEST, BlockFace.EAST };
 
-	@EventHandler(priority = EventPriority.LOWEST)
-	public void onBlockBreak(BlockBreakEvent e) {
-		for (BlockFace side : SIDES) {
-			final Block b = e.getBlock().getRelative(side);
-			if (b.getState().getData() instanceof ItemFrame) {
-				ItemFrame itemframe = (ItemFrame) b.getState().getData();
-				if (b.getRelative(itemframe.getAttachedFace()).equals(e.getBlock())) {
-					e.setCancelled(true);
-				}
-			}
-		}
+
+	
+	//checks if player is owner of itemframe and is allowed to remove it.
+	public boolean canRemoveItemFrame(Player player, ItemFrame itemFrame) {
+	    String uuid = player.getUniqueId().toString();
+	    ConfigurationSection itemFrames = plugin.getFrameProtectorConfig().getConfigurationSection("ItemFrames");
+	    if (itemFrames != null) {
+	        ConfigurationSection playerSection = itemFrames.getConfigurationSection(uuid);
+	        if (playerSection != null) {
+	            List<Map<?, ?>> framesList = playerSection.getMapList("frames");
+	            for (int i = 0; i < framesList.size(); i++) {
+	                @SuppressWarnings("unchecked")
+	                Map<String, Object> frameMap = (Map<String, Object>) framesList.get(i);
+	                if (frameMap != null && frameMap.get("x").equals(itemFrame.getLocation().getBlockX())
+	                        && frameMap.get("y").equals(itemFrame.getLocation().getBlockY())
+	                        && frameMap.get("z").equals(itemFrame.getLocation().getBlockZ())
+	                        && frameMap.get("world").equals(itemFrame.getWorld().getUID().toString())) {
+	                    String frameOwnerUUID = playerSection.getName();
+	                    // Remove the configuration entry if the player is the owner
+	                    if (uuid.equals(frameOwnerUUID)) {
+	                        return true;
+	                    } else {
+	                        return false;
+	                    }
+	                }
+	            }
+	        }
+	    }
+	    return false;
+	}
+//removes the itemframe from the save file.
+	public void removeItemFrameFromConfig(Player player, ItemFrame itemFrame) {
+	    String uuid = player.getUniqueId().toString();
+	    ConfigurationSection itemFrames = plugin.getFrameProtectorConfig().getConfigurationSection("ItemFrames");
+	    if (itemFrames != null) {
+	        ConfigurationSection playerSection = itemFrames.getConfigurationSection(uuid);
+	        if (playerSection != null) {
+	            List<Map<?, ?>> framesList = playerSection.getMapList("frames");
+	            for (int i = 0; i < framesList.size(); i++) {
+	                @SuppressWarnings("unchecked")
+	                Map<String, Object> frameMap = (Map<String, Object>) framesList.get(i);
+	                if (frameMap != null && frameMap.get("x").equals(itemFrame.getLocation().getBlockX())
+	                        && frameMap.get("y").equals(itemFrame.getLocation().getBlockY())
+	                        && frameMap.get("z").equals(itemFrame.getLocation().getBlockZ())
+	                        && frameMap.get("world").equals(itemFrame.getWorld().getUID().toString())) {
+	                    String frameOwnerUUID = playerSection.getName();
+	                    // Remove the configuration entry if the player is the owner
+	                    if (uuid.equals(frameOwnerUUID)) {
+	                        framesList.remove(i);
+	                        playerSection.set("frames", framesList);
+	                        try {
+	                            plugin.getFrameProtectorConfig().save(plugin.frameprotectorf);
+	                        } catch (IOException e) {
+	                            e.printStackTrace();
+	                        }
+	                    }
+	                    break;
+	                }
+	            }
+	        }
+	    }
 	}
 }
+
+

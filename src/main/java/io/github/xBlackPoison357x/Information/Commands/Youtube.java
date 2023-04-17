@@ -9,26 +9,33 @@ import org.bukkit.command.CommandSender;
 
 import io.github.xBlackPoison357x.UltimatePlugin.UltimatePlugin;
 
+
 public class Youtube implements CommandExecutor {
 	public UltimatePlugin plugin;
+
 
 	public Youtube(UltimatePlugin instance) {
 		plugin = instance;
 	}
 
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
-		if (commandLabel.equalsIgnoreCase("youtube")) {
-			// empty if block
-		}
-		if (sender.isOp() || sender.hasPermission("information.youtube")) {
-			List<String> Youtube2 = plugin.getInformationConfig().getStringList("Youtube");
-			sender.sendMessage(ChatColor.BLUE + "--Youtube Link(s)--");
-			for (String Youtube1 : Youtube2) {
-				sender.sendMessage(ChatColor.translateAlternateColorCodes((char) '&', Youtube1));
-			}
-			return true;
-		}
-		sender.sendMessage(ChatColor.RED + plugin.getInformationConfig().getString("Messages.Permission Denied"));
-		return false;
+	    if (!commandLabel.equalsIgnoreCase("youtube")) {
+	        return false;
+	    }
+
+	    if (!sender.hasPermission("information.youtube")) {
+	        sender.sendMessage(ChatColor.RED + plugin.getInformationConfig().getString("Messages.Permission Denied"));
+	        return true;
+	    }
+
+	    List<String> youtubeLinks = plugin.getInformationConfig().getStringList("Youtube");
+
+	    sender.sendMessage(ChatColor.BLUE + "--Youtube Link(s)--");
+
+	    for (String link : youtubeLinks) {
+	        sender.sendMessage(ChatColor.AQUA + link);
+	    }
+
+	    return true;
 	}
 }

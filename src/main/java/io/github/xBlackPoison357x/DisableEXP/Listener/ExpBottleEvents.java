@@ -14,9 +14,9 @@ public class ExpBottleEvents implements Listener {
 	}
 
 	@EventHandler
-	public void onBottle(ExpBottleEvent event) {
+	public void onBottle(ExpBottleEvent e) {
 		if (plugin.getDisableEXPConfig().getBoolean("EXP.Exp Bottle")) {
-			event.setExperience(0);
+			e.setExperience(0);
 		}
 	}
 }
