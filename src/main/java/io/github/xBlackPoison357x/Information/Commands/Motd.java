@@ -17,6 +17,7 @@ public class Motd implements CommandExecutor {
 		plugin = instance;
 	}
 
+	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
 	    if (commandLabel.equalsIgnoreCase("motd")) {
 	        if (sender.isOp() || sender.hasPermission("information.motd")) {

@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import org.bukkit.Material;
+
 import io.github.xBlackPoison357x.UltimatePlugin.UltimatePlugin;
 
 public class ConfigurationMessages {
@@ -17,6 +18,7 @@ public class ConfigurationMessages {
 
 	public void setDefaultConfig(File configf) {
 		plugin.getDefaultConfig().set("UltimatePlugin", plugin.pdfFile.getVersion());
+		plugin.getDefaultConfig().set("Auto Updater", true);
 		plugin.getDefaultConfig().set("Enabled Plugin Components.Information", true);
 		plugin.getDefaultConfig().set("Enabled Plugin Components.RecipeChanger", true);
 		plugin.getDefaultConfig().set("Enabled Plugin Components.DisableEXP", true);
@@ -105,7 +107,7 @@ public class ConfigurationMessages {
 		plugin.getInformationConfig().set("Messages.Permission.Join World Config Error", "Config Error, all worlds are disabled, please undisable at least 1 world.");
 		plugin.getInformationConfig().set("Messages.Permission.Join World Disabled Error", "World disabled, teleporting to");
 		plugin.getInformationConfig().set("Messages.Permission.Join World Join Error", "You are not allowed to join");
-		
+
 		try {
 			plugin.getInformationConfig().save(informationf);
 		} catch (IOException e) {

@@ -1,9 +1,9 @@
-name: "UltimatePlugin"
-version: "1.2"
+name: UltimatePlugin
+version: '1.2'
 author: BlackPoison357
 main: io.github.xBlackPoison357x.UltimatePlugin.UltimatePlugin
-api-version: "1.16"
-api: "1.15"
+api-version: 1.16
+api: '1.16'
 commands:
   website:
     description: Displays your Website link.
@@ -231,7 +231,7 @@ permissions:
       recipe.cocoabean: true
       recipe.stal: true
       recipe.11: true
-      recipe.far: true
+      recipe.ward: true
       recipe.13: true
       recipe.cat: true
       recipe.blocks: true
@@ -284,7 +284,7 @@ permissions:
       recipe.cocoabean: true
       recipe.stal: true
       recipe.11: true
-      recipe.far: true
+      recipe.ward: true
       recipe.13: true
       recipe.cat: true
       recipe.blocks: true
@@ -336,7 +336,7 @@ permissions:
       recipe.cocoabean: true
       recipe.stal: true
       recipe.11: true
-      recipe.far: true
+      recipe.ward: true
       recipe.13: true
       recipe.cat: true
       recipe.blocks: true
@@ -352,6 +352,7 @@ permissions:
       frame.place: true
       frame.item.remove: true
       frame.rotate: true
+      frame.bypass: true
   disablecommands.*:
     description: Gives all permissions to do with DisableCommands
     Permissionchildren: null

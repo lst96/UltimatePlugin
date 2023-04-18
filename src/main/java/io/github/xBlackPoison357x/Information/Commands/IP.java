@@ -12,11 +12,12 @@ import io.github.xBlackPoison357x.UltimatePlugin.UltimatePlugin;
 public class IP implements CommandExecutor {
 	public UltimatePlugin plugin;
 
-	
+
 	public IP(UltimatePlugin instance) {
 	plugin = instance;
 	}
 
+	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
 	    if (commandLabel.equalsIgnoreCase("ip")) {
 	        if (sender.isOp() || sender.hasPermission("information.ip")) {

@@ -17,13 +17,14 @@ public class Online implements CommandExecutor {
 		plugin = instance;
 	}
 
+	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
 	    if (commandLabel.equalsIgnoreCase("online")) {
 	        if (!sender.hasPermission("information.online")) {
 	            sender.sendMessage(ChatColor.RED + plugin.getInformationConfig().getString("Messages.Permission Denied"));
 	            return true;
 	        }
-	        
+
 	        int onlinePlayers = Bukkit.getOnlinePlayers().size();
 	        int maxPlayers = Bukkit.getMaxPlayers();
 	        sender.sendMessage(ChatColor.RED + "[" + plugin.pdfFile.getName() + "] " + ChatColor.GREEN

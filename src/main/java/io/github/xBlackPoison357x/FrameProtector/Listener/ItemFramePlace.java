@@ -15,6 +15,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.hanging.HangingPlaceEvent;
+
 import io.github.xBlackPoison357x.UltimatePlugin.UltimatePlugin;
 
 public class ItemFramePlace implements Listener {
@@ -26,7 +27,7 @@ public class ItemFramePlace implements Listener {
 
 	@EventHandler(priority = EventPriority.LOWEST)
 	public void AddConfigEntry(HangingPlaceEvent event) {
-	    Player player = (Player) event.getPlayer();
+	    Player player = event.getPlayer();
 	    Entity entity = event.getEntity();
 
 	    if (entity.getType() == EntityType.ITEM_FRAME) {

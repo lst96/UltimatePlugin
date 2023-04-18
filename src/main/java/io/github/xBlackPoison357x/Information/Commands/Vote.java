@@ -18,6 +18,7 @@ public class Vote implements CommandExecutor {
 		plugin = instance;
 	}
 
+	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
 	    if (commandLabel.equalsIgnoreCase("votelinks")) {
 	        if (sender.isOp() || sender.hasPermission("information.vote")) {

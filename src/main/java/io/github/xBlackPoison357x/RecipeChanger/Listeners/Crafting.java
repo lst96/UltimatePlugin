@@ -27,7 +27,6 @@ public class Crafting implements Listener {
 		if (plugin.getRecipeChangerConfig().getBoolean("Horse Armor.Diamond")) {
 			ShapedRecipe diamondHorse = new ShapedRecipe(new NamespacedKey(plugin, "DIAMOND_HORSE_ARMOR"),
 					(new ItemStack(Material.DIAMOND_HORSE_ARMOR)));
-
 			diamondHorse.shape(new String[] { "NND", "DWD", "DDD" });
 			diamondHorse.setIngredient('D', Material.DIAMOND);
 			diamondHorse.setIngredient('W', Material.WHITE_WOOL);

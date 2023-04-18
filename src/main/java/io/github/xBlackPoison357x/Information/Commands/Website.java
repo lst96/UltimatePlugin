@@ -16,7 +16,8 @@ public class Website implements CommandExecutor {
         plugin = instance;
     }
 
-    public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
+    @Override
+	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
         if (!commandLabel.equalsIgnoreCase("website")) {
             return false;
         }

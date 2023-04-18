@@ -16,6 +16,7 @@ public class ARLRCommand implements CommandExecutor {
 		plugin = instance;
 	}
 
+	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 	    String msg = plugin.getDisableCommandMessagesConfig().getString("Messages.Permission Deny Message");
 	    String fmsg = plugin.getDisableCommandMessagesConfig().getString("Messages.Already Forbidden Message");
@@ -24,13 +25,13 @@ public class ARLRCommand implements CommandExecutor {
 	    boolean canList = isOp || sender.hasPermission("disablecommands.list");
 	    boolean canAdd = isOp || sender.hasPermission("disablecommands.add");
 	    boolean canRemove = isOp || sender.hasPermission("disablecommands.remove");
-	    
+
 	    if (args.length == 0) {
 	        return false;
 	    }
-	    
+
 	    String subCommand = args[0].toLowerCase();
-	    
+
 	    if (subCommand.equals("list")) {
 	        if (canList) {
 	            List<String> forbiddenCommands = plugin.getDisableCommandsConfig().getStringList("forbidden-commands");
@@ -44,10 +45,10 @@ public class ARLRCommand implements CommandExecutor {
 	            return true;
 	        }
 	    }
-	    
+
 	    if (args.length == 2) {
 	        String forbiddenCommand = args[1].toLowerCase();
-	        
+
 	        if (subCommand.equals("add")) {
 	            if (canAdd) {
 	                List<String> forbiddenCommands = plugin.getDisableCommandsConfig().getStringList("forbidden-commands");
@@ -66,7 +67,7 @@ public class ARLRCommand implements CommandExecutor {
 	                return true;
 	            }
 	        }
-	        
+
 	        if (subCommand.equals("remove")) {
 	            if (canRemove) {
 	                List<String> forbiddenCommands = plugin.getDisableCommandsConfig().getStringList("forbidden-commands");
@@ -86,7 +87,7 @@ public class ARLRCommand implements CommandExecutor {
 	            }
 	        }
 	    }
-	    
+
 	    return false;
 	}
 }

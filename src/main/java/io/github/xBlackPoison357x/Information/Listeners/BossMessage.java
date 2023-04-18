@@ -5,7 +5,7 @@ import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarFlag;
 import org.bukkit.boss.BarStyle;
 import org.bukkit.boss.BossBar;
-import org.bukkit.entity.Player;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -20,24 +20,18 @@ public class BossMessage implements Listener {
 	}
 
 	@EventHandler
-	public void OnPlayerJoin(PlayerJoinEvent event) {
-		if (plugin.getInformationConfig().getBoolean("Boss Message.Enable")
-				& (event.getPlayer().hasPermission("information.bossmessage"))) {
-			Player player = event.getPlayer();
-			String text = plugin.getInformationConfig().getString("Boss Message.Text");
-			String color2 = plugin.getInformationConfig().getString("Boss Message.Color");
-			BarColor color = BarColor.valueOf(color2);
-			String style2 = plugin.getInformationConfig().getString("Boss Message.Style");
-			BarStyle style = BarStyle.valueOf(style2);
-			String flag2 = plugin.getInformationConfig().getString("Boss Message.Flag");
-			BarFlag flag = BarFlag.valueOf(flag2);
-			BossBar boss = Bukkit.createBossBar(text, (BarColor) color, (BarStyle) style,
-					(BarFlag[]) new BarFlag[] { flag });
-			boss.setProgress(1.0);
-			boss.addPlayer(player);
-			boss.setColor(color);
-			boss.addFlag(flag);
-			boss.setStyle(style);
-		}
+	public void onPlayerJoin(PlayerJoinEvent event) {
+	    if (event.getPlayer().hasPermission("information.bossmessage")) {
+	        FileConfiguration infoConfig = plugin.getInformationConfig();
+	        if (infoConfig.getBoolean("Boss Message.Enable")) {
+	            String text = infoConfig.getString("Boss Message.Text");
+	            BarColor color = BarColor.valueOf(infoConfig.getString("Boss Message.Color"));
+	            BarStyle style = BarStyle.valueOf(infoConfig.getString("Boss Message.Style"));
+	            BarFlag flag = BarFlag.valueOf(infoConfig.getString("Boss Message.Flag"));
+	            BossBar boss = Bukkit.createBossBar(text, color, style, new BarFlag[] { flag });
+	            boss.setProgress(1.0);
+	            boss.addPlayer(event.getPlayer());
+	        }
+	    }
 	}
 }

@@ -18,6 +18,7 @@ public class Facebook implements CommandExecutor {
 		plugin = instance;
 	}
 
+	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
 	    if (commandLabel.equalsIgnoreCase("facebook")) {
 	        if (sender.isOp() || sender.hasPermission("information.facebook")) {

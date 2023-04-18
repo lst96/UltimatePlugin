@@ -2,6 +2,8 @@ package io.github.xBlackPoison357x.UltimatePlugin;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.util.Arrays;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -12,9 +14,6 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
-import java.lang.Class;
-import java.lang.reflect.InvocationTargetException;
-import java.util.Arrays;
 
 import io.github.xBlackPoison357x.DisableCommands.commands.ARLRCommand;
 import io.github.xBlackPoison357x.DisableCommands.commands.CommandBlock;
@@ -62,7 +61,7 @@ import io.github.xBlackPoison357x.UltimatePlugin.bStats.Metrics;
 public class UltimatePlugin extends JavaPlugin implements Listener {
 	public PluginDescriptionFile pdfFile;
 	public String PREFIX;
-	public boolean autoUpdate = false;
+	private boolean hasDownloadedUpdate = false;
 	public boolean metrics = false;
 	Updater updater;
 	ConfigurationMessages ul = new ConfigurationMessages(this);
@@ -81,8 +80,10 @@ public class UltimatePlugin extends JavaPlugin implements Listener {
 	public FileConfiguration Information;
 	public FileConfiguration DisableCommands;
 	public FileConfiguration DisableCommandMessages;
-	
+
+	@Override
 	public void onEnable() {
+		scheduleUpdater();
 		pdfFile = getDescription();
 		PREFIX = ChatColor.GREEN + "[" + pdfFile.getName() + "]";
 		console.sendMessage(String.valueOf(PREFIX) + ChatColor.GREEN + " UltimatePlugin version " + pdfFile.getVersion()
@@ -108,7 +109,7 @@ public class UltimatePlugin extends JavaPlugin implements Listener {
 		        try {
 					getServer().getPluginManager().registerEvents((Listener) event.getConstructor(getClass()).newInstance(this), this);
 				} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
-						| InvocationTargetException | NoSuchMethodException | SecurityException e) {				
+						| InvocationTargetException | NoSuchMethodException | SecurityException e) {
 					e.printStackTrace();
 				}
 		    }
@@ -146,7 +147,7 @@ public class UltimatePlugin extends JavaPlugin implements Listener {
 		    getCommand("ultimateupdate").setExecutor(new UltimateUpdate(this));
 		}
 		}
-	
+
 	public FileConfiguration getDefaultConfig() {
 	    return config;
 	}
@@ -227,52 +228,66 @@ public class UltimatePlugin extends JavaPlugin implements Listener {
 	        e.printStackTrace();
 	    }
 	}
-
-
-	public void onDisable() {
-		Bukkit.getServer().clearRecipes();
-		if (autoUpdate) {
-			setupUpdater();
-		}
-	}
-	public void commandupdater() {
-		new Updater(this, 102168, getFile(), Updater.UpdateType.NO_VERSION_CHECK, true);
-	}
-
-	public void setupUpdater() {
-	    Updater updater = new Updater(this, 102168, getFile(), Updater.UpdateType.DEFAULT, true);
-	    Updater.UpdateResult result = updater.getResult();
-
-	    switch (result) {
-	        case DISABLED:
-	            console.sendMessage(ChatColor.RED + pdfFile.getName() + " autoupdate is disabled in the configuration!");
-	            break;
-	        case FAIL_APIKEY:
-	            console.sendMessage(ChatColor.RED + pdfFile.getName() + " Invalid Plugin API Key");
-	            break;
-	        case FAIL_BADID:
-	            console.sendMessage(ChatColor.RED + pdfFile.getName() + " Invalid Plugin ID");
-	            break;
-	        case FAIL_DBO:
-	            console.sendMessage(ChatColor.RED + pdfFile.getName() + " updater was unable to contact DBO to download the update!");
-	            break;
-	        case FAIL_DOWNLOAD:
-	            console.sendMessage(ChatColor.RED + pdfFile.getName() + " failed to download " + updater.getLatestName());
-	            break;
-	        case FAIL_NOVERSION:
-	            console.sendMessage(ChatColor.RED + pdfFile.getName() + " no file version found!");
-	            break;
-	        case NO_UPDATE:
-	            console.sendMessage(ChatColor.GREEN + updater.getLatestName() + " is the latest version available!");
-	            break;
-	        case SUCCESS:
-	            console.sendMessage(ChatColor.GREEN + "Update " + updater.getLatestName() + " was found and downloaded, will be loaded on next server restart!");
-	            break;
-	        case UPDATE_AVAILABLE:
-	            console.sendMessage(ChatColor.RED + pdfFile.getName() + " has found update" + updater.getLatestName() + ", but it was not downloaded");
-	            break;
-	        default:
-	            break;
+	public void scheduleUpdater() {
+	    if (getDefaultConfig() != null && getDefaultConfig().getBoolean("Auto Updater")) {
+	        if (!hasDownloadedUpdate) {
+	            Bukkit.getScheduler().runTaskLaterAsynchronously(this, new Runnable() {
+	                public void run() {
+	                    setupUpdater();
+	                    hasDownloadedUpdate = true;
+	                    scheduleUpdater(); // Schedule next update check after a day
+	                    getLogger().info("Update scheduled");
+	                }
+	            }, 24 * 60 * 60 * 20L); // 24 hours in ticks
+	        }
 	    }
 	}
-}
+
+
+	@Override
+	public void onDisable() {
+		Bukkit.getServer().clearRecipes();
+		}
+	public void commandupdater() {
+		new Updater(this, 102168, getFile(), Updater.UpdateType.DEFAULT, true);
+	}
+
+
+	public void setupUpdater() {
+	        Updater updater = new Updater(this, 102168, getFile(), Updater.UpdateType.DEFAULT, true);
+	        Updater.UpdateResult result = updater.getResult();
+
+	        switch (result) {
+	            case DISABLED:
+	                console.sendMessage(ChatColor.RED + pdfFile.getName() + " autoupdate is disabled in the configuration!");
+	                break;
+	            case FAIL_APIKEY:
+	                console.sendMessage(ChatColor.RED + pdfFile.getName() + " Invalid Plugin API Key");
+	                break;
+	            case FAIL_BADID:
+	                console.sendMessage(ChatColor.RED + pdfFile.getName() + " Invalid Plugin ID");
+	                break;
+	            case FAIL_DBO:
+	                console.sendMessage(ChatColor.RED + pdfFile.getName() + " updater was unable to contact DBO to download the update!");
+	                break;
+	            case FAIL_DOWNLOAD:
+	                console.sendMessage(ChatColor.RED + pdfFile.getName() + " failed to download " + updater.getLatestName());
+	                break;
+	            case FAIL_NOVERSION:
+	                console.sendMessage(ChatColor.RED + pdfFile.getName() + " no file version found!");
+	                break;
+	            case NO_UPDATE:
+	                console.sendMessage(ChatColor.GREEN + updater.getLatestName() + " is the latest version available!");
+	                break;
+	            case SUCCESS:
+	                console.sendMessage(ChatColor.GREEN + "Update " + updater.getLatestName() + " was found and downloaded, will be loaded on next server restart!");
+	                hasDownloadedUpdate = true;
+	                break;
+	            case UPDATE_AVAILABLE:
+	                console.sendMessage(ChatColor.RED + pdfFile.getName() + " has found update" + updater.getLatestName() + ", but it was not downloaded");
+	                break;
+	            default:
+	                break;
+	        }
+	    }
+	}

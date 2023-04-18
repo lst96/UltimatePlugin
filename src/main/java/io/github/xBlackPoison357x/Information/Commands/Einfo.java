@@ -18,6 +18,7 @@ public class Einfo implements CommandExecutor {
 		plugin = instance;
 	}
 
+	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 	    if (!label.equalsIgnoreCase("einfo")) {
 	        return false;
