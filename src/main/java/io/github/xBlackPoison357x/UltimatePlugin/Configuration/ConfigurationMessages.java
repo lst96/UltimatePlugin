@@ -25,6 +25,8 @@ public class ConfigurationMessages {
 		plugin.getDefaultConfig().set("Enabled Plugin Components.FrameProtector", true);
 		plugin.getDefaultConfig().set("Enabled Plugin Components.DisableCommands", true);
 		plugin.getDefaultConfig().set("Enabled Plugin Components.UltimatePlugin", true);
+		plugin.getDefaultConfig().set("Messages.Permission Denied",
+				"I'm sorry, but you do not have permission to perform this command. Please contact the server administrator(s) if you believe that this is in error.");
 		try {
 			plugin.getDefaultConfig().save(configf);
 		} catch (IOException e) {
@@ -107,6 +109,8 @@ public class ConfigurationMessages {
 		plugin.getInformationConfig().set("Messages.Permission.Join World Config Error", "Config Error, all worlds are disabled, please undisable at least 1 world.");
 		plugin.getInformationConfig().set("Messages.Permission.Join World Disabled Error", "World disabled, teleporting to");
 		plugin.getInformationConfig().set("Messages.Permission.Join World Join Error", "You are not allowed to join");
+		plugin.getInformationConfig().set("Messages.Permission.Top of Nether", "You are not allowed to walk/build on top of the Nether!");
+		plugin.getInformationConfig().set("Messages.Permission.Top of Nether.Notify", "attempted to walk/build on top of the Nether!");
 
 		try {
 			plugin.getInformationConfig().save(informationf);
@@ -161,7 +165,8 @@ public class ConfigurationMessages {
 	}
 
 	public void setFrameProtectorConfig(File frameprotectorf) {
-		plugin.getFrameProtectorConfig().set("Messages.Enable", true);
+		plugin.getFrameProtectorConfig().set("Messages.Remove Frame Success Message", "Item frame removed successfully.");
+		plugin.getFrameProtectorConfig().set("Messages.Remove Owner Deny Message", "You are not the owner of this item frame and cannot remove it.");
 		plugin.getFrameProtectorConfig().set("Messages.Remove Frame Deny Message",
 				"You are not allowed to remove this ItemFrame!");
 		plugin.getFrameProtectorConfig().set("Messages.Place Deny Message",

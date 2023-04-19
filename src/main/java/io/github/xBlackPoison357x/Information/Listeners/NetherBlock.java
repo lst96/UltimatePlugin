@@ -30,9 +30,9 @@ public class NetherBlock implements Listener {
         if (playerLoc.getY() >= 128.0 && !player.isOp() || !player.hasPermission("information.netherbuildbypass")
                 && plugin.getInformationConfig().getBoolean("Blocktopofnetherbuilding")) {
             player.teleport(getWorldSpawn(world));
-            player.sendMessage(ChatColor.RED + "You are not allowed to walk/build on top of the Nether!");
+            player.sendMessage(ChatColor.RED + plugin.getInformationConfig().getString("Messages.Permission.Top of Nether"));
             Bukkit.getOnlinePlayers().stream().filter(p -> p.hasPermission("information.netherbuild.notify"))
-                    .forEach(p -> p.sendMessage(ChatColor.RED + player.getName() + " attempted to walk/build on top of the Nether!"));
+                    .forEach(p -> p.sendMessage(ChatColor.RED + player.getName() + " " + plugin.getInformationConfig().getString("Messages.Permission.Top of Nether.Notify")));
         }
     }
 

@@ -49,11 +49,11 @@ public class ItemRemove implements Listener {
 	                    return;
 	                }
 	                if (!canRemoveItemFrame(player, itemFrame)) {
-	                    player.sendMessage(ChatColor.RED + "You are not the owner of this item frame and cannot remove it.");
+	                    player.sendMessage(ChatColor.RED + plugin.getFrameProtectorConfig().getString("Messages.Remove Owner Deny Message"));
 	                    event.setCancelled(true);
 	                } else {
 	                    removeItemFrameFromConfig(player, itemFrame);
-	                    player.sendMessage(ChatColor.GREEN + "Item frame removed successfully.");
+	                    player.sendMessage(ChatColor.GREEN + plugin.getFrameProtectorConfig().getString("Messages.Remove Frame Success Message"));
 	                }
 	                return;
 	            }
@@ -75,7 +75,7 @@ public class ItemRemove implements Listener {
 	            if (canRemoveItemFrame(player, itemFrame)) {
 	                if (player.hasPermission("frame.remove") || player.isOp()) {
 	                    removeItemFrameFromConfig(player, itemFrame);
-	                    player.sendMessage(ChatColor.GREEN + "Item frame removed successfully.");
+	                    player.sendMessage(ChatColor.GREEN + plugin.getFrameProtectorConfig().getString("Messages.Remove Frame Success Message"));
 	                } else {
 	                    player.sendMessage(ChatColor.RED + plugin.getFrameProtectorConfig().getString("Messages.Remove Frame Deny Message"));
 	                    event.setCancelled(true);
@@ -97,12 +97,10 @@ public class ItemRemove implements Listener {
 		}
 		if (!p.isOp() || !p.hasPermission("frame.place")) {
 			event.setCancelled(true);
-			if (plugin.getFrameProtectorConfig().getBoolean("Messages.Enable")) {
 				p.sendMessage(ChatColor.RED + msg2);
 				return;
 			}
 		}
-	}
 	
 //if player is allowed to rotate item frame, if not cancel event
 	@EventHandler(priority = EventPriority.LOWEST)
@@ -119,11 +117,9 @@ public class ItemRemove implements Listener {
 		}
 		if (!player.isOp() || !player.hasPermission("frame.rotate")) {
 			event.setCancelled(true);
-			if (plugin.getFrameProtectorConfig().getBoolean("Messages.Enable")) {
 				player.sendMessage(ChatColor.RED + msg3);
 			}
 		}
-	}
 	
 	public void ItemRemoval(EntityDamageByEntityEvent e) {
 	    Player p = null;
@@ -134,10 +130,10 @@ public class ItemRemove implements Listener {
 	        if (e.getEntity().getType() == EntityType.ITEM_FRAME && (p.isOp() || p.hasPermission("frame.item.remove"))
 	                && canRemoveItemFrame(p, (ItemFrame) e.getEntity())) {
 	            removeItemFrameFromConfig(p, (ItemFrame) e.getEntity());
-	            p.sendMessage(ChatColor.GREEN + "Item frame removed successfully.");
+	            p.sendMessage(ChatColor.GREEN + plugin.getFrameProtectorConfig().getString("Messages.Remove Frame Success Message"));
 	        } else {
 	            e.setCancelled(true);
-	            if (plugin.getFrameProtectorConfig().getBoolean("Messages.Enable") && p != null) {
+	            if (p != null) {
 	                p.sendMessage(ChatColor.RED + msg4);
 	            }
 	        }
@@ -148,18 +144,18 @@ public class ItemRemove implements Listener {
 	            if (canRemoveItemFrame(p, (ItemFrame) e.getEntity())) {
 	                removeItemFrameFromConfig(p, (ItemFrame) e.getEntity());
 	                if (p != null) {
-	                    p.sendMessage(ChatColor.GREEN + "Item frame removed successfully.");
+	                    p.sendMessage(ChatColor.GREEN + plugin.getFrameProtectorConfig().getString("Messages.Remove Frame Success Message"));
 	                }
 	            } else {
 	                e.setCancelled(true);
-	                if (plugin.getFrameProtectorConfig().getBoolean("Messages.Enable") && p != null) {
+	                if (p != null) {
 	                    p.sendMessage(ChatColor.RED + msg4);
 	                }
 	            }
 	        }
 	    } else {
 	        e.setCancelled(true);
-	        if (plugin.getFrameProtectorConfig().getBoolean("Messages.Enable") && p != null) {
+	        if (p != null) {
 	        	p.sendMessage(ChatColor.RED + plugin.getFrameProtectorConfig().getString("Messages.Remove Frame Deny Message"));
 	        }
 	    }
@@ -169,7 +165,7 @@ public class ItemRemove implements Listener {
 	        ItemFrame itemFrame = (ItemFrame) e.getEntity();
 	        if (canRemoveItemFrame(player, itemFrame)) {
 	            removeItemFrameFromConfig(player, itemFrame);
-	            player.sendMessage(ChatColor.GREEN + "Item frame removed successfully.");
+	            player.sendMessage(ChatColor.GREEN + plugin.getFrameProtectorConfig().getString("Messages.Remove Frame Success Message"));
 	        } else {
 	            player.sendMessage(ChatColor.RED + plugin.getFrameProtectorConfig().getString("Messages.Remove Frame Deny Message"));
 	            e.setCancelled(true);

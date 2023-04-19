@@ -24,7 +24,7 @@ public class UltimateUpdate implements CommandExecutor {
 	                sender.sendMessage(ChatColor.RED + "Could not find the UltimatePlugin. Is it installed?");
 	            }
 	        } else {
-	            sender.sendMessage(ChatColor.RED + "You do not have permission to use this command.");
+	            sender.sendMessage(ChatColor.RED + plugin.getDefaultConfig().getString("Messages.Permission Denied"));
 	        }
 	        return true;
 	    }
