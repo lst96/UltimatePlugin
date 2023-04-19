@@ -80,9 +80,11 @@ public class UltimatePlugin extends JavaPlugin implements Listener {
 	public FileConfiguration Information;
 	public FileConfiguration DisableCommands;
 	public FileConfiguration DisableCommandMessages;
+	private Tps Tps;
 
 	@Override
 	public void onEnable() {
+		Tps = new Tps(this); 
 		scheduleUpdater();
 		pdfFile = getDescription();
 		PREFIX = ChatColor.GREEN + "[" + pdfFile.getName() + "]";
@@ -113,7 +115,6 @@ public class UltimatePlugin extends JavaPlugin implements Listener {
 					e.printStackTrace();
 				}
 		    }
-		    getServer().getScheduler().scheduleSyncRepeatingTask(this, new Tps(), 100L, 1L);
 		}
 		if (getDefaultConfig().getBoolean("Enabled Plugin Components.RecipeChanger")) {
 		    getServer().getPluginManager().registerEvents(new Permissions(this), this);
@@ -143,10 +144,9 @@ public class UltimatePlugin extends JavaPlugin implements Listener {
 		}
 
 		if (getDefaultConfig().getBoolean("Enabled Plugin Components.UltimatePlugin")) {
-		    setupUpdater();
 		    getCommand("ultimateupdate").setExecutor(new UltimateUpdate(this));
-		}
-		}
+	}
+}
 
 	public FileConfiguration getDefaultConfig() {
 	    return config;
@@ -241,6 +241,9 @@ public class UltimatePlugin extends JavaPlugin implements Listener {
 	            }, 24 * 60 * 60 * 20L); // 24 hours in ticks
 	        }
 	    }
+	}
+	public Tps getTPS() {
+		return Tps;
 	}
 
 

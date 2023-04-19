@@ -1,48 +1,55 @@
 package io.github.xBlackPoison357x.Information.Runnables;
 
-public class Tps implements Runnable {
-    private static final int TICKS_TO_KEEP = 600;
-    private static final int TICKS_IN_MINUTE = 1200;
-    private static int tickCount = 0;
-    private static long[] tickTimestamps = new long[TICKS_TO_KEEP];
+import io.github.xBlackPoison357x.UltimatePlugin.UltimatePlugin;
 
-    public static double getTPS() {
-        return getTPS(TICKS_IN_MINUTE);
+public class Tps {
+    private final UltimatePlugin plugin;
+    private long lastTick = 0;
+    private long[] tickTimes = new long[1200];
+
+    public Tps(UltimatePlugin plugin) {
+        this.plugin = plugin;
+        this.lastTick = System.currentTimeMillis();
+        this.plugin.getServer().getScheduler().runTaskTimer(plugin, this::tick, 1L, 1L);
     }
 
-    public static double getTPS(int ticks) {
-        if (tickCount < ticks) {
-            return 20.0D;
+    public double get1minTPS() {
+        return getTPS(0, 60);
+    }
+
+    public double get5minTPS() {
+        return getTPS(0, 300);
+    }
+
+    public double get15minTPS() {
+        return getTPS(0, 900);
+    }
+
+
+
+
+
+    private synchronized double getTPS(int startTick, int endTick) {
+        if (startTick < 0 || startTick >= tickTimes.length || endTick < 0 || endTick >= tickTimes.length || startTick >= endTick) {
+            throw new IllegalArgumentException("Invalid start/end ticks");
         }
-        int target = (tickCount - 1 - ticks) % TICKS_TO_KEEP;
-        long elapsed = System.currentTimeMillis() - tickTimestamps[target];
-
-        return ticks / (elapsed / 1000.0D);
-    }
-
-    public static double get1MinTPS() {
-        return getTPS(TICKS_IN_MINUTE); // 1 minute in ticks
-    }
-
-    public static double get5MinTPS() {
-        return getTPS(5 * TICKS_IN_MINUTE); // 5 minutes in ticks
-    }
-
-    public static double get15MinTPS() {
-        return getTPS(15 * TICKS_IN_MINUTE); // 15 minutes in ticks
-    }
-
-    public static long getElapsed(int tickID) {
-        if (tickCount - tickID >= TICKS_TO_KEEP) {
-            return -1L;
+        long elapsedTicks = endTick - startTick;
+        long elapsedMillis = elapsedTicks * 50L;
+        long sum = 0;
+        for (int i = startTick; i < endTick; i++) {
+            sum += tickTimes[i];
         }
-        long time = tickTimestamps[tickID % TICKS_TO_KEEP];
-        return System.currentTimeMillis() - time;
+        if (sum == 0) {
+            return 20.0;
+        }
+        double average = ((double) sum) / ((double) elapsedMillis);
+        return Math.min(20.0, average);
     }
 
-    @Override
-    public void run() {
-        tickTimestamps[tickCount % TICKS_TO_KEEP] = System.currentTimeMillis();
-        tickCount++;
+    private synchronized void tick() {
+        long currentTick = System.currentTimeMillis() / 50;
+        int tickIndex = (int) (currentTick % tickTimes.length);
+        tickTimes[tickIndex] = System.currentTimeMillis() - lastTick;
+        lastTick = System.currentTimeMillis();
     }
 }
