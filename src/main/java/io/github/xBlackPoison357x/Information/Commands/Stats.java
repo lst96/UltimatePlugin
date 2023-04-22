@@ -29,7 +29,7 @@ public class Stats implements CommandExecutor {
 
 	    if (!sender.hasPermission("information.stats")) {
 	        sender.sendMessage(ChatColor.RED + plugin.getInformationConfig().getString("Messages.Permission Denied"));
-	        return false;
+	        return true;
 	    }
 
 	    sender.sendMessage(ChatColor.GOLD + "[Online Mode]: " + ChatColor.GREEN + Bukkit.getOnlineMode());

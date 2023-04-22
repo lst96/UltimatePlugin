@@ -25,7 +25,7 @@ public class Motd implements CommandExecutor {
 	            return true;
 	        } else {
 	            sender.sendMessage(ChatColor.RED + plugin.getInformationConfig().getString("Messages.Permission Denied"));
-	            return false;
+	            return true;
 	        }
 	    }
 	    return false;
