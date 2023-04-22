@@ -44,7 +44,7 @@ public class ItemRemove implements Listener {
 	            if (itemFrame.getLocation().getBlock().getRelative(itemFrame.getAttachedFace()).equals(brokenBlock)) {
 	                Player player = event.getPlayer();
 	                if (!player.hasPermission("frame.remove")) {
-	                	 player.sendMessage(ChatColor.RED + plugin.getFrameProtectorConfig().getString("Messages.Remove Frame Deny Message"));
+	                    player.sendMessage(ChatColor.RED + plugin.getFrameProtectorConfig().getString("Messages.Remove Frame Deny Message"));
 	                    event.setCancelled(true);
 	                    return;
 	                }
@@ -55,7 +55,6 @@ public class ItemRemove implements Listener {
 	                    removeItemFrameFromConfig(player, itemFrame);
 	                    player.sendMessage(ChatColor.GREEN + plugin.getFrameProtectorConfig().getString("Messages.Remove Frame Success Message"));
 	                }
-	                return;
 	            }
 	        }
 	    }

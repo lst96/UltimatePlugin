@@ -1,6 +1,8 @@
 package io.github.xBlackPoison357x.DisableCommands.commands;
 
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.bukkit.ChatColor;
 import org.bukkit.event.EventHandler;
@@ -25,7 +27,9 @@ public class CommandBlock implements Listener {
         }
         List<String> forbiddenCommands = plugin.getDisableCommandsConfig().getStringList("forbidden-commands");
         for (String forbiddenCommand : forbiddenCommands) {
-            if (command.startsWith(forbiddenCommand)) {
+        	Pattern pattern = Pattern.compile("^" + forbiddenCommand + "(\\s|$)");
+            Matcher matcher = pattern.matcher(command);
+            if (matcher.find()) {
                 event.setCancelled(true);
                 String msg = plugin.getDisableCommandMessagesConfig().getString("Messages.Command Deny Message");
                 event.getPlayer().sendMessage(ChatColor.RED + msg);

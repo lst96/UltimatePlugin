@@ -4,18 +4,54 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-
 import org.bukkit.Material;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.FileConfigurationOptions;
+import org.bukkit.event.Listener;
 
 import io.github.xBlackPoison357x.UltimatePlugin.UltimatePlugin;
 
-public class ConfigurationMessages {
+public class ConfigurationMessages implements Listener {
 	public UltimatePlugin plugin;
 
 	public ConfigurationMessages(UltimatePlugin instance) {
 		plugin = instance;
 	}
+	
+	public void setRecipeChangerConfig(File recipechangerf) {
+		// Get the ConfigurationOptions for the root configuration section
+		FileConfiguration config = plugin.getRecipeChangerConfig();
+		FileConfigurationOptions options = config.options();
 
+		// Set the header comment for the entire configuration file
+		options.header("Here's an example recipe for a diamond horse armor, use only the commented lines as a template, remove the # to use a recipe, use AIR for empty slots, permission prefix must be recipe.:");
+
+		// Create the diamond horse armor recipe section but don't set its values
+		config.createSection("diamond_horse_armor");
+
+		// Set the header comment for the specific recipe section only
+		config.setComments("diamond_horse_armor", Arrays.asList( 
+		    " diamond_horse_armor:",
+		    "   recipe_type: shapeless",
+		    "   shape:", 
+		    "     - NND", 
+		    "     - DWD", 
+		    "     - DDD", 
+		    "   key:", 
+		    "     N: AIR", 
+		    "     D: DIAMOND", 
+		    "     W: WHITE_WOOL", 
+		    "   result:", 
+		    "     type: DIAMOND_HORSE_ARMOR", 
+		    "     amount: 1",
+		    "   permission: recipe.apple"));
+        try {
+            plugin.getRecipeChangerConfig().save(recipechangerf);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+	}
 	public void setDefaultConfig(File configf) {
 		plugin.getDefaultConfig().set("UltimatePlugin", plugin.pdfFile.getVersion());
 		plugin.getDefaultConfig().set("Auto Updater", true);
@@ -118,36 +154,6 @@ public class ConfigurationMessages {
 			e.printStackTrace();
 		}
 	}
-
-	public void setRecipeChangerConfig(File recipechangerf) {
-	    String[] keys = {"Horse Armor.Iron", "Horse Armor.Gold", "Horse Armor.Diamond",
-	                     "Chain Armor.Helmet", "Chain Armor.ChestPiece", "Chain Armor.Leggings",
-	                     "Chain Armor.Boots", "Spawn Eggs.Bat", "Spawn Eggs.Chicken", "Spawn Eggs.Cow",
-	                     "Spawn Eggs.Horse", "Spawn Eggs.Mooshroom", "Spawn Eggs.Ocelot", "Spawn Eggs.Pig",
-	                     "Spawn Eggs.Sheep", "Spawn Eggs.Squid", "Spawn Eggs.Wolf", "Music Discs.stal",
-	                     "Music Discs.11", "Music Discs.far", "Music Discs.ward", "Music Discs.13",
-	                     "Music Discs.cat", "Music Discs.blocks", "Music Discs.mellohi", "Music Discs.chirp",
-	                     "Music Discs.strad", "Music Discs.mall", "Misc.Name Tag", "Misc.Saddle",
-	                     "Misc.Grass Block", "Misc.Obsidian", "Misc.Grass", "Misc.Ice", "Misc.Fire",
-	                     "Misc.Bottle o Enchanting", "Misc.Sponge", "Misc.Bedrock", "Misc.Dragon Egg",
-	                     "Misc.Gunpowder", "Misc.Monster Spawner", "Misc.Command Block", "Misc.Podzol",
-	                     "Misc.Double Tallgrass", "Misc.Packed Ice", "Misc.Leather", "Misc.Cocoa Beans",
-	                     "Misc.Shulker Shell", "Misc.Reinforced Deepslate"};
-
-	    for (String key : keys) {
-	        plugin.getRecipeChangerConfig().set(key, false);
-	    }
-
-	    plugin.getRecipeChangerConfig().set("Messages.Permission Granted", "You have permission to craft this item!");
-	    plugin.getRecipeChangerConfig().set("Messages.Permission Denied",
-	        "I'm sorry, but you do not have permission to craft this item. Please contact the server administrator(s) if you believe that this is in error.");
-	    try {
-	        plugin.getRecipeChangerConfig().save(recipechangerf);
-	    } catch (IOException e) {
-	        e.printStackTrace();
-	    }
-	}
-
 
 	public void setDisableCommandMessagesConfig(File disablecommandmessagesf) {
 		plugin.getDisableCommandMessagesConfig().set("Messages.Command Deny Message", "That command is not allowed!");

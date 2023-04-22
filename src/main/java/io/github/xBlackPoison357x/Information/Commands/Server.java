@@ -26,7 +26,10 @@ public class Server implements CommandExecutor {
 	    if (!command.getName().equalsIgnoreCase("serverinfo")) {
 	        return false;
 	    }
-	    if (sender.hasPermission("information.server")) {
+	    if (!sender.hasPermission("information.server")) {
+	        sender.sendMessage(ChatColor.RED + plugin.getInformationConfig().getString("Messages.Permission Denied"));
+	        return true;
+	    }
 	    long uptime = ManagementFactory.getRuntimeMXBean().getUptime();
 	    String uptimeStr = formatDuration(uptime);
 		//double[] tps = MinecraftServer.getServer().recentTps;
@@ -81,8 +84,6 @@ public class Server implements CommandExecutor {
 	        sender.sendMessage(ChatColor.GOLD + worldType + " \"" + ChatColor.RED + w.getName() + ChatColor.GOLD + "\": " + ChatColor.RED + loadedChunks + ChatColor.GOLD + " chunks, " + ChatColor.RED + loadedEntities + ChatColor.GOLD + " entities, " + ChatColor.RED + tileEntities + ChatColor.GOLD + " tiles.");
 	    }
 	    return true;
-	}
-		return false;
 	}
 
 	private String formatDuration(long millis) {

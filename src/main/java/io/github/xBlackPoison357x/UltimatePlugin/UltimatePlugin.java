@@ -51,12 +51,11 @@ import io.github.xBlackPoison357x.Information.Listeners.JoinWorld;
 import io.github.xBlackPoison357x.Information.Listeners.Kits;
 import io.github.xBlackPoison357x.Information.Listeners.NetherBlock;
 import io.github.xBlackPoison357x.Information.Runnables.Tps;
-import io.github.xBlackPoison357x.RecipeChanger.Listeners.Crafting;
-import io.github.xBlackPoison357x.RecipeChanger.Listeners.Permissions;
 import io.github.xBlackPoison357x.UltimatePlugin.Commands.UltimateUpdate;
 import io.github.xBlackPoison357x.UltimatePlugin.Configuration.ConfigurationMessages;
 import io.github.xBlackPoison357x.UltimatePlugin.Updater.Updater;
 import io.github.xBlackPoison357x.UltimatePlugin.bStats.Metrics;
+import io.github.xBlackPoison357x.RecipeChanger.Listeners.RecipeChanger;
 
 public class UltimatePlugin extends JavaPlugin implements Listener {
 	public PluginDescriptionFile pdfFile;
@@ -65,6 +64,7 @@ public class UltimatePlugin extends JavaPlugin implements Listener {
 	public boolean metrics = false;
 	Updater updater;
 	ConfigurationMessages ul = new ConfigurationMessages(this);
+	RecipeChanger recipeLoader = new RecipeChanger(this);
 	public ConsoleCommandSender console = Bukkit.getServer().getConsoleSender();
 	public File configf;
 	public File disableexpf;
@@ -73,6 +73,7 @@ public class UltimatePlugin extends JavaPlugin implements Listener {
 	public File informationf;
 	public File disablecommandsf;
 	public File disablecommandmessagesf;
+	public File recipeloaderf;
 	public FileConfiguration config;
 	public FileConfiguration DisableEXP;
 	public FileConfiguration FrameProtector;
@@ -80,11 +81,12 @@ public class UltimatePlugin extends JavaPlugin implements Listener {
 	public FileConfiguration Information;
 	public FileConfiguration DisableCommands;
 	public FileConfiguration DisableCommandMessages;
+	public FileConfiguration RecipeLoader;
 	private Tps Tps;
 
 	@Override
 	public void onEnable() {
-		Tps = new Tps(this); 
+		Tps = new Tps(this);
 		scheduleUpdater();
 		pdfFile = getDescription();
 		PREFIX = ChatColor.GREEN + "[" + pdfFile.getName() + "]";
@@ -117,9 +119,11 @@ public class UltimatePlugin extends JavaPlugin implements Listener {
 		    }
 		}
 		if (getDefaultConfig().getBoolean("Enabled Plugin Components.RecipeChanger")) {
-		    getServer().getPluginManager().registerEvents(new Permissions(this), this);
-		    getServer().getPluginManager().registerEvents(new Crafting(this), this);
-		    Crafting.getInstance().SetupCrafting();
+			getServer().getPluginManager().registerEvents(new RecipeChanger(this), this);
+			recipeLoader.loadRecipes();
+		  //  getServer().getPluginManager().registerEvents(new Permissions(this), this);
+		  // getServer().getPluginManager().registerEvents(new Crafting(this), this);
+		  // Crafting.getInstance().SetupCrafting();
 		}
 		if (getDefaultConfig().getBoolean("Enabled Plugin Components.FrameProtector")) {
 		    getServer().getPluginManager().registerEvents(new ItemRemove(this), this);
@@ -175,7 +179,6 @@ public class UltimatePlugin extends JavaPlugin implements Listener {
 	public FileConfiguration getFrameProtectorConfig() {
 	    return FrameProtector;
 	}
-
 	public void createFiles() {
 	    configf = new File(getDataFolder(), "config.yml");
 	    disableexpf = new File(getDataFolder(), "DisableEXP.yml");
@@ -219,7 +222,7 @@ public class UltimatePlugin extends JavaPlugin implements Listener {
 	    if (informationf.length() == 0L) {
 	        ul.setInformationConfig(informationf);
 	    }
-	}
+	    }
 
 	public void saveDisableCommandsConfig() {
 	    try {
