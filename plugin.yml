@@ -5,7 +5,16 @@ main: io.github.xBlackPoison357x.UltimatePlugin.UltimatePlugin
 api-version: 1.16
 api: '1.16'
 commands:
-  website:
+  recipegui:
+    description: Opens the custom recipes GUI
+    usage: /customrecipes
+    aliases:
+    - gui
+    - customrecipes
+  recipeload:
+    description: Loads custom recipes
+    usage: /recipeload
+  Website:
     description: Displays your Website link.
     aliases:
       - infowebsite
@@ -13,10 +22,10 @@ commands:
     description: Displays donation link.
     aliases:
       - infodonate
-  InfoVote:
+  Vote:
     description: Displays voting link.
     aliases:
-      - vote
+      - infovote
   Staff:
     description: Displays staff.
     aliases:
@@ -29,6 +38,7 @@ commands:
     description: Displays Server hardware stats.
     aliases:
       - infoserver
+      - ram
   Motd:
     description: Displays Motd.
     aliases:
@@ -188,163 +198,6 @@ permissions:
       information.wildernessflight: true
       information.nosafezonedamage: true
       information.bossmessage: true
-  recipe.*:
-    description: gives all permissions.
-    Permissionchildren:
-      recipe.ironhorse: true
-      recipe.goldhorse: true
-      recipe.diamondhorse: true
-      recipe.nametag: true
-      recipe.gunpowder: true
-      recipe.dragonegg: true
-      recipe.redstoneore: true
-      recipe.saddle: true
-      recipe.bedrock: true
-      recipe.sponge: true
-      recipe.enchanting: true
-      recipe.chainleggings: true
-      recipe.chainboots: true
-      recipe.chainhelmet: true
-      recipe.chainchest: true
-      recipe.fire: true
-      recipe.tallgrass: true
-      recipe.grassblock: true
-      recipe.ice: true
-      recipe.cobweb: true
-      recipe.mobspawner: true
-      recipe.command: true
-      recipe.podzol: true
-      recipe.doubletallgrass: true
-      recipe.packedice: true
-      recipe.cowegg: true
-      recipe.chickenegg: true
-      recipe.sheepegg: true
-      recipe.horseegg: true
-      recipe.bategg: true
-      recipe.mooshroomegg: true
-      recipe.ocelotegg: true
-      recipe.squidegg: true
-      recipe.wolfegg: true
-      recipe.pigegg: true
-      recipe.obsidian: true
-      reciep.leather: true
-      recipe.cocoabean: true
-      recipe.stal: true
-      recipe.11: true
-      recipe.ward: true
-      recipe.13: true
-      recipe.cat: true
-      recipe.blocks: true
-      recipe.mellhoi: true
-      recipe.chirp: true
-      recipe.strad: true
-      recipe.mall: true
-      recipe.shulker: true
-  recipe.member:
-    description: gives all permissions.
-    Permissionchildren:
-      recipe.ironhorse: true
-      recipe.goldhorse: true
-      recipe.diamondhorse: true
-      recipe.nametag: true
-      recipe.gunpowder: true
-      recipe.dragonegg: false
-      recipe.redstoneore: true
-      recipe.saddle: true
-      recipe.bedrock: false
-      recipe.sponge: true
-      recipe.enchanting: true
-      recipe.chainleggings: true
-      recipe.chainboots: true
-      recipe.chainhelmet: true
-      recipe.chainchest: true
-      recipe.fire: false
-      recipe.chiseled: true
-      recipe.tallgrass: true
-      recipe.grassblock: true
-      recipe.ice: true
-      recipe.cobweb: true
-      recipe.mobspawner: false
-      recipe.command: false
-      recipe.podzol: true
-      recipe.doubletallgrass: true
-      recipe.packedice: true
-      recipe.cowegg: true
-      recipe.chickenegg: true
-      recipe.sheepegg: true
-      recipe.horseegg: true
-      recipe.bategg: true
-      recipe.mooshroomegg: true
-      recipe.ocelotegg: true
-      recipe.squidegg: true
-      recipe.wolfegg: true
-      recipe.pigegg: true
-      recipe.obsidian: true
-      recipe.leather: true
-      recipe.cocoabean: true
-      recipe.stal: true
-      recipe.11: true
-      recipe.ward: true
-      recipe.13: true
-      recipe.cat: true
-      recipe.blocks: true
-      recipe.mellhoi: true
-      recipe.chirp: true
-      recipe.strad: true
-      recipe.mall: true
-      recipe.shulker: true
-  recipe.admin:
-    description: gives all permissions.
-    Permissionchildren:
-      recipe.ironhorse: true
-      recipe.goldhorse: true
-      recipe.diamondhorse: true
-      recipe.nametag: true
-      recipe.gunpowder: true
-      recipe.dragonegg: true
-      recipe.redstoneore: true
-      recipe.saddle: true
-      recipe.bedrock: true
-      recipe.sponge: true
-      recipe.enchanting: true
-      recipe.chainleggings: true
-      recipe.chainboots: true
-      recipe.chainhelmet: true
-      recipe.chainchest: true
-      recipe.fire: true
-      recipe.tallgrass: true
-      recipe.grassblock: true
-      recipe.ice: true
-      recipe.cobweb: true
-      recipe.mobspawner: true
-      recipe.command: true
-      recipe.podzol: true
-      recipe.doubletallgrass: true
-      recipe.packedice: true
-      recipe.cowegg: true
-      recipe.chickenegg: true
-      recipe.sheepegg: true
-      recipe.horseegg: true
-      recipe.bategg: true
-      recipe.mooshroomegg: true
-      recipe.ocelotegg: true
-      recipe.squidegg: true
-      recipe.wolfegg: true
-      recipe.pigegg: true
-      recipe.obsidian: true
-      recipe.leather: true
-      recipe.cocoabean: true
-      recipe.stal: true
-      recipe.11: true
-      recipe.ward: true
-      recipe.13: true
-      recipe.cat: true
-      recipe.blocks: true
-      recipe.mellhoi: true
-      recipe.chirp: true
-      recipe.strad: true
-      recipe.mall: true
-      recipe.shulker: true
   frame.*:
     description: Gives all permissions.
     Permissionchildren:
@@ -371,4 +224,10 @@ permissions:
     default: false
   disablecommands.list:
     description: Lists all the disabled commands
+    default: false
+  recipe.gui:
+    description: Gives permission to the /recipegui command.
+    default: false
+  recipe.load:
+    description: Gives permission to the /recipeload command.
     default: false

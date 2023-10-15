@@ -14,7 +14,6 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
-
 import io.github.xBlackPoison357x.DisableCommands.commands.ARLRCommand;
 import io.github.xBlackPoison357x.DisableCommands.commands.CommandBlock;
 import io.github.xBlackPoison357x.DisableEXP.Listener.BlockBreakEvents;
@@ -55,7 +54,9 @@ import io.github.xBlackPoison357x.UltimatePlugin.Commands.UltimateUpdate;
 import io.github.xBlackPoison357x.UltimatePlugin.Configuration.ConfigurationMessages;
 import io.github.xBlackPoison357x.UltimatePlugin.Updater.Updater;
 import io.github.xBlackPoison357x.UltimatePlugin.bStats.Metrics;
+import io.github.xBlackPoison357x.RecipeChanger.Listeners.CustomRecipeGUI;
 import io.github.xBlackPoison357x.RecipeChanger.Listeners.RecipeChanger;
+
 
 public class UltimatePlugin extends JavaPlugin implements Listener {
 	public PluginDescriptionFile pdfFile;
@@ -85,7 +86,7 @@ public class UltimatePlugin extends JavaPlugin implements Listener {
 	private Tps Tps;
 
 	@Override
-	public void onEnable() {
+	public void onEnable() {						
 		Tps = new Tps(this);
 		scheduleUpdater();
 		pdfFile = getDescription();
@@ -120,10 +121,9 @@ public class UltimatePlugin extends JavaPlugin implements Listener {
 		}
 		if (getDefaultConfig().getBoolean("Enabled Plugin Components.RecipeChanger")) {
 			getServer().getPluginManager().registerEvents(new RecipeChanger(this), this);
+			RecipeChanger recipeChanger = new RecipeChanger(this);
+			new CustomRecipeGUI(this, recipeChanger);
 			recipeLoader.loadRecipes();
-		  //  getServer().getPluginManager().registerEvents(new Permissions(this), this);
-		  // getServer().getPluginManager().registerEvents(new Crafting(this), this);
-		  // Crafting.getInstance().SetupCrafting();
 		}
 		if (getDefaultConfig().getBoolean("Enabled Plugin Components.FrameProtector")) {
 		    getServer().getPluginManager().registerEvents(new ItemRemove(this), this);
@@ -179,6 +179,7 @@ public class UltimatePlugin extends JavaPlugin implements Listener {
 	public FileConfiguration getFrameProtectorConfig() {
 	    return FrameProtector;
 	}
+	
 	public void createFiles() {
 	    configf = new File(getDataFolder(), "config.yml");
 	    disableexpf = new File(getDataFolder(), "DisableEXP.yml");
@@ -201,27 +202,19 @@ public class UltimatePlugin extends JavaPlugin implements Listener {
 	        Information = YamlConfiguration.loadConfiguration(informationf);
 	        RecipeChanger = YamlConfiguration.loadConfiguration(recipechangerf);
 	        FrameProtector = YamlConfiguration.loadConfiguration(frameprotectorf);
+	        
+    		ul.setDisableCommandMessagesConfig(disablecommandmessagesf);
 	    } catch (IOException e) {
 	        e.printStackTrace();
 	    }
 	    if (recipechangerf.length() == 0L) {
 	        ul.setRecipeChangerConfig(recipechangerf);
 	    }
-	    if (configf.length() == 0L) {
 	        ul.setDefaultConfig(configf);
-	    }
-	    if (disableexpf.length() == 0L) {
 	        ul.setDisableEXPConfig(disableexpf);
-	    }
-	    if (disablecommandmessagesf.length() == 0L) {
 	        ul.setDisableCommandMessagesConfig(disablecommandmessagesf);
-	    }
-	    if (frameprotectorf.length() == 0L) {
 	        ul.setFrameProtectorConfig(frameprotectorf);
-	    }
-	    if (informationf.length() == 0L) {
 	        ul.setInformationConfig(informationf);
-	    }
 	    }
 
 	public void saveDisableCommandsConfig() {
@@ -231,6 +224,7 @@ public class UltimatePlugin extends JavaPlugin implements Listener {
 	        e.printStackTrace();
 	    }
 	}
+	
 	public void scheduleUpdater() {
 	    if (getDefaultConfig() != null && getDefaultConfig().getBoolean("Auto Updater")) {
 	        if (!hasDownloadedUpdate) {
@@ -245,19 +239,19 @@ public class UltimatePlugin extends JavaPlugin implements Listener {
 	        }
 	    }
 	}
+	
 	public Tps getTPS() {
 		return Tps;
-	}
-
+	}	
 
 	@Override
 	public void onDisable() {
 		Bukkit.getServer().clearRecipes();
 		}
+	
 	public void commandupdater() {
 		new Updater(this, 102168, getFile(), Updater.UpdateType.DEFAULT, true);
 	}
-
 
 	public void setupUpdater() {
 	        Updater updater = new Updater(this, 102168, getFile(), Updater.UpdateType.DEFAULT, true);

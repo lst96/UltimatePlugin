@@ -20,7 +20,7 @@ public class Vote implements CommandExecutor {
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
-	    if (commandLabel.equalsIgnoreCase("votelinks")) {
+	    if (commandLabel.equalsIgnoreCase("vote")) {
 	        if (sender.isOp() || sender.hasPermission("information.vote")) {
 	            List<String> voteLinks = plugin.getInformationConfig().getStringList("Vote");
 	            sender.sendMessage(ChatColor.BLUE + "--Current Voting Link(s)--");

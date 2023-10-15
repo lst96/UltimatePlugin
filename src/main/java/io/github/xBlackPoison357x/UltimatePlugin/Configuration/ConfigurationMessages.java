@@ -2,11 +2,12 @@ package io.github.xBlackPoison357x.UltimatePlugin.Configuration;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.Arrays;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.FileConfigurationOptions;
 import org.bukkit.event.Listener;
 
 import io.github.xBlackPoison357x.UltimatePlugin.UltimatePlugin;
@@ -19,73 +20,94 @@ public class ConfigurationMessages implements Listener {
 	}
 	
 	public void setRecipeChangerConfig(File recipechangerf) {
-		// Get the ConfigurationOptions for the root configuration section
-		FileConfiguration config = plugin.getRecipeChangerConfig();
-		FileConfigurationOptions options = config.options();
+		String header = """
+		        A few things to note: permission can be anything you want.
+		        The recipe name has to be unique and is only used internally for creating recipes and /recipegui. Crafted items retain default naming; if duplicate names are used, only one will be used.
+		        FORMATTING has to be exact; if you have any doubt, use any free YML syntax checker available online.
+		        Remove the # on the left hand side from the example to use, remember to use space and NOT tab.
+		        Notepad++ is the suggested editor for adding recipes; it will aid you in avoiding syntax errors.
+		        Use /recipeload to load/change recipes without restarting the server.
+		        Example Shaped Recipe
+		        ---------------------
+		        Recipe for diamond horse armor
 
-		// Set the header comment for the entire configuration file
-		options.header("Here's an example recipe for a diamond horse armor, use only the commented lines as a template, remove the # to use a recipe, use AIR for empty slots, permission prefix must be recipe.:");
+		        gold_apple:
+		          recipe_type: shaped
+		          shape:
+		            - NND
+		            - DWD
+		            - DDD
+		          ingredients:
+		            W: WHITE_WOOL
+		            D: DIAMOND
+		            N: AIR
+		          result:
+		            type: diamond_horse_armor
+		            amount: 1
+		          permission: recipe.diamondarmor
 
-		// Create the diamond horse armor recipe section but don't set its values
-		config.createSection("diamond_horse_armor");
+		        Example Shapeless Recipe
+		        ------------------------
+		        Recipe for compass
 
-		// Set the header comment for the specific recipe section only
-		config.setComments("diamond_horse_armor", Arrays.asList( 
-		    " diamond_horse_armor:",
-		    "   recipe_type: shapeless",
-		    "   shape:", 
-		    "     - NND", 
-		    "     - DWD", 
-		    "     - DDD", 
-		    "   key:", 
-		    "     N: AIR", 
-		    "     D: DIAMOND", 
-		    "     W: WHITE_WOOL", 
-		    "   result:", 
-		    "     type: DIAMOND_HORSE_ARMOR", 
-		    "     amount: 1",
-		    "   permission: recipe.apple"));
-        try {
-            plugin.getRecipeChangerConfig().save(recipechangerf);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+		        compass_recipe:
+		          recipe_type: shapeless
+		          ingredients:
+		            - IRON_INGOT
+		            - REDSTONE
+		          result:
+		            type: COMPASS
+		            amount: 1
+		          permission: recipe.compass""";
+		header = header.replaceAll("(?m)^ ", "");
+
+		try {
+		    Files.writeString(recipechangerf.toPath(), "#" + header.replace("\n", "\n#"), StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
+		} catch (IOException e) {
+		    e.printStackTrace();
+		}
 
 	}
+
 	public void setDefaultConfig(File configf) {
-		plugin.getDefaultConfig().set("UltimatePlugin", plugin.pdfFile.getVersion());
-		plugin.getDefaultConfig().set("Auto Updater", true);
-		plugin.getDefaultConfig().set("Enabled Plugin Components.Information", true);
-		plugin.getDefaultConfig().set("Enabled Plugin Components.RecipeChanger", true);
-		plugin.getDefaultConfig().set("Enabled Plugin Components.DisableEXP", true);
-		plugin.getDefaultConfig().set("Enabled Plugin Components.FrameProtector", true);
-		plugin.getDefaultConfig().set("Enabled Plugin Components.DisableCommands", true);
-		plugin.getDefaultConfig().set("Enabled Plugin Components.UltimatePlugin", true);
-		plugin.getDefaultConfig().set("Messages.Permission Denied",
+		FileConfiguration config = plugin.getDefaultConfig();
+		config.addDefault("UltimatePlugin", plugin.pdfFile.getVersion());
+		config.addDefault("Auto Updater", true);
+		config.addDefault("Enabled Plugin Components.Information", true);
+		config.addDefault("Enabled Plugin Components.RecipeChanger", true);
+		config.addDefault("Enabled Plugin Components.DisableEXP", true);
+		config.addDefault("Enabled Plugin Components.FrameProtector", true);
+		config.addDefault("Enabled Plugin Components.DisableCommands", true);
+		config.addDefault("Enabled Plugin Components.UltimatePlugin", true);
+		config.addDefault("Messages.Permission Denied",
 				"I'm sorry, but you do not have permission to perform this command. Please contact the server administrator(s) if you believe that this is in error.");
 		try {
-			plugin.getDefaultConfig().save(configf);
+			config.options().copyDefaults(true);
+			config.save(configf);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 
 	public void setDisableEXPConfig(File disableexpf) {
-		plugin.getDisableEXPConfig().set("EXP.Ore", false);
-		plugin.getDisableEXPConfig().set("EXP.Smelt", false);
-		plugin.getDisableEXPConfig().set("EXP.Mob", false);
-		plugin.getDisableEXPConfig().set("EXP.Fish", false);
-		plugin.getDisableEXPConfig().set("EXP.Exp Bottle", false);
-		plugin.getDisableEXPConfig().set("EXP.Breeding", false);
-		plugin.getDisableEXPConfig().set("EXP.ALL", false);
+		FileConfiguration config = plugin.getDisableEXPConfig();
+		config.addDefault("EXP.Ore", false);
+		config.addDefault("EXP.Smelt", false);
+		config.addDefault("EXP.Mob", false);
+		config.addDefault("EXP.Fish", false);
+		config.addDefault("EXP.Exp Bottle", false);
+		config.addDefault("EXP.Breeding", false);
+		config.addDefault("EXP.ALL", false);
 		try {
-			plugin.getDisableEXPConfig().save(disableexpf);
+			config.options().copyDefaults(true);
+			config.save(disableexpf);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 
 	public void setInformationConfig(File informationf) {
+		FileConfiguration config = plugin.getInformationConfig();
 		ArrayList<String> website = new ArrayList<>(Arrays.asList("&1 Website"));
 		ArrayList<String> donate = new ArrayList<>(Arrays.asList("&2 Donate"));
 		ArrayList<String> rules = new ArrayList<>(Arrays.asList("&3 Rules"));
@@ -96,95 +118,100 @@ public class ConfigurationMessages implements Listener {
 		ArrayList<String> extra = new ArrayList<>(Arrays.asList("&9 Extra"));
 		ArrayList<String> vote = new ArrayList<>(Arrays.asList("&a Vote"));
 
-		plugin.getInformationConfig().set("Website", website);
-		plugin.getInformationConfig().set("Donate", donate);
-		plugin.getInformationConfig().set("Rules", rules);
-		plugin.getInformationConfig().set("Staff", staff);
-		plugin.getInformationConfig().set("Twitter", twitter);
-		plugin.getInformationConfig().set("Facebook", facebook);
-		plugin.getInformationConfig().set("Youtube", youtube);
-		plugin.getInformationConfig().set("Extra", extra);
-		plugin.getInformationConfig().set("Vote", vote);
+		config.addDefault("Website", website);
+		config.addDefault("Donate", donate);
+		config.addDefault("Rules", rules);
+		config.addDefault("Staff", staff);
+		config.addDefault("Twitter", twitter);
+		config.addDefault("Facebook", facebook);
+		config.addDefault("Youtube", youtube);
+		config.addDefault("Extra", extra);
+		config.addDefault("Vote", vote);
 
-		plugin.getInformationConfig().set("Disabled Flight Worlds.world", false);
-		plugin.getInformationConfig().set("Disabled Flight Worlds.world_nether", false);
-		plugin.getInformationConfig().set("Disabled Flight Worlds.world_the_end", false);
-		plugin.getInformationConfig().set("Disabled Creative Worlds.world", false);
-		plugin.getInformationConfig().set("Disabled Creative Worlds.world_nether", false);
-		plugin.getInformationConfig().set("Disabled Creative Worlds.world_the_end", false);
-		plugin.getInformationConfig().set("Disabled Join Worlds.world", false);
-		plugin.getInformationConfig().set("Disabled Join Worlds.world_nether", false);
-		plugin.getInformationConfig().set("Disabled Join Worlds.world_the_end", false);
-		plugin.getInformationConfig().set("Boss Message.Color", "RED");
-		plugin.getInformationConfig().set("Boss Message.Text", "Welcome to the Server!");
-		plugin.getInformationConfig().set("Boss Message.Style", "SOLID");
-		plugin.getInformationConfig().set("Boss Message.Flag", "DARKEN_SKY");
-		plugin.getInformationConfig().set("Boss Message.Enable", true);
-		plugin.getInformationConfig().set("Blocktopofnetherbuilding", false);
+		config.addDefault("Disabled Flight Worlds.world", false);
+		config.addDefault("Disabled Flight Worlds.world_nether", false);
+		config.addDefault("Disabled Flight Worlds.world_the_end", false);
+		config.addDefault("Disabled Creative Worlds.world", false);
+		config.addDefault("Disabled Creative Worlds.world_nether", false);
+		config.addDefault("Disabled Creative Worlds.world_the_end", false);
+		config.addDefault("Disabled Join Worlds.world", false);
+		config.addDefault("Disabled Join Worlds.world_nether", false);
+		config.addDefault("Disabled Join Worlds.world_the_end", false);
+		config.addDefault("Boss Message.Color", "RED");
+		config.addDefault("Boss Message.Text", "Welcome to the Server!");
+		config.addDefault("Boss Message.Style", "SOLID");
+		config.addDefault("Boss Message.Flag", "DARKEN_SKY");
+		config.addDefault("Boss Message.Enable", true);
+		config.addDefault("Blocktopofnetherbuilding", false);
 
-		plugin.getInformationConfig().set("Starter Kit Items.helmet.type", Material.IRON_HELMET.toString());
-		plugin.getInformationConfig().set("Starter Kit Items.chestplate.type", Material.IRON_CHESTPLATE.toString());
-		plugin.getInformationConfig().set("Starter Kit Items.leggings.type", Material.IRON_LEGGINGS.toString());
-		plugin.getInformationConfig().set("Starter Kit Items.boots.type", Material.IRON_BOOTS.toString());
-		plugin.getInformationConfig().set("Starter Kit Items.sword.type", Material.IRON_SWORD.toString());
-		plugin.getInformationConfig().set("Starter Kit Items.pickaxe.type", Material.IRON_PICKAXE.toString());
-		plugin.getInformationConfig().set("Starter Kit Items.axe.type", Material.IRON_AXE.toString());
-		plugin.getInformationConfig().set("Starter Kit Items.shovel.type", Material.IRON_SHOVEL.toString());
-		plugin.getInformationConfig().set("Starter Kit Items.hoe.type", Material.IRON_HOE.toString());
-		plugin.getInformationConfig().set("Starter Kit Items.bow.type", Material.BOW.toString());
-		plugin.getInformationConfig().set("Starter Kit Items.arrows.type", Material.ARROW.toString());
-		plugin.getInformationConfig().set("Starter Kit Items.arrows.amount", 32);
-		plugin.getInformationConfig().set("Starter Kit Items.bread.type", Material.BREAD.toString());
-		plugin.getInformationConfig().set("Starter Kit Items.bread.amount", 16);
+		config.addDefault("Starter Kit Items.helmet.type", Material.IRON_HELMET.toString());
+		config.addDefault("Starter Kit Items.chestplate.type", Material.IRON_CHESTPLATE.toString());
+		config.addDefault("Starter Kit Items.leggings.type", Material.IRON_LEGGINGS.toString());
+		config.addDefault("Starter Kit Items.boots.type", Material.IRON_BOOTS.toString());
+		config.addDefault("Starter Kit Items.sword.type", Material.IRON_SWORD.toString());
+		config.addDefault("Starter Kit Items.pickaxe.type", Material.IRON_PICKAXE.toString());
+		config.addDefault("Starter Kit Items.axe.type", Material.IRON_AXE.toString());
+		config.addDefault("Starter Kit Items.shovel.type", Material.IRON_SHOVEL.toString());
+		config.addDefault("Starter Kit Items.hoe.type", Material.IRON_HOE.toString());
+		config.addDefault("Starter Kit Items.bow.type", Material.BOW.toString());
+		config.addDefault("Starter Kit Items.arrows.type", Material.ARROW.toString());
+		config.addDefault("Starter Kit Items.arrows.amount", 32);
+		config.addDefault("Starter Kit Items.bread.type", Material.BREAD.toString());
+		config.addDefault("Starter Kit Items.bread.amount", 16);
 
 
-		plugin.getInformationConfig().set("Messages.Permission Denied",
+		config.addDefault("Messages.Permission Denied",
 				"I'm sorry, but you do not have permission to perform this command. Please contact the server administrator(s) if you believe that this is in error.");
-		plugin.getInformationConfig().set("Messages.Permission.Creative Denied", "You are not allowed to use creative in this world!");
-		plugin.getInformationConfig().set("Messages.Permission.Flight Denied", "You are not allowed to fly in this world!");
-		plugin.getInformationConfig().set("Messages.Permission.Join World Config Error", "Config Error, all worlds are disabled, please undisable at least 1 world.");
-		plugin.getInformationConfig().set("Messages.Permission.Join World Disabled Error", "World disabled, teleporting to");
-		plugin.getInformationConfig().set("Messages.Permission.Join World Join Error", "You are not allowed to join");
-		plugin.getInformationConfig().set("Messages.Permission.Top of Nether", "You are not allowed to walk/build on top of the Nether!");
-		plugin.getInformationConfig().set("Messages.Permission.Top of Nether.Notify", "attempted to walk/build on top of the Nether!");
+		config.addDefault("Messages.Permission.Creative Denied", "You are not allowed to use creative in this world!");
+		config.addDefault("Messages.Permission.Flight Denied", "You are not allowed to fly in this world!");
+		config.addDefault("Messages.Permission.Join World Config Error", "Config Error, all worlds are disabled, please undisable at least 1 world.");
+		config.addDefault("Messages.Permission.Join World Disabled Error", "World disabled, teleporting to");
+		config.addDefault("Messages.Permission.Join World Join Error", "You are not allowed to join");
+		config.addDefault("Messages.Permission.Top of Nether", "You are not allowed to walk/build on top of the Nether!");
+		config.addDefault("Messages.Permission.Top of Nether.Notify", "attempted to walk/build on top of the Nether!");
 
 		try {
-			plugin.getInformationConfig().save(informationf);
+			config.options().copyDefaults(true);
+			config.save(informationf);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 
 	public void setDisableCommandMessagesConfig(File disablecommandmessagesf) {
-		plugin.getDisableCommandMessagesConfig().set("Messages.Command Deny Message", "That command is not allowed!");
-		plugin.getDisableCommandMessagesConfig().set("Messages.Permission Deny Message",
+		FileConfiguration config = plugin.getDisableCommandMessagesConfig();
+		config.addDefault("Messages.Command Deny Message", "That command is not allowed!");
+		config.addDefault("Messages.Permission Deny Message",
 				"I'm sorry, but you do not have permission to perform this command. Please contact the server administrator(s) if you believe that this is in error.");
-		plugin.getDisableCommandMessagesConfig().set("Messages.Already Forbidden Message",
+		config.addDefault("Messages.Already Forbidden Message",
 				"That command is already forbidden!");
-		plugin.getDisableCommandMessagesConfig().set("Messages.Not Forbiddien Message",
+		config.addDefault("Messages.Not Forbiddien Message",
 				"That command is not forbidden!");
 		try {
-			plugin.getDisableCommandMessagesConfig().save(disablecommandmessagesf);
+			config.options().copyDefaults(true);
+			config.save(disablecommandmessagesf);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 
 	public void setFrameProtectorConfig(File frameprotectorf) {
-		plugin.getFrameProtectorConfig().set("Messages.Remove Frame Success Message", "Item frame removed successfully.");
-		plugin.getFrameProtectorConfig().set("Messages.Remove Owner Deny Message", "You are not the owner of this item frame and cannot remove it.");
-		plugin.getFrameProtectorConfig().set("Messages.Remove Frame Deny Message",
+		FileConfiguration config = plugin.getFrameProtectorConfig();
+		config.addDefault("Messages.Remove Frame Success Message", "Item frame removed successfully.");
+		config.addDefault("Messages.Remove Owner Deny Message", "You are not the owner of this item frame and cannot remove it.");
+		config.addDefault("Messages.Remove Frame Deny Message",
 				"You are not allowed to remove this ItemFrame!");
-		plugin.getFrameProtectorConfig().set("Messages.Place Deny Message",
+		config.addDefault("Messages.Place Deny Message",
 				"You are not allowed to place this ItemFrame!");
-		plugin.getFrameProtectorConfig().set("Messages.Rotate Deny Message",
+		config.addDefault("Messages.Rotate Deny Message",
 				"You are not allowed to rotate this ItemFrame!");
-		plugin.getFrameProtectorConfig().set("Messages.Remove Item Deny Message",
+		config.addDefault("Messages.Remove Item Deny Message",
 				"You are not allowed to remove items from this ItemFrame!");
-		plugin.getFrameProtectorConfig().set("Messages.Command Deny Message",
+		config.addDefault("Messages.Command Deny Message",
 				"I'm sorry, but you do not have permission to perform this command. Please contact the server administrator(s) if you believe that this is in error.");
 		try {
-			plugin.getFrameProtectorConfig().save(frameprotectorf);
+			config.options().copyDefaults(true);
+			config.save(frameprotectorf);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
