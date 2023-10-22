@@ -1,107 +1,98 @@
 package io.github.xBlackPoison357x.RecipeChanger.Listeners;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Keyed;
-import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
+
+import org.bukkit.*;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.CraftItemEvent;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.Recipe;
-import org.bukkit.inventory.ShapedRecipe;
-import io.github.xBlackPoison357x.UltimatePlugin.UltimatePlugin;
-import org.bukkit.inventory.ShapelessRecipe;
+import org.bukkit.inventory.*;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.io.File;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.ArrayList;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.FileInputStream;
-import java.io.BufferedReader;
-import java.util.HashSet;
-import java.util.Set;
+import io.github.xBlackPoison357x.UltimatePlugin.UltimatePlugin;
+
+import java.io.*;
+import java.util.*;
 
 
 public class RecipeChanger implements Listener {
-    public UltimatePlugin plugin;
-    private Map<String, Recipe> customRecipes = new HashMap<>();
 
+    private final UltimatePlugin plugin;
+    private final Map<String, Recipe> customRecipes = new HashMap<>();
 
     public RecipeChanger(UltimatePlugin instance) {
-        plugin = instance;
+        this.plugin = instance;
     }
 
     public void loadRecipes() {
-        // Load recipe data from configuration file
         File configFile = new File(plugin.getDataFolder(), "RecipeChanger.yml");
 
         if (!configFile.exists()) {
-            Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "[UltimatePlugin] RecipeChanger.yml file not found.");
+            sendConsoleMessage(ChatColor.RED, "RecipeChanger.yml file not found.");
             return;
         }
 
-        try (InputStream inputStream = new FileInputStream(configFile);
-             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream))) {
-
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(configFile)))) {
             YamlConfiguration config = new YamlConfiguration();
             config.load(reader);
-
-            // Create a copy of the existing recipe keys in the map
-            Set<String> existingRecipeKeys = new HashSet<>(customRecipes.keySet());
-
-            // Iterate over each recipe in the configuration file
-            for (String recipeKey : config.getKeys(false)) {
-                ConfigurationSection recipeData = config.getConfigurationSection(recipeKey);
-
-                // Parse recipe data
-                Recipe recipe = parseRecipeData(recipeData);
-                if (recipe != null) {
-                    if (customRecipes.containsKey(recipeKey)) {
-                        // Modify the existing recipe
-                        Recipe updatedRecipe = updateRecipe(customRecipes.get(recipeKey), recipe, recipeData.getString("permission", ""));
-
-                        if (updatedRecipe != null) {
-                            Bukkit.addRecipe(updatedRecipe);
-                        }
-                    } else {
-                        // Add the new custom recipe to the game registry and the map
-                        customRecipes.put(recipeKey, recipe);
-                        Bukkit.addRecipe(recipe);
-                        Bukkit.getConsoleSender().sendMessage(ChatColor.GREEN + "[UltimatePlugin] Added recipe: " + recipeKey);
-                    }
-                } else {
-                    Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "[UltimatePlugin] Recipe data could not be parsed for: " + recipeKey);
-                }
-
-                // Remove the processed recipe key from the existing keys set
-                existingRecipeKeys.remove(recipeKey);
-            }
-
-            // Remove recipes from the map that were not found in the configuration file
-            for (String removedRecipeKey : existingRecipeKeys) {
-                Recipe removedRecipe = customRecipes.remove(removedRecipeKey);
-                if (removedRecipe != null) {
-                    Bukkit.removeRecipe(((Keyed) removedRecipe).getKey());
-                    Bukkit.getConsoleSender().sendMessage(ChatColor.GREEN + "[UltimatePlugin] Removed recipe: " + removedRecipeKey);
-                }
-            }
-
+            processRecipesInConfig(config);
         } catch (Exception ex) {
-            Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "[UltimatePlugin] Error loading recipes from configuration file: " + ex.getMessage());
+            sendConsoleMessage(ChatColor.RED, "Error loading recipes from configuration file: " + ex.getMessage());
             ex.printStackTrace();
         }
     }
+    
+    private void sendConsoleMessage(ChatColor color, String message) {
+        Bukkit.getConsoleSender().sendMessage(color + "[UltimatePlugin] " + message);
+    }
 
+    private void processRecipesInConfig(YamlConfiguration config) {
+        Set<String> existingRecipeKeys = new HashSet<>(customRecipes.keySet());
 
+        for (String recipeKey : config.getKeys(false)) {
+            ConfigurationSection recipeData = config.getConfigurationSection(recipeKey);
+            Recipe recipe = parseRecipeData(recipeData);
+
+            if (recipe != null) {
+                handleRecipeUpdates(recipeKey, recipe, recipeData.getString("permission", ""));
+            } else {
+                sendConsoleMessage(ChatColor.RED, "Recipe data could not be parsed for: " + recipeKey);
+            }
+
+            existingRecipeKeys.remove(recipeKey);
+        }
+
+        removeAbsentRecipes(existingRecipeKeys);
+    }
+    
+    private void handleRecipeUpdates(String recipeKey, Recipe recipe, String permission) {
+        Recipe existingRecipe = customRecipes.get(recipeKey);
+
+        if (existingRecipe != null) {
+            Recipe updatedRecipe = updateRecipe(existingRecipe, recipe, permission);
+
+            if (updatedRecipe != null) {
+                Bukkit.addRecipe(updatedRecipe);
+            }
+        } else {
+            customRecipes.put(recipeKey, recipe);
+            Bukkit.addRecipe(recipe);
+            sendConsoleMessage(ChatColor.GREEN, "Added recipe: " + recipeKey);
+        }
+    }
+
+    private void removeAbsentRecipes(Set<String> absentRecipeKeys) {
+        for (String removedRecipeKey : absentRecipeKeys) {
+            Recipe removedRecipe = customRecipes.remove(removedRecipeKey);
+
+            if (removedRecipe instanceof Keyed) {
+                Bukkit.removeRecipe(((Keyed) removedRecipe).getKey());
+                sendConsoleMessage(ChatColor.GREEN, "Removed recipe: " + removedRecipeKey);
+            }
+        }
+    }
+    
 
     public Recipe updateRecipe(Recipe existingRecipe, Recipe newRecipe, String permission) {
         if (existingRecipe instanceof ShapedRecipe && newRecipe instanceof ShapedRecipe) {
@@ -111,8 +102,9 @@ public class RecipeChanger implements Listener {
             ShapedRecipe updatedShapedRecipe = new ShapedRecipe(newShapedRecipe.getKey(), newShapedRecipe.getResult());
 
             updatedShapedRecipe.shape(newShapedRecipe.getShape());
-            for (char key : newShapedRecipe.getIngredientMap().keySet()) {
-                ItemStack ingredient = newShapedRecipe.getIngredientMap().get(key);
+            for (Map.Entry<Character, ItemStack> entry : newShapedRecipe.getIngredientMap().entrySet()) {
+                char key = entry.getKey();
+                ItemStack ingredient = entry.getValue();
                 if (ingredient != null) {
                     updatedShapedRecipe.setIngredient(key, ingredient.getType());
                 }
@@ -180,6 +172,7 @@ public class RecipeChanger implements Listener {
             for (String ingredientMaterialName : ingredientList) {
                 Material ingredientMaterial = Material.matchMaterial(ingredientMaterialName);
                 if (ingredientMaterial != null) {
+                    // Prefix is used to differentiate from shaped recipe keys and maintain unique keys
                     ingredients.put("-" + index, ingredientMaterial);
                     index++;
                 } else {
@@ -294,28 +287,141 @@ public class RecipeChanger implements Listener {
 
     @EventHandler
     public void onCraftItem(CraftItemEvent event) {
-        if (event.getWhoClicked() instanceof Player) {
-            Player player = (Player) event.getWhoClicked();
-            Recipe recipe = event.getRecipe();
+        if (!(event.getWhoClicked() instanceof Player)) return;
 
-            // Check if the recipe was added by the UltimatePlugin
-            if (recipe instanceof Keyed && ((Keyed) recipe).getKey().getNamespace().equals("ultimateplugin")) {
-                String permission = null;
-                if (recipe instanceof ShapedRecipe) {
-                    ShapedRecipe shapedRecipe = (ShapedRecipe) recipe;
-                    permission = shapedRecipe.getGroup();
-                } else if (recipe instanceof ShapelessRecipe) {
-                    ShapelessRecipe shapelessRecipe = (ShapelessRecipe) recipe;
-                    permission = shapelessRecipe.getGroup();
-                }
-                if (permission != null && !permission.isEmpty() && !(player.hasPermission(permission) || player.isOp())) {
-                    event.setCancelled(true);
-                    String itemName = recipe.getResult().getType().toString().toLowerCase().replace("_", " ");
-                    player.closeInventory();
-                    player.sendMessage(ChatColor.RED + permission + " is required to craft " + itemName + ". Please contact the server administrator(s) if you believe that this is in error.");
-                }
+        Player player = (Player) event.getWhoClicked();
+        Recipe recipe = event.getRecipe();
+
+        if (recipe instanceof Keyed && ((Keyed) recipe).getKey().getNamespace().equals("ultimateplugin")) {
+            String permission = getRecipePermission(recipe);
+
+            if (permission != null && !permission.isEmpty() && !playerHasPermission(player, permission)) {
+                cancelCrafting(event, recipe, player, permission);
             }
         }
     }
+
+        private String getRecipePermission(Recipe recipe) {
+            if (recipe instanceof ShapedRecipe) {
+                return ((ShapedRecipe) recipe).getGroup();
+            } else if (recipe instanceof ShapelessRecipe) {
+                return ((ShapelessRecipe) recipe).getGroup();
+            }
+            return null;
+        }
+
+        private boolean playerHasPermission(Player player, String permission) {
+            return player.hasPermission(permission) || player.isOp();
+        }
+
+        private void cancelCrafting(CraftItemEvent event, Recipe recipe, Player player, String permission) {
+            event.setCancelled(true);
+            String itemName = recipe.getResult().getType().toString().toLowerCase().replace("_", " ");
+            player.closeInventory();
+            player.sendMessage(ChatColor.RED + permission + " is required to craft " + itemName + ". Please contact the server administrator(s) if you believe that this is in error.");
+    }
+        public boolean addRecipe(String recipeKey, Recipe recipe, String permission) {
+            // Check if the recipe key already exists
+            if (customRecipes.containsKey(recipeKey)) {
+                return false; // Recipe key already in use
+            }
+
+            // Step 1: Save the recipe to RecipeChanger.yml
+            File configFile = new File(plugin.getDataFolder(), "RecipeChanger.yml");
+            YamlConfiguration config = YamlConfiguration.loadConfiguration(configFile);
+
+            // Serialize and save the recipe to the config file
+            ConfigurationSection recipeSection = config.createSection(recipeKey);
+            saveRecipeToConfig(recipe, permission, recipeSection);
+
+            try {
+                config.save(configFile);
+            } catch (IOException e) {
+                e.printStackTrace();
+                return false;
+            }
+
+            // Step 2: Add the recipe to customRecipes map
+            customRecipes.put(recipeKey, recipe);
+
+            // Step 3: Add the recipe to the server using Bukkit API
+            Bukkit.addRecipe(recipe);
+
+            sendConsoleMessage(ChatColor.GREEN, "Added recipe: " + recipeKey);
+            return true;
+        }
+
+        // Helper method to save a recipe to a configuration section
+        private void saveRecipeToConfig(Recipe recipe, String permission, ConfigurationSection recipeSection) {
+            if (recipe instanceof ShapedRecipe) {
+                ShapedRecipe shapedRecipe = (ShapedRecipe) recipe;
+
+                // Save the recipe type as "shaped"
+                recipeSection.set("recipe_type", "shaped");
+
+                // Save the shape
+                recipeSection.set("shape", shapedRecipe.getShape());
+
+                // Save the ingredients
+                ConfigurationSection ingredientsSection = recipeSection.createSection("ingredients");
+                Map<Character, ItemStack> ingredientMap = shapedRecipe.getIngredientMap();
+                for (Character key : ingredientMap.keySet()) {
+                    Material ingredientMaterial = ingredientMap.get(key).getType();
+                    ingredientsSection.set(key.toString(), ingredientMaterial.toString());
+                }
+            } else if (recipe instanceof ShapelessRecipe) {
+                ShapelessRecipe shapelessRecipe = (ShapelessRecipe) recipe;
+
+                // Save the recipe type as "shapeless"
+                recipeSection.set("recipe_type", "shapeless");
+
+                // Save the ingredients as a list
+                recipeSection.set("ingredients", shapelessRecipe.getIngredientList().stream()
+                        .map(itemStack -> itemStack.getType().toString())
+                        .toArray(String[]::new));
+            }
+
+            // Save the result
+            ConfigurationSection resultSection = recipeSection.createSection("result");
+            resultSection.set("type", recipe.getResult().getType().toString());
+            resultSection.set("amount", recipe.getResult().getAmount());
+
+            // Save the permission
+            recipeSection.set("permission", permission);
+        }
+
+
+
+
+        public boolean deleteRecipe(String recipeKey) {
+            // Step 1: Delete from RecipeChanger.yml
+            File configFile = new File(plugin.getDataFolder(), "RecipeChanger.yml");
+            YamlConfiguration config = YamlConfiguration.loadConfiguration(configFile);
+            if (!config.contains(recipeKey)) {
+                return false;  // The recipe doesn't exist.
+            }
+            
+            config.set(recipeKey, null);  // Remove the recipe from the config.
+
+            try {
+                config.save(configFile);
+            } catch (IOException e) {
+                e.printStackTrace();
+                return false;
+            }
+
+            // Step 2: Remove from customRecipes map
+            Recipe recipe = customRecipes.remove(recipeKey);
+
+            // Step 3: Remove from server using Bukkit API
+            if (recipe instanceof Keyed) {
+                Bukkit.removeRecipe(((Keyed) recipe).getKey());
+            }
+            
+            sendConsoleMessage(ChatColor.GREEN, "Deleted recipe: " + recipeKey);
+            
+            return true;
+        }
+
 
 }

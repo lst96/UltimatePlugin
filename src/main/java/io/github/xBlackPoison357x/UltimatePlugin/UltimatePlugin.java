@@ -54,6 +54,7 @@ import io.github.xBlackPoison357x.UltimatePlugin.Commands.UltimateUpdate;
 import io.github.xBlackPoison357x.UltimatePlugin.Configuration.ConfigurationMessages;
 import io.github.xBlackPoison357x.UltimatePlugin.Updater.Updater;
 import io.github.xBlackPoison357x.UltimatePlugin.bStats.Metrics;
+import io.github.xBlackPoison357x.RecipeChanger.Listeners.AdminGUI;
 import io.github.xBlackPoison357x.RecipeChanger.Listeners.CustomRecipeGUI;
 import io.github.xBlackPoison357x.RecipeChanger.Listeners.RecipeChanger;
 
@@ -120,11 +121,18 @@ public class UltimatePlugin extends JavaPlugin implements Listener {
 		    }
 		}
 		if (getDefaultConfig().getBoolean("Enabled Plugin Components.RecipeChanger")) {
-			getServer().getPluginManager().registerEvents(new RecipeChanger(this), this);
-			RecipeChanger recipeChanger = new RecipeChanger(this);
-			new CustomRecipeGUI(this, recipeChanger);
-			recipeLoader.loadRecipes();
+		    RecipeChanger recipeChanger = new RecipeChanger(this);
+		    
+		    // Create an instance of AdminGUI
+		    AdminGUI adminGUI = new AdminGUI(this, recipeChanger);
+		    this.getCommand("admingui").setExecutor(adminGUI);
+		    
+		    // Now, pass the adminGUI instance to CustomRecipeGUI
+		    new CustomRecipeGUI(this, recipeChanger, adminGUI);
+
+		    recipeLoader.loadRecipes();
 		}
+
 		if (getDefaultConfig().getBoolean("Enabled Plugin Components.FrameProtector")) {
 		    getServer().getPluginManager().registerEvents(new ItemRemove(this), this);
 		    getServer().getPluginManager().registerEvents(new ItemFramePlace(this), this);
@@ -239,6 +247,7 @@ public class UltimatePlugin extends JavaPlugin implements Listener {
 	        }
 	    }
 	}
+	
 	
 	public Tps getTPS() {
 		return Tps;

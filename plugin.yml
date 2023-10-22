@@ -11,6 +11,12 @@ commands:
     aliases:
     - gui
     - customrecipes
+  admingui:
+    description: Opens the admin GUI
+    usage: /admingui
+    aliases:
+    - gui
+    - customrecipes  
   recipeload:
     description: Loads custom recipes
     usage: /recipeload
@@ -228,6 +234,9 @@ permissions:
   recipe.gui:
     description: Gives permission to the /recipegui command.
     default: false
+  admin.gui:
+    description: Gives permission to the /admingui command.
+    default: false  
   recipe.load:
     description: Gives permission to the /recipeload command.
     default: false

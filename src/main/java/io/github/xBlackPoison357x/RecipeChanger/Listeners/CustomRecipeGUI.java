@@ -13,216 +13,183 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.InventoryView;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.Recipe;
-import org.bukkit.inventory.ShapedRecipe;
-import org.bukkit.inventory.ShapelessRecipe;
+import org.bukkit.inventory.*;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.inventory.CraftingInventory;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.HashMap;
-import java.util.UUID;
-import java.util.ArrayList;
-
+import java.util.*;
 
 public class CustomRecipeGUI implements CommandExecutor, Listener {
-    private UltimatePlugin plugin;
-    private RecipeChanger recipeChanger;
-    private Set<UUID> customWorkbenchPlayers = new HashSet<>();
-    private Map<UUID, ItemStack[]> craftingInventoryContents = new HashMap<>();
+    private final UltimatePlugin plugin;
+    private final RecipeChanger recipeChanger;
+    private final AdminGUI adminGUI;
+    private final Set<UUID> customWorkbenchPlayers = new HashSet<>();
+    private final Map<UUID, ItemStack[]> craftingInventoryContents = new HashMap<>();
 
-    public CustomRecipeGUI(UltimatePlugin plugin, RecipeChanger recipeChanger) {
+    public CustomRecipeGUI(UltimatePlugin plugin, RecipeChanger recipeChanger, AdminGUI adminGUI) {
         this.plugin = plugin;
         this.recipeChanger = recipeChanger;
+        this.adminGUI = adminGUI;
         plugin.getCommand("recipegui").setExecutor(this);
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
         plugin.getCommand("recipeload").setExecutor(this);
-        
     }
 
+    @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (!(sender instanceof Player)) {
             sender.sendMessage(ChatColor.RED + "This command can only be used by players.");
             return true;
         }
-
         Player player = (Player) sender;
 
-        if (command.getName().equalsIgnoreCase("recipegui")) {
-        	if((sender.hasPermission("recipe.gui") || sender.isOp())) {	
-            openCustomRecipesGUI(player);
-            return true;
-        	}
-        } else if (command.getName().equalsIgnoreCase("recipeload")) {  //possibly temporary, not certain, plan to implement an admin gui that allows recipes to be added in game.
-            if (sender.isOp() || sender.hasPermission("recipe.load")) {
-                RecipeChanger.removeRecipesByPrefix("ultimateplugin");
-                recipeChanger.loadRecipes();
-                sender.sendMessage(ChatColor.GREEN + "Recipes loaded");
-                return true;
-            } else {
-                sender.sendMessage(ChatColor.RED + "I'm sorry, but you do not have permission to perform this command. Please contact the server administrator(s) if you believe that this is in error.");
-                return true;
-            }
+        switch (command.getName().toLowerCase()) {
+            case "recipegui":
+                if (player.hasPermission("recipe.gui") || player.isOp()) {
+                    openCustomRecipesGUI(player);
+                    return true;
+                }
+                break;
+            case "recipeload":
+                if (player.isOp() || player.hasPermission("recipe.load")) {
+                    RecipeChanger.removeRecipesByPrefix("ultimateplugin");
+                    recipeChanger.loadRecipes();
+                    sender.sendMessage(ChatColor.GREEN + "Recipes loaded");
+                    return true;
+                } else {
+                    sender.sendMessage(ChatColor.RED + "You don't have permission to perform this command.");
+                    return true;
+                }
         }
         return false;
     }
-	    
 
-    public void openCustomRecipesGUI(Player player) {
-
+    private void openCustomRecipesGUI(Player player) {
         Map<String, ItemStack> customRecipes = getCustomRecipeItems();
-
-
-        // Calculate inventory size
         int inventorySize = (int) Math.ceil(customRecipes.size() / 9.0) * 9;
-        if (inventorySize < 9) {
-            inventorySize = 9;
-        }
-
         Inventory customRecipesInventory = Bukkit.createInventory(null, inventorySize, ChatColor.AQUA + "Recipe Changer");
-        for (ItemStack recipe : customRecipes.values()) {
-
-            customRecipesInventory.addItem(recipe);
-        }
-
+        customRecipesInventory.setContents(customRecipes.values().toArray(new ItemStack[0]));
         player.openInventory(customRecipesInventory);
     }
 
-    public void openRecipeWorkbench(Player player, NamespacedKey recipeKey, ItemStack result) {
-        // Create a virtual workbench
+    private void openRecipeWorkbench(Player player, NamespacedKey recipeKey, ItemStack result) {
         InventoryView workbenchView = player.openWorkbench(null, true);
         CraftingInventory workbenchInventory = (CraftingInventory) workbenchView.getTopInventory();
-
-        // Get the recipe using the recipeKey
         Recipe customRecipe = Bukkit.getRecipe(recipeKey);
+
         if (customRecipe instanceof ShapedRecipe) {
             ShapedRecipe shapedRecipe = (ShapedRecipe) customRecipe;
-
-            // Place the ingredients in the workbench inventory
             String[] shape = shapedRecipe.getShape();
             Map<Character, ItemStack> ingredientMap = shapedRecipe.getIngredientMap();
-            int row = 0;
-            for (String rowString : shape) {
-                int col = 0;
-                for (char c : rowString.toCharArray()) {
-                    ItemStack ingredient = ingredientMap.get(c);
+            for (int row = 0; row < shape.length; row++) {
+                char[] chars = shape[row].toCharArray();
+                for (int col = 0; col < chars.length; col++) {
+                    ItemStack ingredient = ingredientMap.get(chars[col]);
                     if (ingredient != null) {
-
-                        int slot = row * 3 + col + 1; // Add 1 to the slot index
-                        workbenchInventory.setItem(slot, ingredient);
+                        workbenchInventory.setItem(row * 3 + col + 1, ingredient);
                     }
-                    col++;
                 }
-                row++;
             }
         } else if (customRecipe instanceof ShapelessRecipe) {
             ShapelessRecipe shapelessRecipe = (ShapelessRecipe) customRecipe;
-
-            // Reset the workbench inventory
-            for (int i = 0; i < 9; i++) {
-                workbenchInventory.setItem(i, null);
-            }
-
-            // Place the ingredients in the workbench inventory
             List<ItemStack> ingredients = shapelessRecipe.getIngredientList();
             for (int i = 0; i < ingredients.size(); i++) {
-
-                int slot = i + 1; // Add 1 to the slot index to offset for result slot
-                workbenchInventory.setItem(slot, ingredients.get(i));
+                workbenchInventory.setItem(i, ingredients.get(i));
             }
         }
-
-        // Set the result of the crafting recipe
         workbenchInventory.setResult(result);
         customWorkbenchPlayers.add(player.getUniqueId());
     }
-    
-    public Map<String, ItemStack> getCustomRecipeItems() {
-        Map<String, ItemStack> customRecipes = new HashMap<>();
 
+    private Map<String, ItemStack> getCustomRecipeItems() {
+        Map<String, ItemStack> customRecipes = new HashMap<>();
         Iterator<Recipe> recipeIterator = Bukkit.recipeIterator();
         while (recipeIterator.hasNext()) {
             Recipe recipe = recipeIterator.next();
-            if (recipe instanceof ShapedRecipe || recipe instanceof ShapelessRecipe) {
+            if (recipe instanceof Keyed) {
                 NamespacedKey key = ((Keyed) recipe).getKey();
-                if (key != null && key.getNamespace().equals(plugin.getName().toLowerCase())) {
-                    String permission = "recipe." + key.getKey();
+                if (key.getNamespace().equalsIgnoreCase(plugin.getName())) {
                     ItemStack item = recipe.getResult().clone();
                     ItemMeta meta = item.getItemMeta();
                     if (meta != null) {
-                        meta.setDisplayName(ChatColor.GREEN + key.getKey().toLowerCase().replace("_", " "));
-                        List<String> lore = new ArrayList<>();
-                        lore.add(ChatColor.GRAY + plugin.getName().toLowerCase() + ":" + ChatColor.YELLOW + key.getKey());
-                        meta.setLore(lore);
-
+                        meta.setDisplayName(ChatColor.GREEN + key.getKey().replace("_", " "));
+                        meta.setLore(Collections.singletonList(ChatColor.GRAY + key.getNamespace() + ":" + ChatColor.YELLOW + key.getKey()));
                         item.setItemMeta(meta);
                     }
-                    customRecipes.put(permission, item);
+                    customRecipes.put("recipe." + key.getKey(), item);
                 }
             }
         }
-
         return customRecipes;
     }
 
-  
     @EventHandler
     public void onInventoryClick(InventoryClickEvent event) {
-        if (event.getView().getTitle().equals(ChatColor.AQUA + "Recipe Changer")) {
-            event.setCancelled(true);
+        Player player = (Player) event.getWhoClicked();
+        ItemStack clickedItem = event.getCurrentItem();
 
-            ItemStack clickedItem = event.getCurrentItem();
-            if (clickedItem == null || !clickedItem.hasItemMeta()) {
-                //catch for players clicking empty slots
+        if (clickedItem == null || !clickedItem.hasItemMeta()) return;
+
+        String title = event.getView().getTitle();
+        if (title.equals(ChatColor.AQUA + "Admin GUI")) {
+            event.setCancelled(true);  // Prevent modification in the Admin GUI
+
+            String displayName = clickedItem.getItemMeta().getDisplayName();
+
+            if (displayName.equals(ChatColor.GREEN + "Add Recipe")) {
+                // Call your method for adding a recipe
+                adminGUI.displayAddRecipeWorkbench(player);
                 return;
             }
 
-            ItemMeta itemMeta = clickedItem.getItemMeta();
-            if (!itemMeta.hasDisplayName() || !itemMeta.hasLore()) {
-                plugin.getLogger().info("Clicked item doesn't have display name or lore");
+            if (displayName.equals(ChatColor.RED + "Delete Recipe")) {
+                // Call your method for displaying the delete GUI
+                adminGUI.displayDeleteRecipeGUI(player);
                 return;
-            }
-
-            NamespacedKey recipeKey = getNamespacedKeyFromLore(itemMeta.getLore().get(0));
-            if (recipeKey != null) {
-                Player player = (Player) event.getWhoClicked();
-                openRecipeWorkbench(player, recipeKey, clickedItem);
-            }
-        } else if (customWorkbenchPlayers.contains(event.getWhoClicked().getUniqueId())) {
-            if (event.getSlot() >= 0 && event.getSlot() <= 9) {
-                event.setCancelled(true);
             }
         } 
+        else if (event.getView().getTitle().equals(ChatColor.AQUA + "Recipe Changer")) {
+            if (event.getClickedInventory() == event.getView().getTopInventory()) {  // Check if the clicked inventory is the GUI
+                event.setCancelled(true);  // Prevent modification in the GUI
+                if (clickedItem == null || !clickedItem.hasItemMeta()) {
+                    // Catch for players clicking empty slots
+                    return;
+                }
+
+                ItemMeta itemMeta = clickedItem.getItemMeta();
+                if (!itemMeta.hasDisplayName() || !itemMeta.hasLore()) {
+                    plugin.getLogger().info("Clicked item doesn't have display name or lore");
+                    return;
+                }
+
+                NamespacedKey recipeKey = getNamespacedKeyFromLore(itemMeta.getLore().get(0));
+                if (recipeKey != null) {
+                    openRecipeWorkbench(player, recipeKey, clickedItem);
+                }
+            } 
+        } else if (customWorkbenchPlayers.contains(event.getWhoClicked().getUniqueId())) {
+            if (event.getSlot() >= 0 && event.getSlot() <= 9 && event.getClickedInventory() == event.getView().getTopInventory()) {  // Ensure the clicked slot is in the custom workbench
+                event.setCancelled(true);  // Prevent modification in the custom workbench
+            }
+        }
     }
+
 
     @EventHandler
     public void onInventoryClose(InventoryCloseEvent event) {
         Player player = (Player) event.getPlayer();
-
         if (customWorkbenchPlayers.contains(player.getUniqueId())) {
-        	craftingInventoryContents.put(player.getUniqueId(), player.getOpenInventory().getTopInventory().getContents());
+            craftingInventoryContents.put(player.getUniqueId(), player.getOpenInventory().getTopInventory().getContents());
             customWorkbenchPlayers.remove(player.getUniqueId());
-
-            // Clear the workbench inventory
             CraftingInventory craftingInventory = (CraftingInventory) event.getInventory();
             craftingInventory.clear();
-            }
         }
-       
+    }
+
     private NamespacedKey getNamespacedKeyFromLore(String loreLine) {
         String strippedLoreLine = ChatColor.stripColor(loreLine);
         String[] splitLoreLine = strippedLoreLine.split(":", 2);
         if (splitLoreLine.length == 2) {
-            String namespace = splitLoreLine[0].trim();
-            String key = splitLoreLine[1].trim();
-            return NamespacedKey.fromString(namespace + ":" + key);
+            return NamespacedKey.fromString(strippedLoreLine);
         }
         return null;
     }
